@@ -214,6 +214,7 @@ export const Example = () => {
                     <Table
                         className='scroll'
                         tooltipLength={25}
+                        linesToTruncate={1}
                         arrayHeader={[
                             {text: 'Id', data_key: 'id'},
                             {text: 'User', data_key: 'user'},

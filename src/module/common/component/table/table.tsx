@@ -136,7 +136,7 @@ export const TableIndex = ({
                                             ) ? (
                                                 <Styled.ItemLabel
                                                     tooltipLength={tooltipLength}
-                                                    linesToTruncate={linesToTruncate ?? 2}
+                                                    linesToTruncate={linesToTruncate ?? 3}
                                                     lastIndexHorizontal={i === arrayHeader.length - 1}
                                                     firstIndexVertical={index === arrayBody.length - 1}
                                                     tooltipText={
