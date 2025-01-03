@@ -1,11 +1,11 @@
 import styled from 'styled-components';
 
-import { Fonts, Margin } from '@/module/common/styles';
-import { IMargin } from '@/module/common/types';
-import { COLORS, SPACES } from '@/theme';
+import {Fonts, Margin} from '@/module/common/styles';
+import {IMargin} from '@/module/common/types';
+import {COLORS} from '@/theme';
 
 const defaultBorderColor = COLORS.black;
-const hoverBorderColor = COLORS.green;
+const hoverBorderColor = COLORS.yellow;
 
 export const Label = styled.label<IMargin>`
     cursor: pointer;
@@ -14,10 +14,9 @@ export const Label = styled.label<IMargin>`
     align-items: baseline;
 
     ${Margin};
-    ${Fonts}
-    // margin-left: -${SPACES.xs};
 
-  &:hover {
+    ${Fonts}
+    &:hover {
         & > .text::before {
             border: 1px solid ${hoverBorderColor} !important;
         }
@@ -36,7 +35,7 @@ export const Input = styled.input<{ background?: string }>`
     }
 
     &:checked ~ .text::before {
-        border: 1px solid ${({ background }) => background ?? defaultBorderColor} !important;
+        border: 1px solid ${defaultBorderColor} !important;
     }
 
     &:focus ~ .text::before {
@@ -44,7 +43,7 @@ export const Input = styled.input<{ background?: string }>`
     }
 `;
 
-export const Span = styled.span<{ height?: string; colorText?: string; background?: string }>`
+export const Span = styled.span<{ height?: string; type: string }>`
     position: relative;
 
     & > span {
@@ -52,7 +51,7 @@ export const Span = styled.span<{ height?: string; colorText?: string; backgroun
         display: block;
         ${Fonts};
 
-        color: ${({ colorText }) => colorText ?? COLORS.black};
+        color: ${COLORS.black};
 
         padding-left: 2.375rem;
     }
@@ -60,30 +59,29 @@ export const Span = styled.span<{ height?: string; colorText?: string; backgroun
     &:before {
         display: block;
         content: '';
-        height: ${({ height }) => height ?? '1.375rem'};
+        height: ${({height}) => height ?? '1.375rem'};
         aspect-ratio: 1/1;
 
-        border: 1px solid ${({ background }) => background ?? defaultBorderColor} !important;
+        border: 1px solid ${defaultBorderColor} !important;
         background: ${COLORS.white};
-        border-radius: 5px;
+        border-radius: ${({type}) => type === 'radio' ? '50%' : '5px'};
         cursor: pointer;
         position: absolute;
         top: 50%;
         transform: translateY(-50%);
     }
-
+    
     &:after {
         display: block;
         content: '';
-        height: ${({ height }) => (height ? `${+height.split('rem')[0] / 2 + 0.2}rem` : '1rem')};
+        height: ${({height}) => (height ? `${+height.split('rem')[0] / 2 + 0.2}rem` : '1rem')};
         aspect-ratio: 1/1;
         -webkit-clip-path: polygon(45% 64%, 84% 14%, 100% 28%, 47% 100%, 0 49%, 15% 32%);
         clip-path: polygon(45% 64%, 84% 14%, 100% 28%, 47% 100%, 0 49%, 15% 32%);
         -webkit-transform: scale(0);
         transform-origin: bottom left;
         transition: 120ms ease-in-out;
-        box-shadow: inset 1em 1em
-            ${({ background }) => (background ? background : hoverBorderColor)};
+        box-shadow: inset 1em 1em ${hoverBorderColor};
         cursor: pointer;
         opacity: 0;
         position: absolute;
