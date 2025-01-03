@@ -1,8 +1,8 @@
-import styled, { css } from 'styled-components';
+import styled, {css} from 'styled-components';
 
-import { COLORS, FONTS, MEDIA, SHADOWS, SPACES, TRANSITIONS } from '@/theme';
+import {COLORS, FONTS, MEDIA, SHADOWS, SPACES, TRANSITIONS} from '@/theme';
 
-import { Fonts } from '../../styles';
+import {Fonts} from '../../styles';
 
 const layoutCss = css`
     display: table;
@@ -28,23 +28,24 @@ const cellControlledSizes = css`
 // ================= table components START ====================//
 export const Container = styled.div`
     box-shadow: 0 0 0.625rem ${COLORS.rgba(COLORS.black, 0.2)};
+    width: 100%;
 
     &.scroll {
         width: 100% !important;
         overflow-x: auto;
         overflow-y: hidden;
+
         &::-webkit-scrollbar {
             height: 0.4rem;
         }
 
         & > table {
             display: table;
-            width: fit-content;
             table-layout: auto;
 
             & > thead > tr > th,
             & > tr > td {
-                width: clamp(50px, 150px, 400px);
+                width: clamp(3.125rem, 9.375rem, 25rem);
 
                 white-space: nowrap;
                 overflow: hidden;
@@ -64,12 +65,17 @@ export const Container = styled.div`
 
 export const Wrapper = styled.div`
     overflow: hidden;
+    box-shadow: 0 0 0.625rem ${COLORS.rgba(COLORS.black, 0.2)};
+
 `;
 export const Table = styled.table`
     min-width: 100%;
 
     &.full {
-        width: 1300px;
+        width: 81.25rem;
+    }
+    &.scroll {
+        width: 81.25rem;
     }
 
     &.pointer {
@@ -81,7 +87,7 @@ export const Table = styled.table`
     border-collapse: collapse;
 
     @media screen and (max-width: ${MEDIA.tablet_s}) {
-        width: 1300px;
+        width: 81.25rem;
     }
 `;
 
@@ -96,9 +102,11 @@ export const Body = styled.tbody`
     position: relative;
 
     ${layoutCss};
+
     & > tr {
         border-bottom: 1px solid ${COLORS.rgba(COLORS.black, 0.1)};
     }
+
     & > tr:hover * {
         cursor: pointer;
     }
@@ -110,7 +118,7 @@ export const HeadRow = styled.th`
     letter-spacing: 0.0175rem;
     text-transform: uppercase;
     color: ${COLORS.white};
-    background-color: ${COLORS.tableHeader};
+    background-color: ${COLORS.primary};
 
     &:last-child {
         border-right: none;
@@ -130,7 +138,7 @@ export const Row = styled.tr`
     }
 
     &:hover {
-        background: ${COLORS.rgba(COLORS.tableRowActive, 0.3)};
+        background: ${COLORS.rgba(COLORS.primary, 0.2)};
         box-shadow: 0 2px 8px ${COLORS.rgba(COLORS.black, 0.1)};
     }
 `;
@@ -138,10 +146,9 @@ export const Row = styled.tr`
 export const Data = styled.td`
     font-weight: ${FONTS.WEIGHTS.normal};
     font-size: ${FONTS.SIZES.m};
-    color: ${COLORS.gray};
     word-break: break-word;
     position: relative;
-    
+
     &:hover::before {
         content: '';
         position: absolute;
@@ -149,23 +156,10 @@ export const Data = styled.td`
         left: 0;
         top: -9999px;
         bottom: -9999px;
-        background-color: ${COLORS.rgba(COLORS.tableRowActive, 0.2)};
+        background-color: ${COLORS.rgba(COLORS.primary, 0.1)};
         z-index: -1;
     }
-
-    & > div.parseValue > p {
-        font-weight: ${FONTS.WEIGHTS.normal};
-        font-size: ${FONTS.SIZES.m};
-        color: ${COLORS.gray};
-        word-break: break-word;
-    }
-
-    & > div.parseValue > p.sub {
-        font-size: ${FONTS.SIZES.s};
-        color: ${COLORS.gray};
-        word-break: break-word;
-    }
-
+    
     ${cellControlledSizes}
 `;
 // ================= table components END ====================//
@@ -179,36 +173,46 @@ export const ItemLabel = styled.strong<{
     tooltipLength?: number;
     tooltipText: string;
     background?: string;
+    lastIndexHorizontal?: boolean;
+    firstIndexVertical?: boolean;
 }>`
     display: block;
     display: -webkit-box;
     -webkit-box-orient: vertical;
     overflow: hidden;
 
-    ${({ linesToTruncate }) =>
+    ${({linesToTruncate}) =>
             linesToTruncate &&
             css`
-            -webkit-line-clamp: ${linesToTruncate};
-        `}
-    
-
-    &.onLine {
-        -webkit-line-clamp: 1;
-    }
-
+                -webkit-line-clamp: ${linesToTruncate};
+            `}
     ${labelPriceCommonStyles}
-    &.tooltip::after {
+    .tooltipHover {
         position: absolute;
-        bottom: 35%;
-        left: 40%;
+        ${({firstIndexVertical}) =>
+                firstIndexVertical
+                        ? css`
+                            bottom: 35%;
+                        `
+                        : css`
+                            top: 35%;
+                        `}
+        ${({lastIndexHorizontal}) =>
+                lastIndexHorizontal
+                        ? css`
+                            right: 40%;
+                        `
+                        : css`
+                            left: 40%;
+                        `}
         width: max-content;
         max-height: 5.5rem;
-        max-width: 12rem;
-        content: ${({ tooltipText }) => `'${tooltipText}'`};
+        max-width: 16rem;
+        content: ${({tooltipText}) => `'${tooltipText}'`};
         padding: ${`${SPACES.xxxxxs} ${SPACES.xs}`};
         font-weight: ${FONTS.WEIGHTS.normal};
         font-size: ${FONTS.SIZES.s};
-         border: 1px solid ${COLORS.tableHeader};
+        border: 1px solid ${COLORS.primary};
         border-radius: ${SPACES.xxsm};
         word-break: break-all;
         background-color: ${COLORS.white};
@@ -216,51 +220,34 @@ export const ItemLabel = styled.strong<{
 
         visibility: hidden;
         overflow-y: auto;
-       
+
         z-index: 11;
 
         transition: visibility ${`${TRANSITIONS.duration.fast} ${TRANSITIONS.function.linear}`};
-        
-        &.tooltip::after::-webkit-scrollbar {
-            width: 8px;
+
+        &::-webkit-scrollbar {
+            width: 0.25rem;
         }
 
-        &.tooltip::after::-webkit-scrollbar-thumb {
-            background-color: ${COLORS.tableHeader}; 
-            border-radius: 4px;
+        &::-webkit-scrollbar-thumb {
+            background-color: ${COLORS.primary};
+            border-radius: 0.25rem;
         }
 
-        &.tooltip::after::-webkit-scrollbar-track {
-            background: ${COLORS.tableRowActive}; 
-            border-radius: 4px;
+        &::-webkit-scrollbar-track {
+            background: transparent;
+            border-radius: 0.25rem;
         }
     }
 
-    ${({ tooltipText, tooltipLength  = 16 }) =>
-        tooltipText?.length >= tooltipLength &&
-        css`
-            &.tooltip:hover::after {
-                visibility: visible;
-                
-            }
-        `}
+    ${({tooltipText, tooltipLength = 16}) =>
+            tooltipText?.length >= tooltipLength &&
+            css`
+                &:hover .tooltipHover {
+                    visibility: visible;
 
-    ${({ background }) =>
-        background &&
-        css<{ background?: string }>`
-            color: ${({ background }) => background} !important;
-
-            &::before {
-                content: '';
-                display: inline-block;
-
-                margin-right: 0.5rem;
-                height: 0.75rem;
-                aspect-ratio: 1/1;
-                border-radius: 50%;
-                background: ${({ background }) => background ?? COLORS.black};
-            }
-        `}
+                }
+            `}
 `;
 
 export const WrapperPagination = styled.div`

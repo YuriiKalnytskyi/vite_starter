@@ -27,7 +27,6 @@ export interface ITableProps {
         setAllSelect: any;
     };
     className?: 'scroll' | 'table' | 'full' | 'pointer' | string;
-    onLine?: boolean;
     isOpenRowId?: Iuuid | null;
     tooltipLength?: number;
     linesToTruncate?: number;
@@ -39,7 +38,6 @@ export const TableIndex = ({
                                parseValue,
                                onNavigate,
                                select,
-                               onLine = false,
                                className,
                                isOpenRowId,
                                tooltipLength,
@@ -137,11 +135,10 @@ export const TableIndex = ({
                                                     : _value
                                             ) ? (
                                                 <Styled.ItemLabel
-                                                    className={
-                                                        onLine ? 'onLine tooltip' : 'tooltip'
-                                                    }
                                                     tooltipLength={tooltipLength}
-                                                    linesToTruncate={linesToTruncate}
+                                                    linesToTruncate={linesToTruncate ?? 2}
+                                                    lastIndexHorizontal={i === arrayHeader.length - 1}
+                                                    firstIndexVertical={index === arrayBody.length - 1}
                                                     tooltipText={
                                                         typeof _value === 'string'
                                                             ? _value
@@ -151,7 +148,7 @@ export const TableIndex = ({
                                                     {typeof _value === 'boolean'
                                                         ? _value.toString()
                                                         : _value ?? ''}
-                                                    <div className='tooltipQQQ'>
+                                                    <div className='tooltipHover'>
                                                         {typeof _value === 'boolean'
                                                             ? _value.toString()
                                                             : _value ?? ''}

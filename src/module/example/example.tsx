@@ -57,11 +57,13 @@ export const Example = () => {
     const dataTable = [
         {
             id: 1,
-            user: 'Tessddsd  s sdsdsdsdsds sdsdsdsds sdsdssd sdsdsdsd fdsdsdsd sdsdsds sdsds asasasasasas asasasasa asasasas  ddsd  s sdsdsdsdsds sdsdsdsds sdsdssd sdsdsdsd fdsdsdsd  ter',
+            user: 'Tessddsd Tessddsd  s sdsdsdsdsds sdsdsdsds sdsdssd sdsdsdsd fdsdsdsd sdsdsds sdsds asasasasasas asasasasa  s sdsdsdsdsds sdsdsdsds sdsdssd sdsdsdsd fdsdsdsd sdsdsds sdsds asasasasasas asasasasa asasasas  ddsd  s sdsdsdsdsds sdsdsdsds sdsdssd sdsdsdsd fdsdsdsd  ter',
             email: 'tester@gmail.com',
             amount: 150,
             currency: 'USD',
-            createdAt: '2025-01-03T12:34:56.789Z'
+            createdAt: '2025-01-03T12:34:56.789Z',
+            test: 'Tessddsd  s sdsdsdsdsds sdsdsdsds sdsdssd sdsdsdsd fdsdsdsd sdsdsds sdsds asasasasasas asasasasa asasasas  ddsd  s sdsdsdsdsds s sdsdsdsdsds sdsdsdsds sdsdssd sdsdsdsd fdsdsdsd sdsdsds sdsds asasasasasas asasasasa asasasas  ddsd  s sdsdsdsdsds s sdsdsdsdsds sdsdsdsds sdsdssd sdsdsdsd fdsdsdsd sdsdsds sdsds asasasasasas asasasasa asasasas  ddsd  s sdsdsdsdsds s sdsdsdsdsds sdsdsdsds sdsdssd sdsdsdsd fdsdsdsd sdsdsds sdsds asasasasasas asasasasa asasasas  ddsd  s sdsdsdsdsds s sdsdsdsdsds sdsdsdsds sdsdssd sdsdsdsd fdsdsdsd sdsdsds sdsds asasasasasas asasasasa asasasas  ddsd  s sdsdsdsdsds s sdsdsdsdsds sdsdsdsds sdsdssd sdsdsdsd fdsdsdsd sdsdsds sdsds asasasasasas asasasasa asasasas  ddsd  s sdsdsdsdsds sdsdsdsds sdsdssd sdsdsdsd fdsdsdsd  ter',
+
         },
         {
             id: 1,
@@ -69,7 +71,9 @@ export const Example = () => {
             email: 'tester@gmail.com',
             amount: 150,
             currency: 'USD',
-            createdAt: '2025-01-03T12:34:56.789Z'
+            createdAt: '2025-01-03T12:34:56.789Z',
+            test: 'Tessddsd  s sdsdsdsdsds sdsdsdsds sdsdssd sdsdsdsd fdsdsdsd sdsdsds sdsds asasasasasas asasasasa asasasas  ddsd  s sdsdsdsdsds sdsdsdsds sdsdssd sdsdsdsd fdsdsdsd  ter',
+
         },
         {
             id: 1,
@@ -77,7 +81,9 @@ export const Example = () => {
             email: 'tester@gmail.com',
             amount: 150,
             currency: 'USD',
-            createdAt: '2025-01-03T12:34:56.789Z'
+            createdAt: '2025-01-03T12:34:56.789Z',
+            test: 'Tessddsd  s sdsdsdsdsds sdsdsdsds sdsdssd sdsdsdsd fdsdsdsd sdsdsds sdsds asasasasasas asasasasa asasasas  ddsd  s sdsdsdsdsds sdsdsdsds sdsdssd sdsdsdsd fdsdsdsd  ter',
+
         },
         {
             id: 1,
@@ -85,7 +91,9 @@ export const Example = () => {
             email: 'tester@gmail.com',
             amount: 150,
             currency: 'USD',
-            createdAt: '2025-01-03T12:34:56.789Z'
+            createdAt: '2025-01-03T12:34:56.789Z',
+            test: 'Tessddsd  s sdsdsdsdsds sdsdsdsds sdsdssd sdsdsdsd fdsdsdsd sdsdsds sdsds asasasasasas asasasasa asasasas  ddsd  s sdsdsdsdsds sdsdsdsds sdsdssd sdsdsdsd fdsdsdsd  ter',
+
         },
         {
             id: 1,
@@ -93,7 +101,9 @@ export const Example = () => {
             email: 'tester@gmail.com',
             amount: 150,
             currency: 'USD',
-            createdAt: '2025-01-03T12:34:56.789Z'
+            createdAt: '2025-01-03T12:34:56.789Z',
+            test: 'Tessddsd  s sdsdsdsdsds sdsdsdsds sdsdssd sdsdsdsd fdsdsdsd sdsdsds sdsds asasasasasas asasasasa asasasas  ddsd  s sdsdsdsdsds sdsdsdsds sdsdssd sdsdsdsd fdsdsdsd  ter',
+
         },
         {
             id: 1,
@@ -101,7 +111,9 @@ export const Example = () => {
             email: 'tester@gmail.com',
             amount: 150,
             currency: 'USD',
-            createdAt: '2025-01-03T12:34:56.789Z'
+            createdAt: '2025-01-03T12:34:56.789Z',
+            test: 'Tessddsd  s sdsdsdsdsds sdsdsdsds sdsdssd sdsdsdsd fdsdsdsd sdsdsds sdsds asasasasasas asasasasa asasasas  ddsd  s sdsdsdsdsds sdsdsdsds sdsdssd sdsdsdsd fdsdsdsd  ter',
+
         }
     ];
 
@@ -189,7 +201,7 @@ export const Example = () => {
                 </Formik>
             </Styled.InputContainer>
 
-            <DivCommon gap='2rem'>
+            <DivCommon gap='2rem' padding='0 2rem'>
                 <DivCommon gap={SPACES.l} width='25%'>
                     BUTTON STATE
                     <Button content='button' variant='primary' startIcon={{icon: testIcon, height: '1.5rem'}}
@@ -202,14 +214,14 @@ export const Example = () => {
                     <Table
                         className='scroll'
                         tooltipLength={25}
-                        linesToTruncate={3}
                         arrayHeader={[
                             {text: 'Id', data_key: 'id'},
                             {text: 'User', data_key: 'user'},
                             {text: 'Email', data_key: 'email'},
                             {text: 'Amount', data_key: 'amount'},
                             {text: 'Currency', data_key: 'currency'},
-                            {text: 'Date', data_key: 'createdAt'}
+                            {text: 'Date', data_key: 'createdAt'},
+                            {text: 'Test', data_key: 'test'}
                         ]}
                         arrayBody={dataTable ?? []}
                         parseValue={parseValue}
