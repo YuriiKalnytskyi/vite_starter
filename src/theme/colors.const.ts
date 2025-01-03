@@ -1,10 +1,18 @@
 export const COLORS = {
   //default colors
 
+  primary: '#247B43',
+  secondary: '',
+
   white: '#ffffff',
+  black: '#000000',
+  error: '#A23030',
+  success: '#247B43',
+
+
   white100: '#F3F3F3',
   white200: '#F5F6FE',
-  black: '#000000',
+
   blue: '#0168E3',
   blueLight: '#91beea',
   mainRed: '#A23030',
@@ -12,8 +20,11 @@ export const COLORS = {
   gray: '#6B6775',
   gray100: '#98a2b3',
 
-  scroll_thumb: '#0168E3',
-  scroll_track: '#91beea',
+  tableHeader: '#247B43',
+  tableRowActive: '#a4e8bb',
+
+  scroll_thumb: '#247B43',
+  scroll_track: '#a4e8bb',
 
 
   rgba: (hex: string, alpha: number) => {

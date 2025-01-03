@@ -7,6 +7,7 @@ import { Fonts } from '../../styles';
 const layoutCss = css`
     display: table;
     width: 100%;
+    height: 2.5rem;
     table-layout: fixed;
 `;
 
@@ -14,7 +15,7 @@ const cellControlledSizes = css`
     padding: ${FONTS.SIZES.xxsm} ${FONTS.SIZES.l};
 
     &.title {
-        width: clamp(10.5rem, fit-conrent, 10.5rem) !important;
+        width: 100% !important;
         position: relative;
         padding: ${FONTS.SIZES.xxsm} ${FONTS.SIZES.l};
     }
@@ -22,39 +23,19 @@ const cellControlledSizes = css`
     &.id {
         width: clamp(3rem, 3rem, 3rem) !important;
     }
-
-    &.delete {
-        width: clamp(4rem, 4rem, 4rem) !important;
-    }
-    &.full {
-        width: 50%;
-    }
-
-    &.full60 {
-        width: 60% !important;
-    }
-
-    &.cell {
-        width: clamp(10.5rem, 10.5rem, 10.5rem) !important;
-    }
-
-    &.status {
-        width: 12.5rem !important;
-    }
-    &.email {
-        width: 14.5rem !important;
-    }
-
-    &.options {
-        width: 17.5rem !important;
-    }
 `;
 
 // ================= table components START ====================//
 export const Container = styled.div`
+    box-shadow: 0 0 0.625rem ${COLORS.rgba(COLORS.black, 0.2)};
+
     &.scroll {
         width: 100% !important;
         overflow-x: auto;
+        overflow-y: hidden;
+        &::-webkit-scrollbar {
+            height: 0.4rem;
+        }
 
         & > table {
             display: table;
@@ -63,7 +44,7 @@ export const Container = styled.div`
 
             & > thead > tr > th,
             & > tr > td {
-                width: clamp(50px, 150px, 400px) !important;
+                width: clamp(50px, 150px, 400px);
 
                 white-space: nowrap;
                 overflow: hidden;
@@ -82,10 +63,7 @@ export const Container = styled.div`
 `;
 
 export const Wrapper = styled.div`
-    overflow: auto;
-    ::-webkit-scrollbar {
-        width: 4px;
-    }
+    overflow: hidden;
 `;
 export const Table = styled.table`
     min-width: 100%;
@@ -101,8 +79,6 @@ export const Table = styled.table`
     }
 
     border-collapse: collapse;
-    border-radius: 2.5rem;
-    margin: ${SPACES.xxxxl} 0;
 
     @media screen and (max-width: ${MEDIA.tablet_s}) {
         width: 1300px;
@@ -114,12 +90,15 @@ export const Head = styled.thead`
     position: sticky;
     top: 0;
     z-index: 1;
-
-    background: ${COLORS.white};
 `;
 
 export const Body = styled.tbody`
-    ${layoutCss}
+    position: relative;
+
+    ${layoutCss};
+    & > tr {
+        border-bottom: 1px solid ${COLORS.rgba(COLORS.black, 0.1)};
+    }
     & > tr:hover * {
         cursor: pointer;
     }
@@ -128,11 +107,10 @@ export const Body = styled.tbody`
 export const HeadRow = styled.th`
     ${Fonts};
     height: 3rem;
-    letter-spacing: 0.28px;
+    letter-spacing: 0.0175rem;
     text-transform: uppercase;
-    // padding: ${SPACES.m} ${SPACES.l};
-    color: ${COLORS.gray};
-    background-color: ${COLORS.white200};
+    color: ${COLORS.white};
+    background-color: ${COLORS.tableHeader};
 
     &:last-child {
         border-right: none;
@@ -143,8 +121,8 @@ export const HeadRow = styled.th`
 
 export const Row = styled.tr`
     ${layoutCss};
-    border-bottom: 1px solid ${COLORS.black};
 
+    z-index: 1;
     transition: background 0.4s ease-in-out;
 
     & > td > strong {
@@ -152,7 +130,8 @@ export const Row = styled.tr`
     }
 
     &:hover {
-        background: ${COLORS.white200};
+        background: ${COLORS.rgba(COLORS.tableRowActive, 0.3)};
+        box-shadow: 0 2px 8px ${COLORS.rgba(COLORS.black, 0.1)};
     }
 `;
 
@@ -162,6 +141,17 @@ export const Data = styled.td`
     color: ${COLORS.gray};
     word-break: break-word;
     position: relative;
+    
+    &:hover::before {
+        content: '';
+        position: absolute;
+        right: 0;
+        left: 0;
+        top: -9999px;
+        bottom: -9999px;
+        background-color: ${COLORS.rgba(COLORS.tableRowActive, 0.2)};
+        z-index: -1;
+    }
 
     & > div.parseValue > p {
         font-weight: ${FONTS.WEIGHTS.normal};
@@ -184,21 +174,9 @@ const labelPriceCommonStyles = css`
     ${Fonts};
 `;
 
-export const ItemImage = styled.img`
-    width: 2.5rem;
-    height: 2.5rem;
-    margin-left: ${SPACES.s};
-
-    object-position: center;
-    object-fit: cover;
-    overflow: hidden;
-
-    border-radius: 50%;
-    cursor: pointer;
-`;
-
 export const ItemLabel = styled.strong<{
     linesToTruncate?: number;
+    tooltipLength?: number;
     tooltipText: string;
     background?: string;
 }>`
@@ -207,6 +185,13 @@ export const ItemLabel = styled.strong<{
     -webkit-box-orient: vertical;
     overflow: hidden;
 
+    ${({ linesToTruncate }) =>
+            linesToTruncate &&
+            css`
+            -webkit-line-clamp: ${linesToTruncate};
+        `}
+    
+
     &.onLine {
         -webkit-line-clamp: 1;
     }
@@ -214,31 +199,49 @@ export const ItemLabel = styled.strong<{
     ${labelPriceCommonStyles}
     &.tooltip::after {
         position: absolute;
-        bottom: 70%;
+        bottom: 35%;
         left: 40%;
         width: max-content;
+        max-height: 5.5rem;
         max-width: 12rem;
         content: ${({ tooltipText }) => `'${tooltipText}'`};
-        padding: ${`${SPACES.xxs} ${SPACES.xs}`};
+        padding: ${`${SPACES.xxxxxs} ${SPACES.xs}`};
         font-weight: ${FONTS.WEIGHTS.normal};
         font-size: ${FONTS.SIZES.s};
-        border: 0.0625rem solid ${COLORS.black};
-        border-radius: ${SPACES.m};
+         border: 1px solid ${COLORS.tableHeader};
+        border-radius: ${SPACES.xxsm};
         word-break: break-all;
         background-color: ${COLORS.white};
         box-shadow: ${SHADOWS.xs};
 
         visibility: hidden;
+        overflow-y: auto;
+       
         z-index: 11;
 
         transition: visibility ${`${TRANSITIONS.duration.fast} ${TRANSITIONS.function.linear}`};
+        
+        &.tooltip::after::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        &.tooltip::after::-webkit-scrollbar-thumb {
+            background-color: ${COLORS.tableHeader}; 
+            border-radius: 4px;
+        }
+
+        &.tooltip::after::-webkit-scrollbar-track {
+            background: ${COLORS.tableRowActive}; 
+            border-radius: 4px;
+        }
     }
 
-    ${({ tooltipText }) =>
-        tooltipText?.length >= 17 &&
+    ${({ tooltipText, tooltipLength  = 16 }) =>
+        tooltipText?.length >= tooltipLength &&
         css`
             &.tooltip:hover::after {
                 visibility: visible;
+                
             }
         `}
 

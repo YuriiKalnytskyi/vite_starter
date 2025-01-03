@@ -2,7 +2,7 @@ import styled, { css } from 'styled-components';
 
 import { Fonts } from '@/module/common/styles';
 
-import { COLORS, SPACES } from '../../../../theme';
+import { COLORS, SPACES, FONTS } from '@/theme';
 
 export const Container = styled.div`
     display: flex;
@@ -15,6 +15,7 @@ export const Container = styled.div`
 
 export const PaginateButtonsList = styled.ul`
     list-style: none;
+    min-width: 18rem;
 
     && {
         display: flex;
@@ -48,12 +49,16 @@ export const PaginationButton = styled.button`
     border-radius: ${SPACES.xxsm};
 
     &.selected {
-        border: 1px solid ${COLORS.blue700};
-        color: ${COLORS.blue700};
+        // border: 1px solid ${COLORS.tableHeader};
+        background:  ${COLORS.tableHeader};
+        color: ${COLORS.white};
+        font-weight: ${FONTS.WEIGHTS.semi_bold};
     }
 
     &:hover {
-        color: ${COLORS.blue700};
+        background:  ${COLORS.tableHeader};
+        color: ${COLORS.white};
+        font-weight: ${FONTS.WEIGHTS.semi_bold};
     }
 `;
 
@@ -68,7 +73,7 @@ const prevNextBtnStyles = css`
     border-radius: ${SPACES.xxsm};
 
     &:hover {
-        background-color: ${COLORS.blue200};
+        background-color: ${COLORS.rgba(COLORS.tableRowActive, 0.3)};
     }
 
     &:disabled {
@@ -85,7 +90,7 @@ export const PrevPageButton = styled.button`
     ${prevNextBtnStyles};
     margin-right: 0.5rem;
     .icon {
-        background: ${COLORS.gray900};
+        background: ${COLORS.tableHeader};
     }
 `;
 
@@ -93,6 +98,6 @@ export const NextPageButton = styled.button`
     ${prevNextBtnStyles};
     margin-left: 0.5rem;
     .icon {
-        background: ${COLORS.gray900};
+        background: ${COLORS.tableHeader};
     }
 `;
