@@ -1,0 +1,36 @@
+.confirm_purchase {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  position: absolute;
+
+  background: rgba(0, 0, 0, 0.61);
+  z-index: 4;
+}
+
+.confirm_purchase2 {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: rgba(0, 0, 0, 0.61);
+  position: absolute;
+
+  z-index: 4;
+}
+
+@media screen and (max-width: 768px) {
+  .confirm_purchase2 {
+    align-items: flex-end;
+  }
+}
+
+.above-all {
+  position: absolute;
+  inset: 0;
+}

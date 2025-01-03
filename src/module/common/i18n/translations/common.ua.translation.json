@@ -1,0 +1,7 @@
+{
+  "Exchange": "<orange> You get </orange> {{amountUSDT}} USDT (MATIC) <orange> for </orange> {{amount}} {{currency}}",
+  "Year_is_incorrect": "Year is incorrect",
+  "Month_is_incorrect": "Month is incorrect",
+  "Invalid_email_address": "Invalid email address",
+  "is_required": "Is required"
+}
