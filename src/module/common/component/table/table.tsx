@@ -1,7 +1,5 @@
-import {ReactNode} from 'react';
-
-import {CheckBoxFormik, Pagination} from '@/module/common/component';
-import {Iuuid} from '@/module/common/types';
+import { CheckBox, Pagination } from '@/module/common/component';
+import { Iuuid } from '@/module/common/types';
 
 import * as Styled from './table.styled';
 
@@ -12,7 +10,7 @@ export interface ITableProps {
         className?: 'title' | 'id' | string;
     }[];
     arrayBody: { [key: string]: string | boolean }[] | any[];
-    parseValue?: (value: any, key: string, valueObj: any) => ReactNode | string;
+    parseValue?: (value: unknown, key: string, valueObj: Record<string, unknown>) => unknown;
     onNavigate?: (id: Iuuid) => void;
     pagination?: {
         total: number;
@@ -54,9 +52,10 @@ export const TableIndex = ({
                 <Styled.Row>
                     {select ? (
                         <Styled.HeadRow className='id'>
-                            <CheckBoxFormik
-                                name=''
-                                label=''
+                            <CheckBox
+                                name="selet"
+                                type="default"
+                                items=""
                                 noFormikValue={{
                                     value: select?.allSelect,
                                     onSetValue: (_, value) => select?.setAllSelect(value)
@@ -86,9 +85,10 @@ export const TableIndex = ({
                             >
                                 {select ? (
                                     <Styled.Data className='id'>
-                                        <CheckBoxFormik
-                                            name=''
-                                            label=''
+                                        <CheckBox
+                                            name="selet"
+                                            type="default"
+                                            items=""
                                             noFormikValue={{
                                                 value:
                                                     select?.allSelect ||

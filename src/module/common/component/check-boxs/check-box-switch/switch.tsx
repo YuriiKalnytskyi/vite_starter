@@ -2,7 +2,7 @@ import { getIn, useFormikContext } from 'formik';
 
 import { ISwitch } from '@/module/common/types';
 
-import * as StyledCommon from '../check-box-firmik/check-box-formik.styled';
+import * as StyledCommon from '../check-box/check-box.styled.ts';
 import * as Styled from './switch.styled';
 
 export const Switch = ({ name, label }: ISwitch) => {

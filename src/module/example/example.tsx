@@ -1,272 +1,195 @@
-import {Form, Formik} from 'formik';
-import {useState} from 'react';
+import { useState } from 'react';
 
 
 import testIcon from '@/assets/icons/vite.svg';
-import {
-    Button,
-    CheckBoxFormik,
-    Country,
-    Drawer,
-    Input,
-    InputCalendar,
-    InputMatchedWords,
-    InputMatchedWordsDynamic,
-    InputTextArea,
-    Phone,
-    Portal,
-    Switch
-} from '@/module/common/component';
-import {AvatarSetup} from '@/module/common/component/avatar-setup';
-import {Table} from '@/module/common/component/table';
-import {InputsConst} from '@/module/common/constants';
-import {DrawerLayout, PopupLayout, PopupLayoutBottom} from '@/module/common/layout';
-import {DivCommon} from '@/module/common/styles';
-import {validationSchemaExample} from '@/module/example/validation/shema';
-import {SPACES} from '@/theme';
-import {dateTransform} from '@/utils';
+import { Button, CheckBox } from '@/module/common/component';
+import { Table } from '@/module/common/component/table';
+import { DivCommon } from '@/module/common/styles';
+import { SPACES } from '@/theme';
+import { dateTransform, functionStub } from '@/utils';
+import { Formik, Form } from 'formik';
+import { validationSchemaExample } from '@/module/example/validation/shema.ts';
 
+const dataTable = [
+  {
+    id: 1,
+    user: 'Tessddsd  s sdsdsdsdsds sdsdsdsds sdsdssd sdsdsdsd fdsdsdsd sdsdsds sdsds asasasasasas asasasasa asasasas  ddsd  s sdsdsdsdsds sdsdsdsds sdsdssd sdsdsdsd fdsdsdsd  ter',
+    email: 'tester@gmail.com',
+    amount: 150,
+    currency: 'USD',
+    createdAt: '2025-01-03T12:34:56.789Z'
+  },
+  {
+    id: 1,
+    user: 'Tester',
+    email: 'tester@gmail.com',
+    amount: 150,
+    currency: 'USD',
+    createdAt: '2025-01-03T12:34:56.789Z'
+  },
+  {
+    id: 1,
+    user: 'Tester',
+    email: 'tester@gmail.com',
+    amount: 150,
+    currency: 'USD',
+    createdAt: '2025-01-03T12:34:56.789Z'
+  },
+  {
+    id: 1,
+    user: 'Tester',
+    email: 'tester@gmail.com',
+    amount: 150,
+    currency: 'USD',
+    createdAt: '2025-01-03T12:34:56.789Z'
+  },
+  {
+    id: 1,
+    user: 'Tester',
+    email: 'tester@gmail.com',
+    amount: 150,
+    currency: 'USD',
+    createdAt: '2025-01-03T12:34:56.789Z'
+  },
+  {
+    id: 1,
+    user: 'Tessddsd  s sdsdsdsdsds sdsdsdsds sdsdssd sdsdsdsd fdsdsdsd sdsdsds sdsds asasasasasas asasasasa asasasas  ter',
+    email: 'tester@gmail.com',
+    amount: 150,
+    currency: 'USD',
+    createdAt: '2025-01-03T12:34:56.789Z'
+  }
+];
 
-import * as Styled from './example.styled';
+import *  as  Styled from './example.styled.tsx';
 
 
 export const Example = () => {
-    const [openDrawer, setOpenDrawer] = useState(false);
-    const [openPopupInDrawer, setOpenPopupInDrawer] = useState(false);
-    const [openPopup, setOpenPopup] = useState(false);
 
-    const onToggle = () => {
-        setOpenDrawer((prev) => !prev);
-    };
-
-    const onTogglePopupInDrawer = () => {
-        setOpenPopupInDrawer((prev) => !prev);
-    };
-    const onTogglePopup = () => {
-        setOpenPopup((prev) => !prev);
-    };
-
-    const onSubmit = (data: any) => {
-        console.log(data);
-    };
-
-    const nawDate = new Date()
-    const [date, setDate] = useState({from: new Date(nawDate.setDate(nawDate.getDate() - 1)), to: new Date()});
-    const [page, setPage] = useState(1);
-
-    const dataTable = [
-        {
-            id: 1,
-            user: 'Tessddsd Tessddsd  s sdsdsdsdsds sdsdsdsds sdsdssd sdsdsdsd fdsdsdsd sdsdsds sdsds asasasasasas asasasasa  s sdsdsdsdsds sdsdsdsds sdsdssd sdsdsdsd fdsdsdsd sdsdsds sdsds asasasasasas asasasasa asasasas  ddsd  s sdsdsdsdsds sdsdsdsds sdsdssd sdsdsdsd fdsdsdsd  ter',
-            email: 'tester@gmail.com',
-            amount: 150,
-            currency: 'USD',
-            createdAt: '2025-01-03T12:34:56.789Z',
-            test: 'Tessddsd  s sdsdsdsdsds sdsdsdsds sdsdssd sdsdsdsd fdsdsdsd sdsdsds sdsds asasasasasas asasasasa asasasas  ddsd  s sdsdsdsdsds s sdsdsdsdsds sdsdsdsds sdsdssd sdsdsdsd fdsdsdsd sdsdsds sdsds asasasasasas asasasasa asasasas  ddsd  s sdsdsdsdsds s sdsdsdsdsds sdsdsdsds sdsdssd sdsdsdsd fdsdsdsd sdsdsds sdsds asasasasasas asasasasa asasasas  ddsd  s sdsdsdsdsds s sdsdsdsdsds sdsdsdsds sdsdssd sdsdsdsd fdsdsdsd sdsdsds sdsds asasasasasas asasasasa asasasas  ddsd  s sdsdsdsdsds s sdsdsdsdsds sdsdsdsds sdsdssd sdsdsdsd fdsdsdsd sdsdsds sdsds asasasasasas asasasasa asasasas  ddsd  s sdsdsdsdsds s sdsdsdsdsds sdsdsdsds sdsdssd sdsdsdsd fdsdsdsd sdsdsds sdsds asasasasasas asasasasa asasasas  ddsd  s sdsdsdsdsds sdsdsdsds sdsdssd sdsdsdsd fdsdsdsd  ter',
-
-        },
-        {
-            id: 1,
-            user: 'Tester',
-            email: 'tester@gmail.com',
-            amount: 150,
-            currency: 'USD',
-            createdAt: '2025-01-03T12:34:56.789Z',
-            test: 'Tessddsd  s sdsdsdsdsds sdsdsdsds sdsdssd sdsdsdsd fdsdsdsd sdsdsds sdsds asasasasasas asasasasa asasasas  ddsd  s sdsdsdsdsds sdsdsdsds sdsdssd sdsdsdsd fdsdsdsd  ter',
-
-        },
-        {
-            id: 1,
-            user: 'Tester',
-            email: 'tester@gmail.com',
-            amount: 150,
-            currency: 'USD',
-            createdAt: '2025-01-03T12:34:56.789Z',
-            test: 'Tessddsd  s sdsdsdsdsds sdsdsdsds sdsdssd sdsdsdsd fdsdsdsd sdsdsds sdsds asasasasasas asasasasa asasasas  ddsd  s sdsdsdsdsds sdsdsdsds sdsdssd sdsdsdsd fdsdsdsd  ter',
-
-        },
-        {
-            id: 1,
-            user: 'Tester',
-            email: 'tester@gmail.com',
-            amount: 150,
-            currency: 'USD',
-            createdAt: '2025-01-03T12:34:56.789Z',
-            test: 'Tessddsd  s sdsdsdsdsds sdsdsdsds sdsdssd sdsdsdsd fdsdsdsd sdsdsds sdsds asasasasasas asasasasa asasasas  ddsd  s sdsdsdsdsds sdsdsdsds sdsdssd sdsdsdsd fdsdsdsd  ter',
-
-        },
-        {
-            id: 1,
-            user: 'Tester',
-            email: 'tester@gmail.com',
-            amount: 150,
-            currency: 'USD',
-            createdAt: '2025-01-03T12:34:56.789Z',
-            test: 'Tessddsd  s sdsdsdsdsds sdsdsdsds sdsdssd sdsdsdsd fdsdsdsd sdsdsds sdsds asasasasasas asasasasa asasasas  ddsd  s sdsdsdsdsds sdsdsdsds sdsdssd sdsdsdsd fdsdsdsd  ter',
-
-        },
-        {
-            id: 1,
-            user: 'Tessddsd  s sdsdsdsdsds sdsdsdsds sdsdssd sdsdsdsd fdsdsdsd sdsdsds sdsds asasasasasas asasasasa asasasas  ter',
-            email: 'tester@gmail.com',
-            amount: 150,
-            currency: 'USD',
-            createdAt: '2025-01-03T12:34:56.789Z',
-            test: 'Tessddsd  s sdsdsdsdsds sdsdsdsds sdsdssd sdsdsdsd fdsdsdsd sdsdsds sdsds asasasasasas asasasasa asasasas  ddsd  s sdsdsdsdsds sdsdsdsds sdsdssd sdsdsdsd fdsdsdsd  ter',
-
-        }
-    ];
-
-    // const parseValue = (value: any, key: string, index: number) => {
-    const parseValue = (value: any, key: string) => {
-        if (key === 'createdAt') return dateTransform(value ?? '');
-        // if (key === 'email') return data.rows[index]?.user?.email;
-        return value;
-    };
-
-    return (
-        <DivCommon
-            height='100dvh'
-            fd='row'
-            gap={SPACES.xxxxl}
-            padding={`${SPACES.xxxxl} ${SPACES.xxxxl}`}
-        >
-            <Styled.InputContainer height='100%' width='25%'>
-                <Formik
-                    initialValues={{
-                        last_name: '',
-                        password: '',
-                        email: '',
-                        text: '',
-                        add_category: [],
-                        category: [],
-                        is_remember: false,
-                        avatar: '',
-                        country: {},
-                        phone: '',
-                        calendar: {}
-                    }}
-                    onSubmit={onSubmit}
-                    validationSchema={validationSchemaExample}
-                >
-                    {({values}) => (
-                        <Form>
-                            <DivCommon gap={SPACES.l} padding='0 1rem 0 0' width='20rem'>
-
-                                <AvatarSetup name='avatar' label='avatar'/>
-                                <Country name='country'/>
-                                <Phone label={'Phone'} name='phone'/>
-
-                                <Input {...InputsConst.last_name} />
-                                <Input {...InputsConst.password} type='password'/>
-                                <Input {...InputsConst.email} placeholder='' inputType={2}/>
-                                <InputCalendar
-                                    name='calendar'
-                                    height='3rem'
-                                    mode='range'
-                                    label='Date:'
-                                    placeholder='DD.MM.YYY - DD.MM.YYY'
-                                    noFormikValue={{
-                                        value: date,
-                                        onSetValue: (_, value) => setDate(value as any)
-                                    }}
-                                />
-                                <InputTextArea
-                                    name='text'
-                                    label={'text'}
-                                    placeholder='text'
-                                    rows={2}
-                                    maxLength={1000}
-                                    mt={SPACES.xxxxxxls}
-                                />
-                                <InputMatchedWordsDynamic
-                                    name='add_category'
-                                    label='Add Category'
-                                    placeholder='Add Category'
-                                />
-                                <InputMatchedWords
-                                    matchedWords={values.add_category}
-                                    name='category'
-                                    label='Choice Category'
-                                    placeholder='Choice Category'
-                                />
-                                <CheckBoxFormik name='is_remember' label='Remember for 30 days'/>
-                                <Switch name='is_remember' label='Remember for 30 days'/>
+  const [page, setPage] = useState(1);
 
 
-                                <Button content='Submit' variant='primary' type='submit'/>
-                            </DivCommon>
-                        </Form>
-                    )}
-                </Formik>
-            </Styled.InputContainer>
+  const parseValue = (value: unknown, key: string) => {
+    if (key === 'createdAt') return dateTransform(value as string ?? '');
+    return value;
+  };
 
-            <DivCommon gap='2rem' padding='0 2rem'>
-                <DivCommon gap={SPACES.l} width='25%'>
-                    BUTTON STATE
-                    <Button content='button' variant='primary' startIcon={{icon: testIcon, height: '1.5rem'}}
-                            endIcon={{icon: testIcon, height: '1.5rem', type: 'color'}}/>
-                    <Button content='button' variant='primary' isLoading={true}/>
-                    <Button content='button' variant='primary' disabled/>
-                </DivCommon>
-
-                <DivCommon>
-                    <Table
-                        className='scroll'
-                        tooltipLength={25}
-                        linesToTruncate={1}
-                        arrayHeader={[
-                            {text: 'Id', data_key: 'id'},
-                            {text: 'User', data_key: 'user'},
-                            {text: 'Email', data_key: 'email'},
-                            {text: 'Amount', data_key: 'amount'},
-                            {text: 'Currency', data_key: 'currency'},
-                            {text: 'Date', data_key: 'createdAt'},
-                            {text: 'Test', data_key: 'test'}
-                        ]}
-                        arrayBody={dataTable ?? []}
-                        parseValue={parseValue}
-                        pagination={{
-                            total: 100,
-                            page: page,
-                            pageSize: 5,
-                            setPage: (page) => {
-                                setPage(page);
-                            }
-                        }}
-                    />
-                </DivCommon>
-
-            </DivCommon>
-
-
-            {/*<Button content='open popup' variant='inverse' onClick={onTogglePopup} />*/}
-
-            {/*<Button content='open drawer' variant='primary' onClick={onToggle} endIcon={{icon: testIcon}} />*/}
-
-            <Drawer onClose={onToggle} open={openDrawer}>
-                <DrawerLayout title={'Test'} onClose={onToggle}>
-                    <Button content='open Popup' variant='primary' onClick={onTogglePopup}/>
-                    <Button
-                        mt={SPACES.l}
-                        content='open Popup Bottom'
-                        variant='primary'
-                        onClick={onTogglePopupInDrawer}
-                    />
-                </DrawerLayout>
-            </Drawer>
-
-            {openPopupInDrawer ? (
-                <Portal>
-                    <PopupLayout onClose={onTogglePopupInDrawer}>in openPopupInDrawer</PopupLayout>
-                </Portal>
-            ) : null}
-
-            {openPopup ? (
-                <Portal>
-                    <PopupLayoutBottom onClose={onTogglePopup}>PopupLayoutBottom</PopupLayoutBottom>
-                </Portal>
-            ) : null}
+  return (
+    <Styled.Container
+      height="100dvh"
+      fd="column"
+      gap={SPACES.xxxxl}
+      padding={`${SPACES.xxxxl} ${SPACES.xxxxl}`}
+    >
+      <DivCommon gap={SPACES.l}>
+        BUTTON STATE
+        <DivCommon fd="row" gap={SPACES.l}>
+          <Button content="button" variant="primary" startIcon={{ icon: testIcon, height: '1.5rem' }}
+                  endIcon={{ icon: testIcon, height: '1.5rem', type: 'color' }} />
+          <Button content="button" variant="primary" isLoading={true} />
+          <Button content="button" variant="primary" disabled />
         </DivCommon>
-    );
+
+      </DivCommon>
+
+      <DivCommon>
+        <Table
+          className="scroll"
+          tooltipLength={25}
+          linesToTruncate={3}
+          arrayHeader={[
+            { text: 'Id', data_key: 'id' },
+            { text: 'User', data_key: 'user' },
+            { text: 'Email', data_key: 'email' },
+            { text: 'Amount', data_key: 'amount' },
+            { text: 'Currency', data_key: 'currency' },
+            { text: 'Date', data_key: 'createdAt' }
+          ]}
+          arrayBody={dataTable ?? []}
+          parseValue={parseValue}
+          pagination={{
+            total: 100,
+            page: page,
+            pageSize: 5,
+            setPage: (page) => {
+              setPage(page);
+            }
+          }}
+        />
+      </DivCommon>
+
+      <Formik
+        initialValues={{
+          last_name: '',
+          password: '',
+          email: '',
+          text: '',
+          add_category: [],
+          category: [],
+          is_remember: false,
+          avatar: '',
+          country: { name: '' }
+        }}
+        onSubmit={functionStub}
+        validationSchema={validationSchemaExample}
+      >
+        {() => (
+          <Form>
+            CHECKBOX STATE (default, multi, radio)
+            <DivCommon fd="row" gap={SPACES.l}>
+              <DivCommon height="100px" fd="row" ai="center" gap={SPACES.l}>
+                <CheckBox
+                  name="default"
+                  type="default"
+                  items="string"
+                />
+                <CheckBox
+                  name="defaultObj"
+                  type="default"
+                  items={{ name: 'obj' }}
+                  visibleItem="name"
+                />
+              </DivCommon>
+              <DivCommon height="100px" fd="row" ai="center" gap={SPACES.l}>
+                <DivCommon width="fit-content" gap={SPACES.l}>
+                  <CheckBox
+                    name="multi"
+                    type="multi"
+                    items={['string_1', 'string_2', 'string3']}
+                  />
+                </DivCommon>
+                <DivCommon gap={SPACES.l}>
+                  <CheckBox
+                    name="multiObj"
+                    type="multi"
+                    items={[{ name: 'obj_1' }, { name: 'obj_2' }, { name: 'obj_3' }]}
+                    visibleItem="name"
+                  />
+                </DivCommon>
+              </DivCommon>
+              <DivCommon height="100px" fd="row" ai="center" gap={SPACES.l}>
+                <DivCommon width="fit-content" gap={SPACES.l}>
+                  <CheckBox
+                    name="radio"
+                    type="radio"
+                    items={['string_1', 'string_2']}
+                  />
+                </DivCommon>
+                <DivCommon gap={SPACES.l}>
+                  <CheckBox
+                    name="radioObj"
+                    type="radio"
+                    items={[{ name: 'obj_1' }, { name: 'obj_2' }]}
+                    visibleItem="name"
+                  />
+                </DivCommon>
+              </DivCommon>
+            </DivCommon>
+          </Form>
+        )}
+      </Formik>
+
+
+    </Styled.Container>
+  );
 };
