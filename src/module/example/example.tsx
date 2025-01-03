@@ -2,7 +2,7 @@ import { useState } from 'react';
 
 
 import testIcon from '@/assets/icons/vite.svg';
-import { Button, CheckBox } from '@/module/common/component';
+import { Button, CheckBox, Input } from '@/module/common/component';
 import { Table } from '@/module/common/component/table';
 import { DivCommon } from '@/module/common/styles';
 import { SPACES } from '@/theme';
@@ -62,6 +62,7 @@ const dataTable = [
 ];
 
 import *  as  Styled from './example.styled.tsx';
+import { useChangeCard } from '@/module/common/hooks';
 
 
 export const Example = () => {
@@ -84,8 +85,10 @@ export const Example = () => {
       <DivCommon gap={SPACES.l}>
         BUTTON STATE
         <DivCommon fd="row" gap={SPACES.l}>
-          <Button content="button" variant="primary" startIcon={{ icon: testIcon, height: '1.5rem' }}
-                  endIcon={{ icon: testIcon, height: '1.5rem', type: 'color' }} />
+          <Button content="button" variant="primary"
+                  startIcon={{ icon: testIcon, height: '1.5rem' }}
+                  endIcon={{ icon: testIcon, height: '1.5rem', type: 'img' }}
+          />
           <Button content="button" variant="primary" isLoading={true} />
           <Button content="button" variant="primary" disabled />
         </DivCommon>
@@ -120,15 +123,13 @@ export const Example = () => {
 
       <Formik
         initialValues={{
-          last_name: '',
           password: '',
           email: '',
-          text: '',
-          add_category: [],
-          category: [],
-          is_remember: false,
-          avatar: '',
-          country: { name: '' }
+          first_name: '',
+          last_name: 'test',
+          card: '',
+          expiry_data: '',
+          cvv: ''
         }}
         onSubmit={functionStub}
         validationSchema={validationSchemaExample}
@@ -136,7 +137,7 @@ export const Example = () => {
         {() => (
           <Form>
             CHECKBOX STATE (default, multi, radio)
-            <DivCommon fd="row" gap={SPACES.l}>
+            <DivCommon fd="row" gap={SPACES.l} margin='0 0 2rem 0'>
               <DivCommon height="100px" fd="row" ai="center" gap={SPACES.l}>
                 <CheckBox
                   name="default"
@@ -185,6 +186,73 @@ export const Example = () => {
                 </DivCommon>
               </DivCommon>
             </DivCommon>
+
+            INPUT STATE (default, readOnly, email, password)
+            <DivCommon fd="row" gap={SPACES.l} margin='0 0 2rem 0'>
+              <Input
+                name="first_name"
+                label="First Name"
+              />
+              <Input
+                name="last_name"
+                label="Last Name"
+                readOnly
+                startIcon={{ icon: testIcon, height: '1.5rem' }}
+                endIcon={{ icon: testIcon, height: '1.5rem', type: 'img' }}
+              />
+              <Input
+                name="email"
+                label={{
+                  text: 'test',
+                  required: true
+                }}
+                startIcon={{ icon: testIcon, height: '1.5rem' }}
+                endIcon={{ icon: testIcon, height: '1.5rem', type: 'img' }}
+              />
+              <Input
+                name="password"
+                label="Password"
+                type="password"
+              />
+            </DivCommon>
+
+            INPUT CARD
+            <DivCommon fd="row" gap={SPACES.l} margin='0 0 2rem 0'>
+              <Input
+                width='15rem'
+                name="card"
+                label="Card"
+                placeholder="0000 0000 0000 0000"
+                optionOnChange={(name, value, setFieldValue) => {
+                  const _value = useChangeCard('card', value);
+                  setFieldValue(name, _value);
+                }}
+              />
+
+              <Input
+                width='7rem'
+                name="expiry_data"
+                label="Date"
+                placeholder="MM/YY"
+                optionOnChange={(name, value, setFieldValue) => {
+                  const _value = useChangeCard('date', value);
+                  setFieldValue(name, _value);
+                }}
+              />
+
+              <Input
+                width='7rem'
+                name="cvv"
+                type='password'
+                label="CVV"
+                placeholder=""
+                optionOnChange={(name, value, setFieldValue) => {
+                  const _value = useChangeCard('cvc', value);
+                  setFieldValue(name, _value);
+                }}
+              />
+            </DivCommon>
+
           </Form>
         )}
       </Formik>

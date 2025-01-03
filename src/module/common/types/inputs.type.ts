@@ -1,9 +1,9 @@
 import { ReactNode } from 'react';
 import { DateRange, DaySelectionMode } from 'react-day-picker';
 
-import { IStartIcon } from '@/module/common/types/buttons.type';
-
 import { IMargin } from './styles.type';
+import { IInputProps } from '@/module/common/component';
+import { IWProps } from '@/module/common/component/inputs/input/input.styled.ts';
 
 interface ISize {
   height?: string;
@@ -23,34 +23,6 @@ export interface IInputPropsStyles {
   placeholderColor?: string;
 }
 export type IOnSetValue = (name: string, value: string) => void;
-export interface IInputProps extends IMargin, ISize, IInputDefault {
-  gapFromLabel?: string;
-  type?: string;
-  value?: any;
-  startIcon?: IStartIcon;
-  endIcon?: IStartIcon;
-  innerPads?: string;
-  required?: boolean;
-  id?: string;
-  readOnly?: boolean;
-  placeholderColor?: string;
-  className?: string;
-  labelClassName?: string;
-  maxLength?: number;
-  inputType?: 1 | 2;
-  width?: string;
-  isOptional?: boolean;
-  isError?: boolean;
-  isCache?: boolean;
-  placeholder?: string;
-  mask?: string;
-  format_type?: 'card' | 'date' | 'cvc';
-  noFormikValue?: { value: string; onSetValue: (name: string, value: string) => void };
-  isAutoComplete?: boolean;
-  isRequiredArrow?: boolean;
-  isDontChange?: boolean;
-}
-
 export interface IInputMatchedWordsProps extends IWProps, ISize, IInputDefault {
   matchedWords: string[] | any[];
   isFilter?: boolean;
@@ -79,13 +51,6 @@ export interface IInputMask extends IInputProps, Omit<IInputDefault, 'placeholde
   label: string;
   name: string;
   isHidePhone?: boolean;
-}
-
-export interface IWProps extends IMargin {
-  readOnly?: boolean;
-  isLabel?: boolean;
-  top?: string;
-  width?: string;
 }
 
 export interface IInputTextareaProps extends IMargin, IInputDefault {

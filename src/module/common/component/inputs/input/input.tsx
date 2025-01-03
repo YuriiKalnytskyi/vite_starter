@@ -1,341 +1,241 @@
-import { getIn, useField, useFormikContext } from 'formik';
-import { memo, useEffect, useRef, useState } from 'react';
-import { useTranslation } from 'react-i18next';
+import { IIcon, IMargin } from '@/module/common/types';
+
+import * as Styled from './input.styled';
+import { ChangeEvent, ReactNode, useEffect, useMemo, useRef, useState } from 'react';
+import { getIn, useFormikContext } from 'formik';
 
 import successIcon from '@/assets/icons/default/success-icon.svg';
 import visibilityOnIcon from '@/assets/icons/default/visibility-icon.svg';
 import visibilityOffIcon from '@/assets/icons/default/visibility-off-icon.svg';
-import { RegexConst, passwordError } from '@/module/common/constants';
+
 import { IconCommon } from '@/module/common/styles';
-import { IInputProps, IStartIcon } from '@/module/common/types';
-import { SPACES } from '@/theme';
+import { COLORS, SPACES } from '@/theme';
+import { passwordError, RegexConst } from '@/module/common/constants';
+import { useTranslation } from 'react-i18next';
+import { functionStub } from '@/utils';
 
-import * as Styled from './input.styled';
+export interface IIconInput extends IIcon {
+  onClick?: () => void;
+  type?: 'svg' | 'img' | string;
+}
 
-export const Input = memo(
-    ({
-       name,
-       label,
-       gapFromLabel,
-       height = '3rem',
-       startIcon,
-       endIcon: endIconProps,
-       innerPads,
-       required,
-       className,
-       type = 'text',
-       labelClassName,
-       inputType = 1,
-       isOptional = false,
-       format_type,
-       isAutoComplete,
-       noFormikValue,
-       maxLength,
-       isRequiredArrow,
-       isDontChange = false,
-       ...props
-     }: IInputProps) => {
-      const formikContext = useFormikContext();
-      const fields = useField(name);
-      const { type: endIconType, ...endIcon } = {
-        ...endIconProps,
-        type: endIconProps?.type ?? 'svg'
-      } as IStartIcon;
-      const { setFieldValue, value, field, touched, error } = (() => {
-        if (noFormikValue) {
-          return {
-            touched: false,
-            error: '',
-            field: {
-              onChange: () => {
-                void 0;
-              }
-            },
-            value: noFormikValue.value,
-            setFieldValue: noFormikValue.onSetValue
-          };
-        } else {
-          const [field, { touched, error }] = fields;
-          return {
-            touched,
-            error,
-            field,
-            value: getIn(formikContext.values, name),
-            setFieldValue: formikContext.setFieldValue
-          };
-        }
-      })();
+export interface IInputProps extends IMargin {
+  name: string;
+  type?: 'password' | 'email' | 'text' | 'number';
+  label?: string | ReactNode | {
+    text: string | ReactNode,
+    required?: boolean
+  };
+  placeholder?: string
+  isAutoComplete?: boolean;
+  height?: string;
+  width?: string;
+  readOnly?: boolean;
+  noFormikValue?: {
+    value: string,
+    setFieldValue: (name: string, value: string) => void,
+    setFieldTouched?: (name: string, isTouched: boolean) => void,
+    error?: string
+    touched?: boolean
+  };
+  startIcon?: IIconInput;
+  endIcon?: IIconInput;
+  optionOnChange?: (name: string, value: string, setFieldValue: (name: string, value: string) => void) => void,
+}
 
-      const isCommonError = touched ? error : touched || error;
+const renderIcon = (iconData: IIconInput | undefined, className: string) => {
+  if (!iconData) return null;
 
-      const pads =
-          (startIcon ? `${SPACES.xs} ${SPACES.xxxxxxl_}` : innerPads) ||
-          (type === 'password'
-              ? `${SPACES.xxl} ${SPACES.xxxxxxl} ${SPACES.xxl} ${SPACES.xxxxl}`
-              : undefined);
+  return iconData.type === 'img' ? (
+    <Styled.ImgIcon {...iconData} src={iconData.icon} alt="icon" className={className} />
+  ) : (
+    <IconCommon {...(iconData as Omit<IIconInput, 'type'>)} className={className} />
+  );
+};
 
-      const [types, setTypes] = useState(type);
-      const [isPassword, setIsPassword] = useState(false);
-      const [successMessage, setSuccessMessage] = useState<string[]>([]);
-      const { t: translate } = useTranslation();
+export const Input = ({
+                        height,
+                        name,
+                        label,
+                        type,
+                        placeholder,
+                        isAutoComplete = false,
+                        noFormikValue,
+                        endIcon,
+                        startIcon,
+                        optionOnChange,
+                        ...props
+                      }: IInputProps) => {
 
-      useEffect(() => {
-        if (type === 'password' && isPassword) {
-          setTypes('text');
-        } else {
-          setTypes(type);
-        }
-      }, [type, isPassword]);
+  const { setFieldValue, value, error, setFieldTouched, touched } = (() => {
+    if (noFormikValue) {
+      return {
+        value: noFormikValue.value,
+        setFieldValue: noFormikValue.setFieldValue,
+        error: noFormikValue.error ?? '',
+        setFieldTouched: noFormikValue?.setFieldTouched ?? functionStub,
+        touched: noFormikValue?.touched ?? false
 
-      useEffect(() => {
-        if (name.includes('password')) {
-          const addStr = (str: string) => {
-            if (!successMessage.includes(str)) {
-              setSuccessMessage((prev) => [...prev, str]);
-            }
-          };
-          const deleteStr = (str: string) => {
-            const index = successMessage.indexOf(str);
-
-            if (index > -1) {
-              setSuccessMessage((prev: any) => {
-                prev.splice(index, 1);
-
-                return [prev];
-              });
-            }
-          };
-          const is = (reservation: any, _error: string) => {
-            if (reservation) {
-              addStr(_error);
-            } else {
-              deleteStr(_error);
-            }
-          };
-
-          is(RegexConst.LOWERCASE.test(value), passwordError[0]);
-          is(RegexConst.CAPITAL.test(value), passwordError[1]);
-          is(RegexConst.SPECIAL.test(value), passwordError[2]);
-          is(value?.length >= 8, passwordError[3]);
-        }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-      }, [name, value]);
-
-      const onClickPassword = () => {
-        setIsPassword(!isPassword);
       };
+    } else {
+      // eslint-disable-next-line react-hooks/rules-of-hooks
+      const { values, setFieldValue, errors, setFieldTouched, touched } = useFormikContext();
 
-      const isPasswordError = !!isCommonError && passwordError.includes(error ?? '');
-
-      const ref = useRef<HTMLDivElement | null>(null);
-
-      const [top, setTop] = useState('50%');
-
-      useEffect(() => {
-        if (type === 'password' || startIcon || endIcon || inputType === 2) {
-          const calculateTopHeight = () => {
-            const childrenRef = ref.current?.children;
-            // @ts-ignore
-            const childrenRefHTML = Array.from(
-                childrenRef ?? []
-            ) as HTMLCollectionOf<HTMLElement>;
-            const childrenRefHTMLArray = Array.from(childrenRefHTML).splice(
-                0,
-                inputType === 1 ? 2 : 1
-            );
-
-            return (
-                childrenRefHTMLArray.reduce((acc, child, i) => {
-                  if (i === 1 && !label) {
-                    return acc  / 2.4;
-                  }
-                  if (i === 1) {
-                    return acc + child.offsetHeight / 2.5;
-                  }
-
-                  if (inputType === 2) {
-                    return acc + child.offsetHeight / 3.5;
-                  }
-
-                  return acc + child.offsetHeight;
-                }, 0) + 'px'
-            );
-          };
-
-
-
-          setTop(calculateTopHeight());
-        }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-      }, []);
-
-      const formatCreditCardNumber = (_value: string) => {
-        const cleanNumber = _value?.replace(/\D/g, '').slice(0, 16);
-        const formattedNumber = cleanNumber?.match(/.{1,4}/g) ?? [];
-
-        return formattedNumber ? formattedNumber.join('  ') : '';
+      return {
+        value: getIn(values, name),
+        error: getIn(errors, name),
+        touched: getIn(touched, name),
+        setFieldValue,
+        setFieldTouched
       };
-
-      const formatCreditCardDate = (_value: string) => {
-        const cleanDate = _value?.replace(/\D/g, '').slice(0, 4);
-        const formattedDate = cleanDate?.match(/.{1,2}/g);
-
-        return formattedDate ? formattedDate.join(' / ') : '';
-      };
-
-      const formatCVC = (_value: string) => {
-        return _value?.replace(/\D/g, '').slice(0, 3);
-      };
-
-      const formatObject = {
-        card: formatCreditCardNumber,
-        date: formatCreditCardDate,
-        cvc: formatCVC
-      };
-      const [maskedValue, setMaskedValue] = useState('');
-      const [rawValue, setRawValue] = useState('');
-
-      useEffect(() => {
-        if (format_type === 'cvc' && rawValue.length === 3) {
-          setMaskedValue(rawValue.replace(/\d/g, '•').split('').join(' '));
-        } else {
-          setMaskedValue(rawValue);
-        }
-      }, [rawValue, format_type]);
-
-      const _value = !format_type ? value : formatObject[format_type](value);
-
-      const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const { value: inputValue } = e.target;
-        if (isDontChange) {
-          return;
-        }
-
-        if (format_type === 'cvc') {
-          const cleanCVC = formatCVC(inputValue);
-          setRawValue(cleanCVC);
-          setMaskedValue(cleanCVC);
-          setFieldValue(name, cleanCVC);
-        } else {
-          const formattedValue = format_type
-              ? formatObject[format_type](inputValue)
-              : inputValue;
-          setFieldValue(name, formattedValue);
-        }
-      };
-
-      return (
-          <Styled.Wrapper className={className} {...props} ref={ref} top={top}>
-            {label && inputType === 1 && (
-                <Styled.Label
-                    isError={!!isCommonError}
-                    required={required}
-                    htmlFor={name}
-                    className={labelClassName}
-                >
-                  {label}
-                  {isRequiredArrow && <span className='is_required_arrow'>*</span>}
-                  {isOptional && <Styled.LabelOptional>· Optional</Styled.LabelOptional>}
-                </Styled.Label>
-            )}
-
-            {inputType === 1 ? (
-                <Styled.Input
-                    height={height}
-                    id={name}
-                    name={name}
-                    {...(isAutoComplete ? {} : { autoComplete: 'off', role: 'presentation' })}
-                    isError={!!isCommonError}
-                    gapFromLabel={gapFromLabel}
-                    innerPads={pads}
-                    type={types}
-                    step='any'
-                    {...field}
-                    {...props}
-                    value={format_type === 'cvc' ? maskedValue : _value}
-                    maxLength={format_type === 'cvc' ? 3 : undefined}
-                    onChange={handleChange}
-                    isDontChange={isDontChange}
-                />
-            ) : (
-                <Styled.Input2
-                    isError={!!isCommonError}
-                    id={name}
-                    name={name}
-                    type={types}
-                    top={top}
-                    height={height}
-                    required
-                    {...field}
-                    {...props}
-                    value={format_type === 'cvc' ? maskedValue : _value}
-                    maxLength={format_type === 'cvc' ? 3 : undefined}
-                    onChange={handleChange}
-                />
-            )}
-
-            {label && inputType === 2 && (
-                <Styled.Label2 htmlFor={name} top={top} className={labelClassName}>
-                  {label}
-                </Styled.Label2>
-            )}
-
-            {startIcon && <IconCommon {...startIcon} className='startIcon' />}
-            {endIcon ? (
-                endIconType === 'svg' ? (
-                    <IconCommon
-                        {...(endIcon as Omit<IStartIcon, 'type'>)}
-                        className='endIcon'
-                    />
-                ) : (
-                    <img src={endIcon.icon} alt='icon' className='endIcon' />
-                )
-            ) : null}
-
-            {type === 'password' && (
-                <Styled.VisibilityIcon
-                    icon={isPassword ? visibilityOnIcon : visibilityOffIcon}
-                    height={'25px'}
-                    onClick={onClickPassword}
-                    className='passwordIcon'
-                />
-            )}
-
-            {isCommonError &&
-            !passwordError.includes(error ?? '') &&
-            error !== 'common.is_required' &&
-            error !== 'invalid date' ? (
-                <Styled.Error className='error'>{translate(error as string)}</Styled.Error>
-            ) : null}
-
-            {isPasswordError ? (
-                <Styled.ErrorPasswordContainer>
-                  {passwordError.map((text, index) => {
-                    const isError = text === error;
-                    const isSuccess = successMessage.includes(text);
-                    return (
-                        <Styled.ErrorPassword
-                            isError={isError}
-                            isSuccess={isSuccess}
-                            key={index}
-                        >
-                          <Styled.Icon
-                              isError={isError}
-                              isSuccess={isSuccess}
-                              style={{
-                                WebkitMaskImage: `url(${successIcon})`,
-                                WebkitMaskSize: '100% 100%',
-                                maskImage: `url(${successIcon})`
-                              }}
-                          />
-
-                          {text}
-                        </Styled.ErrorPassword>
-                    );
-                  })}
-                </Styled.ErrorPasswordContainer>
-            ) : null}
-          </Styled.Wrapper>
-      );
     }
-);
+  })();
+  const { t: translate } = useTranslation();
+
+
+  const onChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const _value = e.target.value;
+    console.log(_value, 'onChange');
+
+    if (optionOnChange) {
+      optionOnChange(name, _value, setFieldValue);
+    } else {
+      setFieldValue(name, _value); // Якщо немає кастомної логіки, встановлюємо значення за замовчуванням
+    }
+  };
+
+  const onBlur = () => {
+    setFieldTouched(name, true);
+  };
+
+
+  const [isPassword, setIsPassword] = useState(false);
+  const ref = useRef<HTMLDivElement | null>(null);
+
+
+  const [top, setTop] = useState('50%');
+  useEffect(() => {
+    if (type === 'password' || startIcon || endIcon) {
+      const children = ref.current?.children;
+      if (!children) return;
+
+      const totalHeight = Array.from(children).reduce((acc, child) => {
+        const className = (child as HTMLElement).className;
+        const shouldInclude = !['startIcon', 'endIcon', 'passwordIcon', 'errorPassword', 'errorMessage']
+          .some((excludedClass) => className.includes(excludedClass));
+        return shouldInclude ? acc + (child as HTMLElement).offsetHeight : acc;
+      }, 0);
+
+      setTop(`${totalHeight / 1.8}px`);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const successPasswordMessages = useMemo(() => {
+    if (type === 'password' && value) {
+      return passwordError.filter((_error, index) => {
+        switch (index) {
+          case 0:
+            return RegexConst.LOWERCASE.test(value);
+          case 1:
+            return RegexConst.CAPITAL.test(value);
+          case 2:
+            return RegexConst.SPECIAL.test(value);
+          case 3:
+            return value.length >= 8;
+          default:
+            return false;
+        }
+      });
+    }
+    return [];
+  }, [type, value]);
+
+  const innerPads =
+    (startIcon && `${SPACES.l}  ${SPACES.xxxxxxl} ${SPACES.l} ${SPACES.xxxxxxl_}`) ??
+    (endIcon && `${SPACES.l}  ${SPACES.xxxxxxl_} ${SPACES.l} ${SPACES.xxxxxxl}`) ??
+    (type === 'password' ? `${SPACES.xs} ${SPACES.xxxxxxl} ${SPACES.xs} ${SPACES.m}` : undefined);
+
+
+  const isError = touched && !!error;
+  const isPasswordError = isError && passwordError.includes(error ?? '');
+
+  return (
+    <Styled.Wrapper $top={top} {...props} ref={ref}>
+      {label && (
+        <Styled.Label
+          htmlFor={name}
+          $isError={isError}
+          $required={typeof label === 'object' && 'required' in label ? label.required : false}
+
+        >
+          {typeof label === 'object' && 'text' in label ? label.text : label}
+        </Styled.Label>
+      )}
+
+      <Styled.Input
+        name={name}
+        {...(isAutoComplete ? {} : { autoComplete: 'off', role: 'presentation' })}
+        value={value}
+        onChange={onChange}
+        onBlur={onBlur}
+        placeholder={placeholder ?? ''}
+        height={height}
+        $isError={isError}
+        $innerPads={innerPads}
+        type={type === 'password' ? (isPassword ? 'text' : 'password') : type}
+        {...props}
+      />
+
+      {type === 'password' && (
+        <Styled.VisibilityIcon
+          icon={isPassword ? visibilityOnIcon : visibilityOffIcon}
+          height="1.5rem"
+          onClick={() => {
+            setIsPassword(!isPassword);
+          }}
+          className="passwordIcon"
+        />
+      )}
+
+      {renderIcon(startIcon, 'startIcon')}
+      {renderIcon(endIcon, 'endIcon')}
+
+      {isError &&
+      !passwordError.includes(error ?? '') &&
+      error !== 'common.is_required' &&
+      error !== 'invalid date' ? (
+        <Styled.Error className="errorMessage">{translate(error as string)}</Styled.Error>
+      ) : null}
+
+      {
+        isPasswordError && (
+          <Styled.ErrorPasswordContainer className="errorPassword">
+            {passwordError.map((text, index) => {
+              const isError = text === error;
+              const isSuccess = successPasswordMessages.includes(text);
+              return (
+                <Styled.ErrorPassword
+                  $isError={isError}
+                  $isSuccess={isSuccess}
+                  key={index}
+                >
+                  <IconCommon
+                    icon={successIcon}
+                    background={
+                      isError ? COLORS.error : isSuccess ? COLORS.primary : COLORS.gray
+                    }
+                  />
+
+                  {text}
+                </Styled.ErrorPassword>
+              );
+            })}
+          </Styled.ErrorPasswordContainer>
+        )
+      }
+
+
+    </Styled.Wrapper>
+  );
+};

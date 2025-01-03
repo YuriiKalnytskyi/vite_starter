@@ -20,7 +20,6 @@ export interface IIcon {
   height?: string;
   background?: string;
   cursor?: 'pointer' | 'text';
-  type?: string;
 }
 
 export interface IMargin {

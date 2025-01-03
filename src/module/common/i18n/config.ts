@@ -2,13 +2,6 @@ import i18next from 'i18next';
 import I18nextBrowserLanguageDetector from 'i18next-browser-languagedetector';
 import { initReactI18next } from 'react-i18next';
 
-import auth_en from '@/module/auth/translations/auth.en.translation.json';
-import home_en from '@/module/home/translations/home.en.translation.json';
-import landing_en from '@/module/landing/translations/landing.en.translation.json';
-import payment_en from '@/module/payment/translations/payment.en.translation.json';
-import catalog_en from '@/module/shopping-cart/translations/shopping-cart.en.translation.json';
-import status_page_en from '@/module/status-page/translations/status-page.en.translation.json';
-
 import common_en from './translations/common.en.translation.json';
 import common_ua from './translations/common.ua.translation.json';
 import { LANGUAGE_KEYS } from './types';
@@ -36,23 +29,12 @@ i18next
             en: {
                 translation: {
                     common: common_en,
-                    auth: auth_en,
-                    landing: landing_en,
-                    home: home_en,
-                    catalog: catalog_en,
-                    payment: payment_en,
-                    status_page: status_page_en
+
                 }
             },
             ua: {
                 translation: {
                     common: common_ua,
-                    auth: auth_en,
-                    landing: landing_en,
-                    home: home_en,
-                    catalog: catalog_en,
-                    payment: payment_en,
-                    status_page: status_page_en
                 }
             }
         },

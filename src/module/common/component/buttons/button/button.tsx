@@ -5,19 +5,18 @@ import { IButtonProps } from '@/module/common/types';
 import { COLORS } from '@/theme';
 
 import * as Styled from './button.styled';
-
 export const Button = memo(
   ({
-    content,
-    type,
-    id,
-    variant = 'primary',
-    startIcon,
-    endIcon,
-    onClick,
-    isLoading,
-    ...restProps
-  }: IButtonProps) => {
+     content,
+     type,
+     id,
+     variant = 'primary',
+     startIcon,
+     endIcon,
+     onClick,
+     isLoading,
+     ...restProps
+   }: IButtonProps) => {
     return (
       <Styled.StyledButton
         id={id}
@@ -32,41 +31,40 @@ export const Button = memo(
       >
         {isLoading ? (
           <Loader
-            className='loader'
-            size='small'
+            className="loader"
+            size="small"
             color={
               typeof isLoading === 'object' && isLoading.color ? isLoading?.color : COLORS.white
             }
-            height={restProps?.height ?? '2.5rem' }
+            height={restProps?.height ?? '2.5rem'}
             id={'loader'}
           />
         ) : (
           <>
-            {startIcon ? (
-              startIcon.type !== 'color' ? (
-                <Styled.IconStart {...startIcon} className='start' />
-              ) : (
+            {startIcon ? (startIcon.type === 'img' ? (
                 <Styled.ImgStart
                   src={startIcon.icon}
-                  alt='icon'
+                  alt="icon"
                   height={startIcon.height ?? '1.5rem'}
-                  className='startImg'
+                  className="startImg"
                 />
+              ) : (
+                <Styled.IconStart {...startIcon} className="start" />
               )
             ) : null}
 
             {content}
 
             {endIcon ? (
-              endIcon.type !== 'color' ? (
-                <Styled.IconEnd {...endIcon} className='endIcon' />
-              ) : (
+              endIcon.type === 'img' ? (
                 <Styled.ImgEnd
                   src={endIcon.icon}
-                  alt='icon'
+                  alt="icon"
                   height={endIcon.height ?? '1.5rem'}
-                  className='endImg'
+                  className="endImg"
                 />
+              ) : (
+                <Styled.IconEnd {...endIcon} className="endIcon" />
               )
             ) : null}
           </>

@@ -25,6 +25,7 @@ export interface IIconButton {
 
 export interface IStartIcon extends IIcon {
   onClick?: () => void;
+  type?: 'svg' | 'img' | string;
 }
 
 export interface IButtonProps extends IButtonBasicProps {

@@ -5,7 +5,7 @@ import {IMargin} from '@/module/common/types';
 import {COLORS} from '@/theme';
 
 const defaultBorderColor = COLORS.black;
-const hoverBorderColor = COLORS.yellow;
+const hoverBorderColor = COLORS.primary;
 
 export const Label = styled.label<IMargin>`
     cursor: pointer;

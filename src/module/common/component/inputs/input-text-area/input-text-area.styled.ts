@@ -3,7 +3,7 @@ import styled, { css } from 'styled-components';
 import { IInputPropsStyles, IInputTextareaProps } from '@/module/common/types';
 import { COLORS, FONTS, SPACES } from '@/theme';
 
-import { commonStyles } from '../input/input.styled';
+// import { commonStyles } from '../input/input.styled';
 
 export const InputContainer = styled.div<Partial<IInputTextareaProps>>`
   margin: ${({ margin }) => margin};
@@ -21,7 +21,6 @@ export const InputContainer = styled.div<Partial<IInputTextareaProps>>`
 `;
 
 export const Input = styled.textarea<Partial<IInputPropsStyles>>`
-  ${commonStyles};
 
   outline: none;
   resize: vertical;
