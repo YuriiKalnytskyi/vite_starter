@@ -4,9 +4,10 @@ import arrowBottom from '@/assets/icons/default/arrow-bottom-icon.svg';
 import searchIcon from '@/assets/icons/default/search.svg';
 import * as Styled from './input-matched-words.styled';
 import { Input } from '@/module/common/component';
-import { ReactNode, useRef, useState } from 'react';
+import { ReactNode, useEffect, useRef, useState } from 'react';
 import { getIn, useFormikContext } from 'formik';
 import { useClickOutside } from '@/module/common/hooks';
+import { useTranslation } from 'react-i18next';
 
 type Obj = Record<string, unknown>
 type Item = Obj | string;
@@ -58,6 +59,13 @@ type IInputMatchedWordsProps<T extends Items, F extends FilterOptions> = IMargin
 //TODO  make logic that will allow you to add new items quite easily
 //TODO check for errors
 
+const onTransformValue = (_value: Item, visibleItem?: string): string => {
+  if (visibleItem && typeof _value === 'object' && _value !== null) {
+    return String((_value as Obj)[visibleItem] ?? '');
+  }
+  return String(_value ?? '');
+};
+
 export const InputMatchedWords = <T extends Items, F extends FilterOptions>({
                                                                               name,
                                                                               placeholder, label,
@@ -70,10 +78,6 @@ export const InputMatchedWords = <T extends Items, F extends FilterOptions>({
                                                                               filterOption,
                                                                               ...props
                                                                             }: IInputMatchedWordsProps<T, F>) => {
-
-  const [focused, setFocused] = useState(false);
-
-  const inputHintBlockRef = useRef<HTMLUListElement | null>(null);
 
   const { setFieldValue, value, error } = (() => {
     if (noFormikValue) {
@@ -95,26 +99,30 @@ export const InputMatchedWords = <T extends Items, F extends FilterOptions>({
     }
   })();
 
+  const { t: translate } = useTranslation();
 
-  const onTransformValue = (_value: Item): string => {
-    if (visibleItem && typeof _value === 'object' && _value !== null) {
-      return String((_value as Obj)[visibleItem] ?? '');
-    }
-    return String(_value ?? '');
-  };
+  const visibleValue = onTransformValue(value, visibleItem);
 
-  const visibleValue = onTransformValue(value);
-
+  const [focused, setFocused] = useState(false);
   const [search, setSearch] = useState(filterOption?.mode === 'default' ? visibleValue : '');
 
+  const inputHintBlockRef = useRef<HTMLUListElement | null>(null);
+
+
+  useEffect(() => {
+    if (filterOption?.mode === 'default' && search !== visibleValue) {
+      setSearch(visibleValue);
+    }
+  }, [visibleValue, filterOption]);
 
   const onClickHintOption = (item: Item) => {
     setFieldValue(name, item);
     setFocused(false);
-    setSearch(filterOption?.mode === 'default' ? onTransformValue(item) : '');
+    setSearch(filterOption?.mode === 'default' ? onTransformValue(item, visibleItem) : '');
   };
 
 
+  const searchInputRef = useRef<HTMLInputElement | null>(null);
   const { ref } = useClickOutside(() => {
     if (focused) {
       setFocused(false);
@@ -125,8 +133,8 @@ export const InputMatchedWords = <T extends Items, F extends FilterOptions>({
   const filterItems = () => {
     if (search.length && filterOption && filterOption?.type === 'sort') {
       return items.sort((a, b) => {
-        const aVisible = onTransformValue(a).toString().toLowerCase();
-        const bVisible = onTransformValue(b).toString().toLowerCase();
+        const aVisible = onTransformValue(a, visibleItem).toString().toLowerCase();
+        const bVisible = onTransformValue(b, visibleItem).toString().toLowerCase();
 
         const aIncludes = aVisible[filterOption.includes](search.toLowerCase());
         const bIncludes = bVisible[filterOption.includes](search.toLowerCase());
@@ -151,7 +159,8 @@ export const InputMatchedWords = <T extends Items, F extends FilterOptions>({
     return items;
   };
 
-  const searchInputRef = useRef<HTMLInputElement | null>(null);
+
+  const _items = filterItems();
 
   const handleFocus = () => {
     if (filterOption?.mode === 'new') {
@@ -218,27 +227,35 @@ export const InputMatchedWords = <T extends Items, F extends FilterOptions>({
               </div>
             ) : null
           }
+          {_items.length ? _items.map((item, ind) => {
+              const visible = onTransformValue(item, visibleItem);
+              const selected = visible === visibleValue;
 
-          {(filterItems()).map((item, ind) => {
-            const visible = onTransformValue(item);
-            const selected = visible === visibleValue;
+              const _visible = parseValue ? parseValue(visible as string, item) : visible;
+              return (
+                <Styled.HintOption
+                  key={`${ind}}`}
+                  $isChip={false}
+                  $selected={selected}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    onClickHintOption(item);
+                  }
+                  }
+                >
+                  {_visible as string | ReactNode}
+                </Styled.HintOption>
+              );
+            }) :
+            <Styled.HintOption
+              $isChip={false}
+              $selected={false}
+              className="notFound"
 
-            const _visible = parseValue ? parseValue(visible as string, item) : visible;
-            return (
-              <Styled.HintOption
-                key={`${ind}}`}
-                $isChip={false}
-                $selected={selected}
-                onClick={(e) => {
-                  e.stopPropagation();
-                  onClickHintOption(item);
-                }
-                }
-              >
-                {_visible as string | ReactNode}
-              </Styled.HintOption>
-            );
-          })}
+            >
+              {translate('common.not_found_item')}
+            </Styled.HintOption>
+          }
         </Styled.SuggestedBlock>
       )}
     </Styled.Wrapper>

@@ -90,7 +90,7 @@ export const HintOption = styled.li<{
   $isChip: boolean;
 }>`
     padding: ${SPACES.xs} ${SPACES.m};
-    background: ${({ $selected }) => ($selected ? COLORS.primary : COLORS.white)};
+    background: ${({ $selected, $isChip }) => (($selected || $isChip) ? COLORS.primary : COLORS.white)};
     display: flex;
     align-items: center;
     justify-content: flex-start;
@@ -99,23 +99,18 @@ export const HintOption = styled.li<{
     font-weight: ${FONTS.WEIGHTS.medium};
     cursor: pointer;
 
-
     &:hover {
-        ${({ $selected }) =>
-                $selected &&
-                css`
-                    background: ${COLORS.white200};
-                `}
-
-        ${({ $isChip, $selected }) =>
-                $isChip && $selected
-                        ? css`
-                            background: ${COLORS.white200};
-                        `
-                        : css`
-                            background: ${COLORS.primary};
-                        `}
+        background: ${({ $selected }) => $selected ? COLORS.rgba(COLORS.primary, 0.9) : COLORS.rgba(COLORS.primary, 0.6)};
     }
 
-}
+    &.notFound {
+        cursor: default;
+        background: ${COLORS.white};
+        ${Center};
+        
+
+        &:hover {
+            background: ${COLORS.white}
+        }
+    }
 `;
