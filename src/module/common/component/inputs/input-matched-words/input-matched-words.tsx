@@ -15,11 +15,13 @@ type Items = Item[];
 type filterOptionNew = {
   mode: 'new';
   position?: string;
+  includes: 'includes' | 'startsWith' //TODO
 };
 
 type filterOptionDefault = {
   mode: 'default';
   position?: 'sticky' | 'static';
+  includes: 'includes' | 'startsWith' //TODO
 };
 
 type FilterOptions = filterOptionNew | filterOptionDefault;
@@ -49,7 +51,8 @@ type IInputMatchedWordsProps<T extends Items, F extends FilterOptions> = IMargin
   filterOption?: F;
 }
 
-//TODO  filterOptionNew  (visible items)
+//TODO when filterOption.mode === 'new' move focus to search input
+//TODO search input correct startIcon
 //TODO add a block that will reflect that there are no such items according to the entered search
 //TODO  make logic with display of many items
 //TODO  make logic that will allow you to add new items quite easily
@@ -120,10 +123,29 @@ export const InputMatchedWords = <T extends Items, F extends FilterOptions>({
   });
 
 
-  const _items = search.length ? items.filter((item) => {
-    const visible = (visibleItem ? item[visibleItem] : item).toString().toLowerCase();
-    return visible.includes(search.toLowerCase());
-  }) : items;
+  const _items = search.length ?
+    filterOption?.mode === 'default' ?
+      items.sort((a, b) => {
+        const aVisible = (visibleItem ? a[visibleItem] : a).toString().toLowerCase();
+        const bVisible = (visibleItem ? b[visibleItem] : b).toString().toLowerCase();
+
+        const aIncludes = aVisible.includes(search.toLowerCase());
+        const bIncludes = bVisible.includes(search.toLowerCase());
+
+        if (aIncludes && bIncludes) return 0;
+
+        if (aIncludes) return -1;
+
+        if (bIncludes) return 1;
+
+        return 0;
+      })
+      :
+      items.filter((item) => {
+        const visible = (visibleItem ? item[visibleItem] : item).toString().toLowerCase();
+        return visible.includes(search.toLowerCase());
+      })
+    : items;
 
   return (
     <Styled.Wrapper $focused={focused} {...props} ref={ref}>
