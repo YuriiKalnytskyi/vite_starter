@@ -101,7 +101,7 @@ export const UploadImage = ({ name, noFormikValue, readOnly }: IAvatarSetup) => 
           <DivCommon ai='center' jc='center' gap='1rem'>
             <IconCommon height='3rem' icon={uploadIcon} cursor='pointer' className='upload-icon' />
             <DivCommon fd='row' ai='center' jc='center' gap='0.375rem'>
-              <TitleCommon cursor='pointer' fs='0.9375rem' fw='400' color={COLORS.blue}>
+              <TitleCommon cursor='pointer' fs='0.9375rem' fw='400' color={COLORS.black}>
                 Image Add
               </TitleCommon>
             </DivCommon>

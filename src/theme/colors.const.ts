@@ -12,8 +12,6 @@ export const COLORS = {
   white100: '#F3F3F3',
   white200: '#F5F6FE',
 
-  blue: '#0168E3',
-  blueLight: '#91beea',
   mainRed: '#A23030',
   green: '#247B43',
   gray: '#6B6775',

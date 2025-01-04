@@ -168,36 +168,36 @@ const labelPriceCommonStyles = css`
 `;
 
 export const ItemLabel = styled.strong<{
-  linesToTruncate?: number;
-  tooltipLength?: number;
-  tooltipText: string;
+  $linesToTruncate?: number;
+  $tooltipLength?: number;
+  $tooltipText: string;
   background?: string;
-  lastIndexHorizontal?: boolean;
-  firstIndexVertical?: boolean;
+  $lastIndexHorizontal?: boolean;
+  $firstIndexVertical?: boolean;
 }>`
   display: block;
   display: -webkit-box;
   -webkit-box-orient: vertical;
   overflow: hidden;
 
-  ${({ linesToTruncate }) =>
-    linesToTruncate &&
+  ${({ $linesToTruncate }) =>
+          $linesToTruncate &&
     css`
-      -webkit-line-clamp: ${linesToTruncate};
+        -webkit-line-clamp: ${$linesToTruncate};
     `}
   ${labelPriceCommonStyles}
     .tooltipHover {
     position: absolute;
-    ${({ firstIndexVertical }) =>
-      firstIndexVertical
+    ${({ $firstIndexVertical }) =>
+      $firstIndexVertical
         ? css`
             bottom: 35%;
           `
         : css`
             top: 35%;
           `}
-    ${({ lastIndexHorizontal }) =>
-      lastIndexHorizontal
+    ${({ $lastIndexHorizontal }) =>
+      $lastIndexHorizontal
         ? css`
             right: 40%;
           `
@@ -207,7 +207,7 @@ export const ItemLabel = styled.strong<{
         width: max-content;
     max-height: 5.5rem;
     max-width: 16rem;
-    content: ${({ tooltipText }) => `'${tooltipText}'`};
+    content: ${({ $tooltipText }) => `'${$tooltipText}'`};
     padding: ${`${SPACES.xxxxxs} ${SPACES.xs}`};
     font-weight: ${FONTS.WEIGHTS.normal};
     font-size: ${FONTS.SIZES.s};
@@ -239,8 +239,8 @@ export const ItemLabel = styled.strong<{
     }
   }
 
-  ${({ tooltipText, tooltipLength = 16 }) =>
-    tooltipText?.length >= tooltipLength &&
+  ${({ $tooltipText, $tooltipLength = 16 }) =>
+    $tooltipText?.length >= $tooltipLength &&
     css`
       &:hover .tooltipHover {
         visibility: visible;

@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { useQuery } from 'react-query';
 
 import testIcon from '@/assets/icons/vite.svg';
-import { Button, CheckBox, Icon, Input, InputMatchedWords, Table } from '@/module/common/component';
+import { Button, CheckBox, Icon, Input, InputCalendar, InputMatchedWords, Table } from '@/module/common/component';
 import { changeCard } from '@/module/common/hooks';
 import { onError } from '@/module/common/services';
 import { DivCommon } from '@/module/common/styles';
@@ -172,7 +172,7 @@ export const Example = () => {
             </DivCommon>
             INPUT STATE (default, readOnly, email, password)
             <DivCommon fd="row" gap={SPACES.l} margin="0 0 2rem 0">
-              <Input name="first_name" label="First Name" />
+              <Input name="first_name" label="First Name" isSpellCheck />
               <Input
                 name="last_name"
                 label=" Name"
@@ -303,6 +303,16 @@ export const Example = () => {
                   addNewItem: true
                 }}
               />
+            </DivCommon>
+
+            CALENDAR
+            <DivCommon fd="row" gap={SPACES.l} ai="flex-end" margin="0 0 2rem 0">
+
+            <InputCalendar
+              label='Calendar'
+              name='Calendar'
+              mode='single'
+            />
             </DivCommon>
           </Form>
         )}

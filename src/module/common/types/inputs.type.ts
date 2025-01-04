@@ -1,19 +1,15 @@
-import { ReactNode } from 'react';
-import { DateRange, DaySelectionMode } from 'react-day-picker';
-
-import { IInputProps } from '@/module/common/component';
-import { IWProps } from '@/module/common/component/inputs/input/input.styled.ts';
-
 import { IMargin } from './styles.type';
+import { ReactNode } from 'react';
 
-interface ISize {
-  height?: string;
-  width?: string;
-}
-
-interface IInputDefault {
+export interface IInputDefault {
   name: string;
-  label?: string;
+  label?:
+    | string
+    | ReactNode
+    | {
+    text: string | ReactNode;
+    required?: boolean;
+  };
   placeholder?: string;
 }
 
@@ -23,18 +19,7 @@ export interface IInputPropsStyles {
   gapFromLabel?: string;
   placeholderColor?: string;
 }
-export type IOnSetValue = (name: string, value: string) => void;
 
-export interface IInputMatchedWordsDynamic extends IMargin, ISize, IInputDefault {
-  readOnly?: boolean;
-}
-
-export interface IInputMask extends IInputProps, Omit<IInputDefault, 'placeholder' | 'label'> {
-  mask: string;
-  label: string;
-  name: string;
-  isHidePhone?: boolean;
-}
 
 export interface IInputTextareaProps extends IMargin, IInputDefault {
   rows: number;
@@ -48,47 +33,9 @@ export interface IInputTextareaProps extends IMargin, IInputDefault {
   onChange?: (value: any) => void;
 }
 
-export interface ICheckBox extends IMargin {
-  label: string;
-  onClick: () => void;
-  isChecked: boolean;
-  height?: string;
-  colorText?: string;
-  background?: string;
-}
 
 export interface ISwitch {
   name: string;
   label?: string;
 }
 
-export interface ICheckBoxFormik extends IMargin, Omit<IInputDefault, 'placeholder' | 'label'> {
-  name: string;
-  label: string | ReactNode | any;
-  labelValue?: string;
-  height?: string;
-  colorText?: string;
-  background?: string;
-  isMulti?: boolean;
-  visibleItem?: string;
-  noFormikValue?: { value: boolean; onSetValue: (name: string, value: boolean) => void };
-}
-export type DateSelection = DateRange | Date[] | Date | undefined;
-
-export interface ICalendarProps extends IWProps {
-  name: string;
-  label: string;
-  width?: string;
-  height?: string;
-  placeholder?: string;
-  isIcon?: boolean;
-  numberOfMonths?: number;
-  noFormikValue?: {
-    value: DateSelection;
-    onSetValue: (name: string, value: DateSelection) => void;
-  };
-  disabledDay?: Date;
-  mode?: DaySelectionMode | undefined;
-  isFlexLabel?: boolean;
-  isSelectYearOrMounts?: { fromYear?: number; toYear?: number };
-}

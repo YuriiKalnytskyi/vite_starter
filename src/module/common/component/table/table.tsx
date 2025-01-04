@@ -120,11 +120,11 @@ export const TableIndex = ({
                       >
                         {(typeof _value === 'boolean' ? _value.toString() : _value) ? (
                           <Styled.ItemLabel
-                            tooltipLength={tooltipLength}
-                            linesToTruncate={linesToTruncate ?? 3}
-                            lastIndexHorizontal={i === arrayHeader.length - 1}
-                            firstIndexVertical={index === arrayBody.length - 1}
-                            tooltipText={typeof _value === 'string' ? _value : ''}
+                            $tooltipLength={tooltipLength}
+                            $linesToTruncate={linesToTruncate ?? 3}
+                            $lastIndexHorizontal={i === arrayHeader.length - 1}
+                            $firstIndexVertical={index === arrayBody.length - 1}
+                            $tooltipText={typeof _value === 'string' ? _value : ''}
                           >
                             {typeof _value === 'boolean' ? _value.toString() : _value ?? ''}
                             <div className='tooltipHover'>

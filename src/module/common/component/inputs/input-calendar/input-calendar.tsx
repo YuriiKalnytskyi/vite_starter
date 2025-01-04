@@ -1,44 +1,63 @@
 import { getIn, useFormikContext } from 'formik';
 import { useState } from 'react';
-import { DateRange } from 'react-day-picker';
+import { DateRange, DaySelectionMode } from 'react-day-picker';
 // overriding styles
 import 'react-day-picker/dist/style.css';
 
-import calendarIcon from '@/assets/icons/calendar.svg';
+import calendarIcon from '@/assets/icons/default/calendar.svg';
 import closeIcon from '@/assets/icons/default/close-icon.svg';
 import { useClickOutside } from '@/module/common/hooks';
-import '@/module/common/styles/react-day-picker.css';
-import { DateSelection, ICalendarProps } from '@/module/common/types';
+// import '@/module/common/styles/react-day-picker.css';
 import { CalendarFormatUtil, functionStub } from '@/utils';
 
 import { Input } from '../index';
 import * as Styled from './input-calendar.styled';
+import { IInputDefault } from '@/module/common/types';
+
+export type DateSelection = DateRange | Date[] | Date | undefined;
+
+
+export interface ICalendarProps extends IInputDefault {
+  name: string;
+  width?: string;
+  height?: string;
+  isIcon?: boolean;
+  numberOfMonths?: number;
+  noFormikValue?: {
+    value: DateSelection;
+    setFieldValue: (name: string, value: DateSelection) => void;
+  };
+  disabledDay?: Date;
+  mode?: DaySelectionMode | undefined;
+  isFlexLabel?: boolean;
+  isSelectYearOrMounts?: { fromYear?: number; toYear?: number };
+}
 
 export const InputCalendar = ({
-  name,
-  label,
-  width,
-  placeholder,
-  height,
-  isIcon = true,
-  noFormikValue,
-  mode,
-  isFlexLabel = false,
-  isSelectYearOrMounts,
-  disabledDay,
-  numberOfMonths,
-  ...props
-}: ICalendarProps) => {
+                                name,
+                                label,
+                                width,
+                                placeholder,
+                                height,
+                                noFormikValue,
+                                mode,
+                                isSelectYearOrMounts,
+                                disabledDay,
+                                numberOfMonths,
+                                ...props
+                              }: ICalendarProps) => {
   const { setFieldValue, value } = (() => {
     if (noFormikValue) {
       return {
         value: noFormikValue.value,
-        setFieldValue: noFormikValue.onSetValue
+        setFieldValue: noFormikValue.setFieldValue
       };
     } else {
+      // eslint-disable-next-line react-hooks/rules-of-hooks
+      const { setFieldValue, values } = useFormikContext();
       return {
-        value: getIn(useFormikContext().values, name),
-        setFieldValue: useFormikContext().setFieldValue
+        value: getIn(values, name),
+        setFieldValue
       };
     }
   })();
@@ -73,34 +92,31 @@ export const InputCalendar = ({
   });
 
   return (
-    <Styled.CalendarContainer ref={ref} width={width} {...props} className='calendarContainer'>
-      <div style={{ display: 'flex', alignItems: 'center' }}>
-        {isFlexLabel && <p style={{ minWidth: 'fit-content', fontSize: '0.875rem' }}>{label}</p>}
-        <Input
-          noFormikValue={{
-            value: CalendarFormatUtil(selected, mode),
-            onSetValue: functionStub
-          }}
-          name={name}
-          label={isFlexLabel ? '' : label}
-          placeholder={placeholder}
-          width='100%'
-          height={height}
-          onClick={handleButtonClick}
-          {...(isIcon ? { startIcon: { icon: calendarIcon } } : {})}
-          {...(value && {
-            endIcon: {
-              icon: closeIcon,
-              height: '1rem',
-              onClick: () => {
-                onSelect(undefined);
-              },
-              cursor: 'pointer'
-            }
-          })}
-          isDontChange
-        />
-      </div>
+    <Styled.Wrapper ref={ref} width={width} {...props} className="calendarContainer">
+      <Input
+        noFormikValue={{
+          value: CalendarFormatUtil(selected, mode),
+          setFieldValue: functionStub
+        }}
+        name={name}
+        label={label}
+        placeholder={placeholder}
+        width="100%"
+        height={height}
+        onClick={handleButtonClick}
+        startIcon={{ icon: calendarIcon }}
+        {...(value && {
+          endIcon: {
+            icon: closeIcon,
+            height: '1rem',
+            onClick: () => {
+              onSelect(undefined);
+            },
+            cursor: 'pointer'
+          }
+        })}
+        isDontChange
+      />
 
       {isCalendarOpened && (
         <Styled.Calendar
@@ -112,13 +128,13 @@ export const InputCalendar = ({
           weekStartsOn={1}
           {...(isSelectYearOrMounts
             ? {
-                captionLayout: 'dropdown-buttons',
-                fromYear: isSelectYearOrMounts.fromYear ?? 2022,
-                toYear: isSelectYearOrMounts.toYear ?? new Date().getFullYear()
-              }
+              captionLayout: 'dropdown-buttons',
+              fromYear: isSelectYearOrMounts.fromYear ?? 2022,
+              toYear: isSelectYearOrMounts.toYear ?? new Date().getFullYear()
+            }
             : { captionLayout: 'dropdown' })}
         />
       )}
-    </Styled.CalendarContainer>
+    </Styled.Wrapper>
   );
 };

@@ -1,7 +1,6 @@
 import React from 'react';
 import Lottie, { Options } from 'react-lottie';
-
-import { ILottieAnimation } from './lottie.types';
+import { ILottieAnimation } from './lottie-animation.tsx';
 
 interface ILottieAnimationProps {
   animation: ILottieAnimation;

@@ -1,6 +1,4 @@
-import { IIconInput, IMargin } from '@/module/common/types';
-import { ReactNode } from 'react';
-
+import { IIconInput, IInputDefault, IMargin } from '@/module/common/types';
 export type Obj = Record<string, unknown>;
 export type Item = Obj | string;
 export type Items = Item[];
@@ -40,21 +38,13 @@ export type IInputMatchedWordsProps<
   I extends Items,
   F extends FilterOptions,
   T extends IInputMatchedWordsType<I>
-> = IMargin & {
-  name: string;
+> = IMargin & IInputDefault & {
   type?: T;
   filterOption?: F;
   items: I;
   visibleItem?: I extends Obj[] ? keyof I[number] : never | undefined;
   parseValue?: IParseValue<I>;
-  label?:
-    | string
-    | ReactNode
-    | {
-    text: string | ReactNode;
-    required?: boolean;
-  };
-  placeholder?: string;
+
   startIcon?: IIconInput;
 
   width?: string;

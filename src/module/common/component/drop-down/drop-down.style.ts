@@ -1,17 +1,16 @@
 import styled from 'styled-components';
 
-import { COLORS, INDEX, SPACES, TransitionsHoverBackground, TransitionsTransform } from '@/theme';
+import { COLORS, INDEX, SPACES } from '@/theme';
 
 export const Wrapper = styled.div`
   position: relative;
 `;
 export const TitleWrapper = styled.div<{ isOpen: boolean }>`
-  width: fit-content;
+    width: fit-content;
 
-  .icon {
-    transform: ${({ isOpen }) => (isOpen ? 'rotate(180deg)' : 'rotate(0deg)')};
-    transition: ${TransitionsTransform};
-  }
+    .icon {
+        transform: ${({ isOpen }) => (isOpen ? 'rotate(180deg)' : 'rotate(0deg)')};
+    }
 `;
 export const ChildrenWrapper = styled.div<{
   position?: 'left' | 'right' | 'center' | 'rightBlock';
@@ -44,17 +43,16 @@ export const ChildrenWrapper = styled.div<{
   .separator {
     width: 100%;
     margin: ${SPACES.xxs} 0;
-    border-bottom: 1px solid ${COLORS.gray300};
+    border-bottom: 1px solid ${ COLORS.rgba(COLORS.black, 0.8)};
   }
 
   .item {
     padding: ${SPACES.xxsm} ${SPACES.xxs};
-    transition: ${TransitionsHoverBackground};
 
     &:hover {
       cursor: pointer;
       border-radius: ${SPACES.xxsm};
-      background-color: ${COLORS.gray300};
+      background-color: ${COLORS.rgba(COLORS.black, 0.8)};
     }
   }
 

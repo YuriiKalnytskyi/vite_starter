@@ -59,65 +59,56 @@ export const Label = styled.label<{ $required?: boolean; $isError: boolean }>`
     `}
 `;
 
-export const commonStyles = css<{ $padding?: string; $isError?: boolean }>`
-  margin: 0;
-  padding: ${({ $padding }) => $padding ?? `${SPACES.xxl} ${SPACES.xxxxl}`};
+export const commonStyles = css<{ $isError?: boolean, readOnly?:boolean }>`
+    background: ${({ readOnly }) => readOnly && COLORS.white};
+    border: 1px solid ${({ $isError }) => ($isError ? COLORS.mainRed : COLORS.rgba(COLORS.black, 0.4))};
+    border-radius: 10px;
+    
+    font-family: ${FONTS.FAMILIES.inter};
+    font-size: ${FONTS.SIZES.l};
+    font-weight: ${FONTS.WEIGHTS.normal};
+    
+    cursor: ${({ readOnly }) => (readOnly ? 'initial' : 'pointer')};
+    pointer-events: ${({ readOnly }) => (readOnly ? 'none' : 'initial')};
+    
+    caret-color: ${COLORS.primary};
+    
+    &:not(:focus-within) {
+        cursor: pointer;
+    }
 
-  border: 1px solid
-    ${({ $isError }) => ($isError ? COLORS.mainRed : COLORS.rgba(COLORS.black, 0.4))};
-  border-radius: 10px;
-  background-color: ${COLORS.white};
-  font-size: ${FONTS.SIZES.l};
-  font-weight: ${FONTS.WEIGHTS.normal};
-
-  &:not(:focus-within) {
-    cursor: pointer;
-  }
-
-  &::placeholder {
-    color: ${COLORS.rgba(COLORS.black, 0.4)};
-  }
-
-  &:focus-within {
-    border: 1px solid ${COLORS.primary};
-    outline: none;
-  }
+    &:focus,
+    &:focus-within {
+        border: 1px solid ${COLORS.primary} !important;  
+        outline: ${({ readOnly }) => readOnly && 'none'};
+    }
+    &::placeholder {
+        color: ${COLORS.rgba(COLORS.black, 0.4)};
+    }
 `;
 
 export const Input = styled.input<{
   height?: string;
   $isError: boolean;
   $padding?: string;
+  readOnly?: boolean;
 }>`
-  width: 100% !important;
-  height: ${({ height }) => height ?? '3rem'};
+    ${commonStyles};
+    width: 100% !important;
+    height: ${({ height }) => height ?? '3rem'};
+    padding: ${({ $padding }) => $padding ?? `${SPACES.xxl} ${SPACES.xxxxl}`};
+    
+    &[type='number'] {
+        appearance: none;
+        -moz-appearance: textfield;
+    }
 
-  ${commonStyles};
-
-  &:focus-within {
-    outline: ${({ readOnly }) => readOnly && 'none'};
-  }
-
-  background: ${({ readOnly }) => readOnly && COLORS.white};
-  position: relative;
-
-  caret-color: ${COLORS.primary};
-  font-family: ${FONTS.FAMILIES.inter};
-
-  cursor: ${({ readOnly }) => (readOnly ? 'initial' : 'pointer')};
-  pointer-events: ${({ readOnly }) => (readOnly ? 'none' : 'initial')};
-
-  &[type='number'] {
-    appearance: none;
-    -moz-appearance: textfield;
-  }
-
-  &[type='number']::-webkit-inner-spin-button,
-  &[type='number']::-webkit-outer-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
-    display: none;
-  }
+    &[type='number']::-webkit-inner-spin-button,
+    &[type='number']::-webkit-outer-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+        display: none;
+    }
 `;
 
 export const VisibilityIcon = styled(IconCommon)`
@@ -127,11 +118,6 @@ export const VisibilityIcon = styled(IconCommon)`
   cursor: pointer;
   position: absolute;
   right: 2rem;
-`;
-
-export const ImgIcon = styled.img<{ height?: string }>`
-  height: ${({ height }) => height ?? '1.5rem'} !important;
-  aspect-ratio: 1/1;
 `;
 
 export const ErrorPasswordContainer = styled.div`

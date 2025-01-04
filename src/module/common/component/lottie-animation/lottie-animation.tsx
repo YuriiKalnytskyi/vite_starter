@@ -1,7 +1,7 @@
 import React from 'react';
 import Lottie, { Options } from 'react-lottie';
 
-import { ILottieAnimation } from '@/module/common/types';
+export type ILottieAnimation = Options['animationData'];
 
 interface ILottieAnimationProps {
   animation: ILottieAnimation;

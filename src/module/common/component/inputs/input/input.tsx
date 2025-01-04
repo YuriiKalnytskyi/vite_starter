@@ -1,5 +1,5 @@
 import { getIn, useFormikContext } from 'formik';
-import { ChangeEvent, KeyboardEvent, ReactNode, RefObject, useEffect, useMemo, useRef, useState } from 'react';
+import { ChangeEvent, useEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import successIcon from '@/assets/icons/default/success-icon.svg';
@@ -8,67 +8,31 @@ import visibilityOffIcon from '@/assets/icons/default/visibility-off-icon.svg';
 import { Icon } from '@/module/common/component';
 import { RegexConst, passwordError } from '@/module/common/constants';
 import { IconCommon } from '@/module/common/styles';
-import { IIconInput, IMargin } from '@/module/common/types';
 import { COLORS, SPACES } from '@/theme';
 import { functionStub } from '@/utils';
 
 import * as Styled from './input.styled';
-
-export interface IInputProps extends IMargin {
-  name: string;
-  type?: 'password' | 'email' | 'text' | 'number';
-  label?:
-    | string
-    | ReactNode
-    | {
-        text: string | ReactNode;
-        required?: boolean;
-      };
-  placeholder?: string;
-  isAutoComplete?: boolean;
-  isAutoFocus?: boolean;
-  height?: string;
-  width?: string;
-  readOnly?: boolean;
-  isDontChange?: boolean;
-  noFormikValue?: {
-    value: string;
-    setFieldValue: (name: string, value: string) => void;
-    setFieldTouched?: (name: string, isTouched: boolean) => void;
-    setFieldFocus?: (name: string, isTouched: boolean) => void;
-    error?: string;
-    touched?: boolean;
-  };
-  startIcon?: IIconInput;
-  endIcon?: IIconInput;
-  optionOnChange?: (
-    name: string,
-    value: string,
-    setFieldValue: (name: string, value: string) => void
-  ) => void;
-  refProps?: RefObject<HTMLInputElement>;
-  onClick?: () => void;
-  onKeyDown?: (e: KeyboardEvent<HTMLInputElement>) => void;
-}
+import { IInputProps } from './input.type.ts';
 
 export const Input = ({
-  height,
-  name,
-  label,
-  refProps,
-  type,
-  placeholder,
-  isAutoComplete = false,
-  isAutoFocus = false,
-  onClick,
+                        height,
+                        name,
+                        label,
+                        refProps,
+                        type,
+                        placeholder,
+                        isAutoComplete = false,
+                        isAutoFocus = false,
+                        isSpellCheck = false,
+                        isDontChange = false,
+                        onClick,
                         onKeyDown,
-  isDontChange = false,
-  noFormikValue,
-  endIcon,
-  startIcon,
-  optionOnChange,
-  ...props
-}: IInputProps) => {
+                        noFormikValue,
+                        endIcon,
+                        startIcon,
+                        optionOnChange,
+                        ...props
+                      }: IInputProps) => {
   const { setFieldValue, value, error, setFieldTouched, setFieldFocus, touched } = (() => {
     if (noFormikValue) {
       return {
@@ -167,11 +131,12 @@ export const Input = ({
 
   return (
     <Styled.Wrapper
-      id='input'
+      id="input"
       $top={top}
       {...props}
       ref={ref}
       onClick={onClick ? onClick : functionStub}
+      {...{ inert: props.readOnly ? '' : undefined }}
     >
       {label && (
         <Styled.Label
@@ -188,6 +153,7 @@ export const Input = ({
         name={name}
         {...(isAutoComplete ? {} : { autoComplete: 'off', role: 'presentation' })}
         {...(isAutoFocus ? { autoFocus: true } : { autoFocus: false })}
+        // spellCheck={isSpellCheck}
         value={value}
         onChange={onChange}
         onBlur={onBlur}
@@ -204,26 +170,26 @@ export const Input = ({
       {type === 'password' && (
         <Styled.VisibilityIcon
           icon={isPassword ? visibilityOnIcon : visibilityOffIcon}
-          height='1.5rem'
+          height="1.5rem"
           onClick={() => {
             setIsPassword(!isPassword);
           }}
-          className='passwordIcon'
+          className="passwordIcon"
         />
       )}
 
-      {startIcon && <Icon {...startIcon} className='startIcon' />}
-      {endIcon && <Icon {...endIcon} className='endIcon' />}
+      {startIcon && <Icon {...startIcon} className="startIcon" />}
+      {endIcon && <Icon {...endIcon} className="endIcon" />}
 
       {isError &&
       !passwordError.includes(error ?? '') &&
       error !== 'common.is_required' &&
       error !== 'invalid date' ? (
-        <Styled.Error className='errorMessage'>{translate(error as string)}</Styled.Error>
+        <Styled.Error className="errorMessage">{translate(error as string)}</Styled.Error>
       ) : null}
 
       {isPasswordError && (
-        <Styled.ErrorPasswordContainer className='errorPassword'>
+        <Styled.ErrorPasswordContainer className="errorPassword">
           {passwordError.map((text, index) => {
             const isError = text === error;
             const isSuccess = successPasswordMessages.includes(text);
