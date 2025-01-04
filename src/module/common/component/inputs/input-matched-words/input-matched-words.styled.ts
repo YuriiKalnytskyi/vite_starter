@@ -2,7 +2,7 @@ import styled, { css } from 'styled-components';
 
 import { IMargin } from '@/module/common/types';
 import { COLORS, FONTS, SPACES } from '@/theme';
-import { Fonts } from '@/module/common/styles';
+import { Center, Fonts } from '@/module/common/styles';
 
 
 export interface IWProps extends IMargin {
@@ -43,7 +43,7 @@ export const Wrapper = styled.div<IWProps>`
 `;
 
 
-export const SuggestedBlock = styled.ul`
+export const SuggestedBlock = styled.ul<{ $position?: string }>`
     display: none;
     background: ${COLORS.white};
     border-radius: 8px;
@@ -53,6 +53,16 @@ export const SuggestedBlock = styled.ul`
     position: absolute;
     z-index: 1;
     box-shadow: 0 0 4px ${COLORS.gray100};
+
+    #search {
+        width: 100%;
+        ${Center};
+        background: ${COLORS.white};
+        padding: ${SPACES.l} 0;
+        position: ${({ $position }) => $position ?? 'sticky'} ;
+        top: 0;
+        z-index: 1;
+    }
 
     overflow-y: auto;
     overflow-x: hidden;

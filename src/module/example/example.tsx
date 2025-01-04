@@ -313,6 +313,39 @@ export const Example = () => {
                     </DivCommon>
                   );
                 }}
+                filterOption={{
+                  mode: 'default',
+                }}
+              />
+
+              <InputMatchedWords
+                name="country"
+                label="Countri Filter "
+                items={data?.countries ?? []}
+                {
+                  ...(getIn(values, 'country')?.icon ?
+                      {
+                        startIcon: {
+                          icon: getIn(values, 'country').icon,
+                          type: 'img'
+                        }
+                      }
+                      : null
+                  )
+                }
+                visibleItem="name"
+                parseValue={(value, valueObj) => {
+                  return (
+                    <DivCommon fd="row" gap={SPACES.l}>
+                      <Icon icon={valueObj.icon} type="img" />
+                      {value}
+                    </DivCommon>
+                  );
+                }}
+                filterOption={{
+                  mode: 'new',
+                  position: 'sticky'
+                }}
               />
             </DivCommon>
 

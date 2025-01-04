@@ -14,7 +14,6 @@ export interface IWProps extends IMargin {
 export const Wrapper = styled.div<IWProps>`
     position: relative;
     width: ${({ width }) => width ?? '100%'};
-
     opacity: ${({ readOnly }) => (readOnly ? '0.4' : '1')};
 
     ${Margin};

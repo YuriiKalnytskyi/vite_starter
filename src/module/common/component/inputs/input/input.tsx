@@ -24,6 +24,7 @@ export interface IInputProps extends IMargin {
   };
   placeholder?: string
   isAutoComplete?: boolean;
+  isAutoFocus?: boolean
   height?: string;
   width?: string;
   readOnly?: boolean;
@@ -48,6 +49,7 @@ export const Input = ({
                         type,
                         placeholder,
                         isAutoComplete = false,
+                        isAutoFocus = false,
                         isDontChange = false,
                         noFormikValue,
                         endIcon,
@@ -150,7 +152,7 @@ export const Input = ({
   const isPasswordError = isError && passwordError.includes(error ?? '');
 
   return (
-    <Styled.Wrapper $top={top} {...props} ref={ref}>
+    <Styled.Wrapper id='input' $top={top} {...props} ref={ref}>
       {label && (
         <Styled.Label
           htmlFor={name}
@@ -165,6 +167,7 @@ export const Input = ({
       <Styled.Input
         name={name}
         {...(isAutoComplete ? {} : { autoComplete: 'off', role: 'presentation' })}
+        {...(isAutoFocus ? { autoFocus: true } : {autoFocus: false})}
         value={value}
         onChange={onChange}
         onBlur={onBlur}
@@ -187,7 +190,7 @@ export const Input = ({
           className="passwordIcon"
         />
       )}
-      
+
       {startIcon && <Icon {...startIcon} className="startIcon" />}
       {endIcon && <Icon {...endIcon} className="endIcon" />}
 

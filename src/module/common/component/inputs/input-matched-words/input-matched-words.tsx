@@ -1,19 +1,31 @@
 import { IIconInput, IMargin } from '@/module/common/types';
 
 import arrowBottom from '@/assets/icons/default/arrow-bottom-icon.svg';
+import searchIcon from '@/assets/icons/default/search.svg';
 import * as Styled from './input-matched-words.styled';
 import { Input } from '@/module/common/component';
 import { ReactNode, useRef, useState } from 'react';
 import { getIn, useFormikContext } from 'formik';
-import { functionStub } from '@/utils';
 import { useClickOutside } from '@/module/common/hooks';
-
 
 type Obj = Record<string, unknown>
 type Item = Obj | string;
 type Items = Item[];
 
-type IInputMatchedWordsProps<T extends Items> = IMargin & {
+type filterOptionNew = {
+  mode: 'new';
+  position?: string;
+};
+
+type filterOptionDefault = {
+  mode: 'default';
+  position?: 'sticky' | 'static';
+};
+
+type FilterOptions = filterOptionNew | filterOptionDefault;
+
+
+type IInputMatchedWordsProps<T extends Items, F extends FilterOptions> = IMargin & {
   name: string;
 
   items: T;
@@ -34,21 +46,26 @@ type IInputMatchedWordsProps<T extends Items> = IMargin & {
     setFieldValue: (name: string, value: T[number]) => void;
     error?: string,
   };
+  filterOption?: F;
 }
 
-//TODO add filtering
+//TODO  filterOptionNew  (visible items)
+//TODO add a block that will reflect that there are no such items according to the entered search
+//TODO  make logic with display of many items
+//TODO  make logic that will allow you to add new items quite easily
 
-export const InputMatchedWords = <T extends Items>({
-                                                     name,
-                                                     placeholder, label,
-                                                     visibleItem,
-                                                     items,
-                                                     readOnly,
-                                                     noFormikValue,
-                                                     startIcon,
-                                                     parseValue,
-                                                     ...props
-                                                   }: IInputMatchedWordsProps<T>) => {
+export const InputMatchedWords = <T extends Items, F extends FilterOptions>({
+                                                                              name,
+                                                                              placeholder, label,
+                                                                              visibleItem,
+                                                                              items,
+                                                                              readOnly,
+                                                                              noFormikValue,
+                                                                              startIcon,
+                                                                              parseValue,
+                                                                              filterOption,
+                                                                              ...props
+                                                                            }: IInputMatchedWordsProps<T, F>) => {
 
   const [focused, setFocused] = useState(false);
 
@@ -75,18 +92,39 @@ export const InputMatchedWords = <T extends Items>({
     }
   })();
 
+
+  const onTransformValue = (_value: Item): string => {
+    if (visibleItem && typeof _value === 'object' && _value !== null) {
+      return String((_value as Obj)[visibleItem] ?? '');
+    }
+    return String(_value ?? '');
+  };
+
+  const visibleValue = onTransformValue(value);
+
+  const [search, setSearch] = useState(filterOption?.mode === 'default' ? visibleValue : '');
+
+
   const onClickHintOption = (item: Item) => {
     setFieldValue(name, item);
     setFocused(false);
+    setSearch(filterOption?.mode === 'default' ? onTransformValue(item) : '');
   };
 
-  const visibleValue = visibleItem ? (value ?? {})[visibleItem] : value ?? '';
 
   const { ref } = useClickOutside(() => {
     if (focused) {
       setFocused(false);
+      setSearch(filterOption?.mode === 'default' ? visibleValue : '');
     }
   });
+
+
+  const _items = search.length ? items.filter((item) => {
+    const visible = (visibleItem ? item[visibleItem] : item).toString().toLowerCase();
+    return visible.includes(search.toLowerCase());
+  }) : items;
+
   return (
     <Styled.Wrapper $focused={focused} {...props} ref={ref}>
       <Input
@@ -103,21 +141,47 @@ export const InputMatchedWords = <T extends Items>({
           cursor: 'pointer'
         }}
         noFormikValue={{
-          value: visibleValue,
-          setFieldValue: functionStub,
+          value: filterOption?.mode === 'default' ? search : visibleValue,
+          setFieldValue: (_, value) => {
+            filterOption?.mode === 'default' && setSearch(value);
+          },
           error,
           setFieldFocus: (_, isTouched) => {
             setFocused(isTouched);
           }
         }}
-        isDontChange
+        isDontChange={filterOption?.mode !== 'default'}
         readOnly={readOnly}
       />
 
       {items?.length > 0 && (
-        <Styled.SuggestedBlock id="SuggestedBlock" ref={inputHintBlockRef}>
-          {items.map((item, ind) => {
-            const visible = visibleItem ? item[visibleItem] : item;
+        <Styled.SuggestedBlock
+          id="SuggestedBlock" ref={inputHintBlockRef}
+          $position={(filterOption as filterOptionDefault)?.position}
+        >
+
+          {
+            filterOption && filterOption.mode === 'new' ? (
+              <div id="search">
+                <Input
+                  height="3rem"
+                  width="80%"
+                  name="search"
+                  noFormikValue={{
+                    value: search,
+                    setFieldValue: (_, value) => setSearch(value)
+                  }}
+                  isAutoFocus
+                  startIcon={{
+                    icon: searchIcon
+                  }}
+                />
+              </div>
+            ) : null
+          }
+
+          {_items.map((item, ind) => {
+            const visible = onTransformValue(item);
             const selected = visible === visibleValue;
 
             const _visible = parseValue ? parseValue(visible as string, item) : visible;
