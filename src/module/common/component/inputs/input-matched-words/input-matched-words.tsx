@@ -123,7 +123,7 @@ export const InputMatchedWords = <T extends Items, F extends FilterOptions>({
   });
 
   const filterItems = () => {
-    if (filterOption && filterOption?.type === 'filter') {
+    if (search.length && filterOption && filterOption?.type === 'sort') {
       return items.sort((a, b) => {
         const aVisible = onTransformValue(a).toString().toLowerCase();
         const bVisible = onTransformValue(b).toString().toLowerCase();
@@ -141,7 +141,7 @@ export const InputMatchedWords = <T extends Items, F extends FilterOptions>({
       });
     }
 
-    if (filterOption && filterOption?.type === 'sort') {
+    if (search.length && filterOption && filterOption?.type === 'filter') {
       return items.filter((item) => {
         const visible = (visibleItem ? item[visibleItem] : item).toString().toLowerCase();
         return visible[filterOption.includes](search.toLowerCase());
@@ -150,10 +150,6 @@ export const InputMatchedWords = <T extends Items, F extends FilterOptions>({
 
     return items;
   };
-
-
-  const _items = search.length ? filterItems() : items;
-
 
   const searchInputRef = useRef<HTMLInputElement | null>(null);
 
@@ -223,7 +219,7 @@ export const InputMatchedWords = <T extends Items, F extends FilterOptions>({
             ) : null
           }
 
-          {_items.map((item, ind) => {
+          {(filterItems()).map((item, ind) => {
             const visible = onTransformValue(item);
             const selected = visible === visibleValue;
 
