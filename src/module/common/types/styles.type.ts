@@ -15,10 +15,10 @@ export interface IDivCommon {
   anyStyled?: any;
 }
 
-export interface IIcon extends IMargin{
+export interface IIcon extends IMargin {
   icon: string;
   height?: string;
-  width?: string
+  width?: string;
   background?: string;
   cursor?: 'pointer' | 'text';
 }
@@ -26,7 +26,7 @@ export interface IIcon extends IMargin{
 export interface IIconInput extends IIcon {
   onClick?: () => void;
   type?: 'svg' | 'img' | string;
-  className?:string
+  className?: string;
 }
 
 export interface IMargin {

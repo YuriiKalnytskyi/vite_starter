@@ -7,9 +7,7 @@ export const remToPx = (rem: string | number): string => {
     return `${Number.isInteger(px) ? String(px) : px.toFixed(3)}px`;
   }
 
-  const normalizedRem = rem.trim().toLowerCase().endsWith('rem')
-    ? rem.slice(0, -3)
-    : rem;
+  const normalizedRem = rem.trim().toLowerCase().endsWith('rem') ? rem.slice(0, -3) : rem;
 
   const numValue = Number.parseFloat(normalizedRem);
 

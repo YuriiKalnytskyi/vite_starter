@@ -34,7 +34,7 @@ export interface IButtonProps extends IButtonBasicProps {
   pads?: string;
   startIcon?: IStartIcon;
   endIcon?: IStartIcon;
-  isLoading?:boolean | {color: string};
+  isLoading?: boolean | { color: string };
   background?: string;
 }
 

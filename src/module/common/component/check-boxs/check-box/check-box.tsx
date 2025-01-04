@@ -1,13 +1,14 @@
 import { getIn, useFormikContext } from 'formik';
 
-import * as Styled from './check-box.styled';
 import { IMargin } from '@/module/common/types';
 
-type Obj = Record<string, unknown>
+import * as Styled from './check-box.styled';
+
+type Obj = Record<string, unknown>;
 type Item = Obj | string;
 type Items = Item[];
 
-type TODO_ANY = any
+type TODO_ANY = any;
 
 interface IDefaultProps {
   type: 'default';
@@ -15,7 +16,7 @@ interface IDefaultProps {
   visibleItem?: string;
   noFormikValue?: {
     value: boolean;
-    onSetValue: (name: string, value: unknown) => void
+    onSetValue: (name: string, value: unknown) => void;
   };
 }
 
@@ -25,7 +26,7 @@ interface IRadioProps<T extends Items> {
   visibleItem?: T extends Obj[] ? keyof T[number] : never | undefined;
   noFormikValue?: {
     value: boolean;
-    onSetValue: (name: string, value: unknown) => void
+    onSetValue: (name: string, value: unknown) => void;
   };
 }
 
@@ -35,8 +36,8 @@ interface IMultiProps<T extends Items> {
   visibleItem?: T extends Obj[] ? keyof T[number] : never | undefined;
   noFormikValue?: {
     value: boolean;
-    onSetValue: (name: string, value: unknown) => void
-    setValues: TODO_ANY
+    onSetValue: (name: string, value: unknown) => void;
+    setValues: TODO_ANY;
   };
 }
 
@@ -44,34 +45,28 @@ type ICheckBox<T extends Items> = IMargin & {
   name: string;
 } & (IDefaultProps | IRadioProps<T> | IMultiProps<T>);
 
-
 interface ICheckBoxIndex extends IMargin {
-  name: string
-  type: string
-  checked: boolean,
-  onChange: () => void,
-  label: string | unknown
-  onDoubleClick?: () => void
+  name: string;
+  type: string;
+  checked: boolean;
+  onChange: () => void;
+  label: string | unknown;
+  onDoubleClick?: () => void;
 }
 
 const CheckBoxIndex = ({
-                         name,
-                         checked,
-                         onChange,
-                         label,
-                         type,
-                         onDoubleClick,
-                         ...props
-                       }: ICheckBoxIndex) => {
+  name,
+  checked,
+  onChange,
+  label,
+  type,
+  onDoubleClick,
+  ...props
+}: ICheckBoxIndex) => {
   return (
     <Styled.Label {...props} onDoubleClick={onDoubleClick}>
-      <Styled.Input
-        name={name}
-        type="checkbox"
-        checked={checked}
-        onChange={onChange}
-      />
-      <Styled.Span className="text" type={type}>
+      <Styled.Input name={name} type='checkbox' checked={checked} onChange={onChange} />
+      <Styled.Span className='text' type={type}>
         <span>{(label as string).toString()}</span>
       </Styled.Span>
     </Styled.Label>
@@ -79,15 +74,13 @@ const CheckBoxIndex = ({
 };
 
 export const CheckBox = <T extends Items>({
-                                            name,
-                                            type,
-                                            items,
-                                            visibleItem,
-                                            noFormikValue,
-                                            ...props
-                                          }: ICheckBox<T>) => {
-
-
+  name,
+  type,
+  items,
+  visibleItem,
+  noFormikValue,
+  ...props
+}: ICheckBox<T>) => {
   const { setFieldValue, value, setValues } = (() => {
     if (noFormikValue) {
       return {
@@ -141,7 +134,8 @@ export const CheckBox = <T extends Items>({
   };
 
   const defaultProps = {
-    name, type
+    name,
+    type
   };
 
   if (type === 'default') {
@@ -160,7 +154,7 @@ export const CheckBox = <T extends Items>({
       return (
         <CheckBoxIndex
           key={`${index}_radio`}
-          checked={(visibleItem && value ? (item [visibleItem] === value[visibleItem]) : item === value)}
+          checked={visibleItem && value ? item[visibleItem] === value[visibleItem] : item === value}
           label={visibleItem ? (item as Obj)[visibleItem] : item}
           onChange={() => {
             onChangeRadio(item);
@@ -176,17 +170,16 @@ export const CheckBox = <T extends Items>({
   }
   if (type === 'multi') {
     return (items as Item[]).map((item, index) => (
-        <CheckBoxIndex
-          key={`${index}_radio`}
-          checked={findMultiItem((value ?? []), item) >= 0}
-          label={visibleItem ? (item as Obj)[visibleItem] : item}
-          onChange={() => {
-            onChangeMulti(item);
-          }}
-          {...defaultProps}
-          {...props}
-        />
-      )
-    );
+      <CheckBoxIndex
+        key={`${index}_radio`}
+        checked={findMultiItem(value ?? [], item) >= 0}
+        label={visibleItem ? (item as Obj)[visibleItem] : item}
+        onChange={() => {
+          onChangeMulti(item);
+        }}
+        {...defaultProps}
+        {...props}
+      />
+    ));
   }
 };

@@ -1,15 +1,13 @@
 import * as Yup from 'yup';
 
-import { validateSchema } from '@/module/common/validation/validate-shema';
-
 import i18next from '@/module/common/i18n/config.ts';
-
+import { validateSchema } from '@/module/common/validation/validate-shema';
 
 export const validationSchemaExample = Yup.object().shape({
   password: validateSchema.password,
   email: validateSchema.email,
-  first_name:validateSchema.name,
-  last_name:validateSchema.name,
+  first_name: validateSchema.name,
+  last_name: validateSchema.name,
 
   card: validateSchema.text,
   expiry_data: Yup.string()
@@ -36,5 +34,5 @@ export const validationSchemaExample = Yup.object().shape({
       return true;
     })
     .required('common.is_required'),
-  cvv: validateSchema.text.min(3).max(3),
+  cvv: validateSchema.text.min(3).max(3)
 });

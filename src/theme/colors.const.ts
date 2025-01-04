@@ -9,7 +9,6 @@ export const COLORS = {
   error: '#A23030',
   success: '#247B43',
 
-
   white100: '#F3F3F3',
   white200: '#F5F6FE',
 
@@ -25,7 +24,6 @@ export const COLORS = {
 
   scroll_thumb: '#247B43',
   scroll_track: '#a4e8bb',
-
 
   rgba: (hex: string, alpha: number) => {
     const r = parseInt(hex.slice(1, 3), 16);

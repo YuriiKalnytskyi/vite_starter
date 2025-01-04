@@ -1,22 +1,21 @@
-import { IIconInput, IMargin } from '@/module/common/types';
+import { getIn, useFormikContext } from 'formik';
+import { ReactNode, useEffect, useRef, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 
 import arrowBottom from '@/assets/icons/default/arrow-bottom-icon.svg';
-import searchIcon from '@/assets/icons/default/search.svg';
 import closeIcon from '@/assets/icons/default/close-icon.svg';
-
-import * as Styled from './input-matched-words.styled';
+import searchIcon from '@/assets/icons/default/search.svg';
 import { Input } from '@/module/common/component';
-import { ReactNode, useEffect, useRef, useState } from 'react';
-import { getIn, useFormikContext } from 'formik';
 import { useClickOutside } from '@/module/common/hooks';
-import { useTranslation } from 'react-i18next';
 import { IconCommon } from '@/module/common/styles';
+import { IIconInput, IMargin } from '@/module/common/types';
 import { COLORS } from '@/theme';
 
-type Obj = Record<string, unknown>
+import * as Styled from './input-matched-words.styled';
+
+type Obj = Record<string, unknown>;
 type Item = Obj | string;
 type Items = Item[];
-
 
 type BaseFilterOption = {
   includes: 'includes' | 'startsWith';
@@ -30,39 +29,43 @@ type filterOptionNew = BaseFilterOption & {
 
 type filterOptionDefault = BaseFilterOption & {
   mode: 'default';
-  isSavePreviousSelection?: boolean
+  isSavePreviousSelection?: boolean;
 };
 
 type FilterOptions = filterOptionNew | filterOptionDefault;
 
-
 type IParseValue<I extends Items> = (value: string, valueObj: I[number]) => unknown;
-
 
 type IInputMatchedWordsTypeMulti<I extends Items> = {
   mode: 'multi';
   parseValue?: IParseValue<I>;
-  addNewItem?: {
-    onClick?: () => void
-  } | boolean
+  addNewItem?:
+    | {
+        onClick?: () => void;
+      }
+    | boolean;
 };
 
 type IInputMatchedWordsType<I extends Items> = IInputMatchedWordsTypeMulti<I>;
 
-
-type IInputMatchedWordsProps<I extends Items, F extends FilterOptions, T extends IInputMatchedWordsType<I>> =
-  IMargin
-  & {
+type IInputMatchedWordsProps<
+  I extends Items,
+  F extends FilterOptions,
+  T extends IInputMatchedWordsType<I>
+> = IMargin & {
   name: string;
-  type?: T
+  type?: T;
   filterOption?: F;
   items: I;
   visibleItem?: I extends Obj[] ? keyof I[number] : never | undefined;
   parseValue?: IParseValue<I>;
-  label?: string | ReactNode | {
-    text: string | ReactNode,
-    required?: boolean
-  };
+  label?:
+    | string
+    | ReactNode
+    | {
+        text: string | ReactNode;
+        required?: boolean;
+      };
   placeholder?: string;
   startIcon?: IIconInput;
 
@@ -74,7 +77,7 @@ type IInputMatchedWordsProps<I extends Items, F extends FilterOptions, T extends
     setFieldValue: (name: string, value: I[number] | I[number][]) => void;
     error?: string;
   };
-}
+};
 
 //TODO search input correct startIcon
 //TODO search input correct plasIcom
@@ -87,28 +90,30 @@ const onTransformValue = (_value: Item, visibleItem?: string): string => {
   return String(_value ?? '');
 };
 
-export const InputMatchedWords = <I extends Items, F extends FilterOptions, T extends IInputMatchedWordsType<I>>({
-                                                                                                                   name,
-                                                                                                                   placeholder,
-                                                                                                                   type,
-                                                                                                                   label,
-                                                                                                                   visibleItem,
-                                                                                                                   items,
-                                                                                                                   readOnly,
-                                                                                                                   noFormikValue,
-                                                                                                                   startIcon,
-                                                                                                                   parseValue,
-                                                                                                                   filterOption,
-                                                                                                                   ...props
-                                                                                                                 }: IInputMatchedWordsProps<I, F, T>) => {
-
+export const InputMatchedWords = <
+  I extends Items,
+  F extends FilterOptions,
+  T extends IInputMatchedWordsType<I>
+>({
+  name,
+  placeholder,
+  type,
+  label,
+  visibleItem,
+  items,
+  readOnly,
+  noFormikValue,
+  startIcon,
+  parseValue,
+  filterOption,
+  ...props
+}: IInputMatchedWordsProps<I, F, T>) => {
   const { setFieldValue, value, error } = (() => {
     if (noFormikValue) {
       return {
         value: noFormikValue.value,
         error: noFormikValue?.error ?? '',
         setFieldValue: noFormikValue.setFieldValue
-
       };
     } else {
       // eslint-disable-next-line react-hooks/rules-of-hooks
@@ -133,7 +138,6 @@ export const InputMatchedWords = <I extends Items, F extends FilterOptions, T ex
 
   const inputHintBlockRef = useRef<HTMLUListElement | null>(null);
 
-
   useEffect(() => {
     if (filterOption?.mode === 'default' && search !== visibleValue) {
       setSearch(visibleValue);
@@ -143,13 +147,16 @@ export const InputMatchedWords = <I extends Items, F extends FilterOptions, T ex
   const addItem = (item: Item) => {
     if (type && type.mode === 'multi') {
       if (Array.isArray(value)) {
-        const isAlreadyAdded = value.find((v) => onTransformValue(v, visibleItem).toLowerCase() === onTransformValue(item, visibleItem).toLowerCase());
-        !isAlreadyAdded && setFieldValue(name, ([...value, item] as Item[]));
+        const isAlreadyAdded = value.find(
+          (v) =>
+            onTransformValue(v, visibleItem).toLowerCase() ===
+            onTransformValue(item, visibleItem).toLowerCase()
+        );
+        !isAlreadyAdded && setFieldValue(name, [...value, item] as Item[]);
       } else {
         setFieldValue(name, [item] as Item[]);
       }
       setSearch('');
-
     } else {
       setFieldValue(name, item as I[number]);
       setSearch(filterOption?.mode === 'default' ? onTransformValue(item, visibleItem) : '');
@@ -170,7 +177,6 @@ export const InputMatchedWords = <I extends Items, F extends FilterOptions, T ex
     }
   };
 
-
   const searchInputRef = useRef<HTMLInputElement | null>(null);
   const mainInputRef = useRef<HTMLInputElement | null>(null);
   const { ref } = useClickOutside(() => {
@@ -182,8 +188,11 @@ export const InputMatchedWords = <I extends Items, F extends FilterOptions, T ex
 
   const filterItems = () => {
     if (
-      search.length && filterOption && filterOption?.type === 'sort' ||
-      (filterOption && filterOption.type === 'filter' && filterOption.mode === 'default' && filterOption.isSavePreviousSelection)
+      (search.length && filterOption && filterOption?.type === 'sort') ||
+      (filterOption &&
+        filterOption.type === 'filter' &&
+        filterOption.mode === 'default' &&
+        filterOption.isSavePreviousSelection)
     ) {
       return items.sort((a, b) => {
         const aVisible = onTransformValue(a, visibleItem).toString().toLowerCase();
@@ -224,16 +233,29 @@ export const InputMatchedWords = <I extends Items, F extends FilterOptions, T ex
   const _items = filterItems();
 
   const handleFocus = () => {
-    if (filterOption?.mode === 'new' && (type && type.mode === 'multi' && type.addNewItem && !newItemFlag)) {
+    if (
+      filterOption?.mode === 'new' &&
+      type &&
+      type.mode === 'multi' &&
+      type.addNewItem &&
+      !newItemFlag
+    ) {
       searchInputRef.current?.focus();
     }
   };
 
   return (
-    <Styled.Wrapper $focused={newItemFlag ? false : focused} $newItemFlag={newItemFlag} {...props} ref={ref}>
-      {
-        type && type.mode === 'multi' && type.addNewItem ? (
-          <IconCommon id="addOrCloseIcon" icon={closeIcon} onClick={(e) => {
+    <Styled.Wrapper
+      $focused={newItemFlag ? false : focused}
+      $newItemFlag={newItemFlag}
+      {...props}
+      ref={ref}
+    >
+      {type && type.mode === 'multi' && type.addNewItem ? (
+        <IconCommon
+          id='addOrCloseIcon'
+          icon={closeIcon}
+          onClick={(e) => {
             e.stopPropagation();
             if (typeof type.addNewItem === 'object' && type.addNewItem.onClick) {
               type.addNewItem?.onClick();
@@ -250,11 +272,9 @@ export const InputMatchedWords = <I extends Items, F extends FilterOptions, T ex
 
             setNewItemFlag(true);
             mainInputRef.current?.focus();
-
-          }
-          } />
-        ) : null
-      }
+          }}
+        />
+      ) : null}
       <Input
         name={name}
         placeholder={placeholder}
@@ -266,7 +286,7 @@ export const InputMatchedWords = <I extends Items, F extends FilterOptions, T ex
           width: newItemFlag ? '1rem' : '1.5rem',
           onClick: () => {
             if (newItemFlag) {
-              addItem(visibleItem ? {[visibleItem]: newItem} : newItem)
+              addItem(visibleItem ? { [visibleItem]: newItem } : newItem);
               setNewItem('');
               setNewItemFlag(false);
 
@@ -299,34 +319,42 @@ export const InputMatchedWords = <I extends Items, F extends FilterOptions, T ex
 
       {items?.length > 0 && (
         <Styled.SuggestedBlock
-          id="SuggestedBlock" ref={inputHintBlockRef}
+          id='SuggestedBlock'
+          ref={inputHintBlockRef}
           $position={(filterOption as filterOptionNew)?.position}
         >
-          {
-            filterOption && filterOption.mode === 'new' ? (
-              <div id="search">
-                <Input
-                  refProps={searchInputRef}
-                  height="3rem"
-                  width="80%"
-                  name="search"
-                  noFormikValue={{
-                    value: search,
-                    setFieldValue: (_, value) => setSearch(value)
-                  }}
-                  startIcon={{
-                    icon: searchIcon
-                  }}
-                  isAutoFocus
-                />
-              </div>
-            ) : null
-          }
-          {_items.length ? _items.map((item, ind) => {
+          {filterOption && filterOption.mode === 'new' ? (
+            <div id='search'>
+              <Input
+                refProps={searchInputRef}
+                height='3rem'
+                width='80%'
+                name='search'
+                noFormikValue={{
+                  value: search,
+                  setFieldValue: (_, value) => setSearch(value)
+                }}
+                startIcon={{
+                  icon: searchIcon
+                }}
+                isAutoFocus
+              />
+            </div>
+          ) : null}
+          {_items.length ? (
+            _items.map((item, ind) => {
               const visible = onTransformValue(item, visibleItem);
               const selected = visible === visibleValue;
               const _visible = parseValue ? parseValue(visible as string, item) : visible;
-              const isChip = type && Array.isArray(value) && type.mode === 'multi' && ((value ?? []) as Item[]).find((v) => onTransformValue(v, visibleItem).toLowerCase() === onTransformValue(item, visibleItem).toLowerCase());
+              const isChip =
+                type &&
+                Array.isArray(value) &&
+                type.mode === 'multi' &&
+                ((value ?? []) as Item[]).find(
+                  (v) =>
+                    onTransformValue(v, visibleItem).toLowerCase() ===
+                    onTransformValue(item, visibleItem).toLowerCase()
+                );
 
               return (
                 <Styled.HintOption
@@ -338,42 +366,37 @@ export const InputMatchedWords = <I extends Items, F extends FilterOptions, T ex
                   {_visible as string | ReactNode}
                 </Styled.HintOption>
               );
-            }) :
-            <Styled.HintOption
-              $isChip={false}
-              $selected={false}
-              className="notFound"
-
-            >
+            })
+          ) : (
+            <Styled.HintOption $isChip={false} $selected={false} className='notFound'>
               {translate('common.not_found_item')}
             </Styled.HintOption>
-          }
+          )}
         </Styled.SuggestedBlock>
       )}
 
       {type && type.mode === 'multi' && (value as Item[])?.length ? (
         <Styled.ChipContainer>
           {(value as Item[]).map((item, index) => {
-              const visible = onTransformValue(item, visibleItem);
-              const _visible = type.parseValue ? type.parseValue(visible, item) : onTransformValue(item, visibleItem);
-              return (
-                <Styled.Chip
-                  key={index}>
-                  {_visible as string | ReactNode}
-                  <IconCommon
-                    height="0.625rem"
-                    cursor="pointer"
-                    icon={closeIcon}
-                    background={COLORS.black}
-                    onClick={deleteItem.bind(this, item)}
-                  />
-                </Styled.Chip>
-              );
-            }
-          )}
+            const visible = onTransformValue(item, visibleItem);
+            const _visible = type.parseValue
+              ? type.parseValue(visible, item)
+              : onTransformValue(item, visibleItem);
+            return (
+              <Styled.Chip key={index}>
+                {_visible as string | ReactNode}
+                <IconCommon
+                  height='0.625rem'
+                  cursor='pointer'
+                  icon={closeIcon}
+                  background={COLORS.black}
+                  onClick={deleteItem.bind(this, item)}
+                />
+              </Styled.Chip>
+            );
+          })}
         </Styled.ChipContainer>
       ) : null}
-
     </Styled.Wrapper>
   );
 };

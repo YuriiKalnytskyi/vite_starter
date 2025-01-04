@@ -15,102 +15,101 @@ import * as Styled from './input-text-area-editor.styled.ts';
 Quill.register('modules/imageResize', ImageResize);
 
 export const InputTextAreaEditor = forwardRef<HTMLDivElement, IInputTextareaProps>(
-    (
-        { rows, noFormikValue, label, name, placeholder, margin, maxLength, readOnly, ...props },
-        ref
-    ) => {
-        const { setFieldValue, setFieldTouched, value, touched, error } = (() => {
-            if (noFormikValue) {
-                return {
-                    touched: false,
-                    error: '',
-                    value: noFormikValue.value,
-                    setFieldValue: noFormikValue.onSetValue,
-                    setFieldTouched: functionStub
-                };
-            } else {
-                const { touched, values, errors, setFieldValue, setFieldTouched } =
-                    useFormikContext();
-                return {
-                    touched: getIn(touched, name),
-                    error: getIn(errors, name),
-                    value: getIn(values, name),
-                    setFieldTouched: setFieldTouched,
-                    setFieldValue: setFieldValue
-                };
-            }
-        })();
-
-        const isError = !!error && touched;
-
-        const modules = {
-            toolbar: [
-                ['bold', 'italic', 'underline', 'strike'],
-                [{ list: 'ordered' }, { list: 'bullet' }],
-                ['link'],
-                ['image']
-            ],
-            imageResize: {
-                parchment: Quill.import('parchment'),
-                modules: ['Resize', 'DisplaySize']
-            }
+  (
+    { rows, noFormikValue, label, name, placeholder, margin, maxLength, readOnly, ...props },
+    ref
+  ) => {
+    const { setFieldValue, setFieldTouched, value, touched, error } = (() => {
+      if (noFormikValue) {
+        return {
+          touched: false,
+          error: '',
+          value: noFormikValue.value,
+          setFieldValue: noFormikValue.onSetValue,
+          setFieldTouched: functionStub
         };
-
-        const formats = [
-            'bold',
-            'italic',
-            'underline',
-            'strike',
-            'list',
-            'bullet',
-            'link',
-            'image',
-            'list',
-            'bullet',
-            'indent'
-        ];
-
-        const onChange = (_text: any) => {
-            setFieldValue(name, _text);
+      } else {
+        const { touched, values, errors, setFieldValue, setFieldTouched } = useFormikContext();
+        return {
+          touched: getIn(touched, name),
+          error: getIn(errors, name),
+          value: getIn(values, name),
+          setFieldTouched: setFieldTouched,
+          setFieldValue: setFieldValue
         };
+      }
+    })();
 
-        const onBlur = () => {
-            setFieldTouched(name, true);
-        };
+    const isError = !!error && touched;
 
-        return (
-            <CommonStyled.InputContainer margin={margin || ''} ref={ref} {...props}>
-                {label && (
-                    <CommonStyled.Label isError={isError} htmlFor={name}>
-                        {label}
-                    </CommonStyled.Label>
-                )}
+    const modules = {
+      toolbar: [
+        ['bold', 'italic', 'underline', 'strike'],
+        [{ list: 'ordered' }, { list: 'bullet' }],
+        ['link'],
+        ['image']
+      ],
+      imageResize: {
+        parchment: Quill.import('parchment'),
+        modules: ['Resize', 'DisplaySize']
+      }
+    };
 
-                <Styled.InputReactQuill
-                    isError={isError}
-                    theme='snow'
-                    placeholder={placeholder ? placeholder : 'Type here'}
-                    value={value}
-                    onChange={onChange}
-                    modules={modules}
-                    formats={formats}
-                    onBlur={onBlur}
-                />
+    const formats = [
+      'bold',
+      'italic',
+      'underline',
+      'strike',
+      'list',
+      'bullet',
+      'link',
+      'image',
+      'list',
+      'bullet',
+      'indent'
+    ];
 
-                {maxLength ? (
-                    <CommonStyled.MaxLength>
-                        <CommonStyled.MaxLengthText>
-                            {value?.length}/{maxLength}
-                        </CommonStyled.MaxLengthText>
-                    </CommonStyled.MaxLength>
-                ) : null}
+    const onChange = (_text: any) => {
+      setFieldValue(name, _text);
+    };
 
-                {isError && error !== 'is required' ? (
-                    <CommonStyled.ErrorInfoContainer>
-                        <CommonStyled.ErrorInfoText>{error}</CommonStyled.ErrorInfoText>
-                    </CommonStyled.ErrorInfoContainer>
-                ) : null}
-            </CommonStyled.InputContainer>
-        );
-    }
+    const onBlur = () => {
+      setFieldTouched(name, true);
+    };
+
+    return (
+      <CommonStyled.InputContainer margin={margin || ''} ref={ref} {...props}>
+        {label && (
+          <CommonStyled.Label isError={isError} htmlFor={name}>
+            {label}
+          </CommonStyled.Label>
+        )}
+
+        <Styled.InputReactQuill
+          isError={isError}
+          theme='snow'
+          placeholder={placeholder ? placeholder : 'Type here'}
+          value={value}
+          onChange={onChange}
+          modules={modules}
+          formats={formats}
+          onBlur={onBlur}
+        />
+
+        {maxLength ? (
+          <CommonStyled.MaxLength>
+            <CommonStyled.MaxLengthText>
+              {value?.length}/{maxLength}
+            </CommonStyled.MaxLengthText>
+          </CommonStyled.MaxLength>
+        ) : null}
+
+        {isError && error !== 'is required' ? (
+          <CommonStyled.ErrorInfoContainer>
+            <CommonStyled.ErrorInfoText>{error}</CommonStyled.ErrorInfoText>
+          </CommonStyled.ErrorInfoContainer>
+        ) : null}
+      </CommonStyled.InputContainer>
+    );
+  }
 );

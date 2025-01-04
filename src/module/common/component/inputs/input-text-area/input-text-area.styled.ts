@@ -21,7 +21,6 @@ export const InputContainer = styled.div<Partial<IInputTextareaProps>>`
 `;
 
 export const Input = styled.textarea<Partial<IInputPropsStyles>>`
-
   outline: none;
   resize: vertical;
 

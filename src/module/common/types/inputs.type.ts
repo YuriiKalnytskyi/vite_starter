@@ -1,9 +1,10 @@
 import { ReactNode } from 'react';
 import { DateRange, DaySelectionMode } from 'react-day-picker';
 
-import { IMargin } from './styles.type';
 import { IInputProps } from '@/module/common/component';
 import { IWProps } from '@/module/common/component/inputs/input/input.styled.ts';
+
+import { IMargin } from './styles.type';
 
 interface ISize {
   height?: string;
@@ -69,7 +70,7 @@ export interface ICheckBoxFormik extends IMargin, Omit<IInputDefault, 'placehold
   colorText?: string;
   background?: string;
   isMulti?: boolean;
-  visibleItem?: string
+  visibleItem?: string;
   noFormikValue?: { value: boolean; onSetValue: (name: string, value: boolean) => void };
 }
 export type DateSelection = DateRange | Date[] | Date | undefined;
