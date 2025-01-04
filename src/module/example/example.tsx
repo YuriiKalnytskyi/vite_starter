@@ -10,56 +10,25 @@ import { dateTransform, functionStub } from '@/utils';
 import { Formik, Form, getIn } from 'formik';
 import { validationSchemaExample } from '@/module/example/validation/shema.ts';
 
-const dataTable = [
-  {
-    id: 1,
-    user: 'Tessddsd  s sdsdsdsdsds sdsdsdsds sdsdssd sdsdsdsd fdsdsdsd sdsdsds sdsds asasasasasas asasasasa asasasas  ddsd  s sdsdsdsdsds sdsdsdsds sdsdssd sdsdsdsd fdsdsdsd  ter',
-    email: 'tester@gmail.com',
-    amount: 150,
-    currency: 'USD',
-    createdAt: '2025-01-03T12:34:56.789Z'
-  },
-  {
-    id: 1,
-    user: 'Tester',
-    email: 'tester@gmail.com',
-    amount: 150,
-    currency: 'USD',
-    createdAt: '2025-01-03T12:34:56.789Z'
-  },
-  {
-    id: 1,
-    user: 'Tester',
-    email: 'tester@gmail.com',
-    amount: 150,
-    currency: 'USD',
-    createdAt: '2025-01-03T12:34:56.789Z'
-  },
-  {
-    id: 1,
-    user: 'Tester',
-    email: 'tester@gmail.com',
-    amount: 150,
-    currency: 'USD',
-    createdAt: '2025-01-03T12:34:56.789Z'
-  },
-  {
-    id: 1,
-    user: 'Tester',
-    email: 'tester@gmail.com',
-    amount: 150,
-    currency: 'USD',
-    createdAt: '2025-01-03T12:34:56.789Z'
-  },
-  {
-    id: 1,
-    user: 'Tessddsd  s sdsdsdsdsds sdsdsdsds sdsdssd sdsdsdsd fdsdsdsd sdsdsds sdsds asasasasasas asasasasa asasasas  ter',
-    email: 'tester@gmail.com',
-    amount: 150,
-    currency: 'USD',
-    createdAt: '2025-01-03T12:34:56.789Z'
+
+const randomString = (minLength: number, maxLength: number): string => {
+  const length = Math.floor(Math.random() * (maxLength - minLength + 1)) + minLength;
+  const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+  let result = '';
+  for (let i = 0; i < length; i++) {
+    result += characters.charAt(Math.floor(Math.random() * characters.length));
   }
-];
+  return result;
+};
+
+const dataTable = Array.from({ length: 6 }, (_, index) => ({
+  id: index + 1,
+  user: index % 2 === 0 ? randomString(50, 500) : 'Tester',
+  email: 'tester@gmail.com',
+  amount: 150,
+  currency: 'USD',
+  createdAt: '2025-01-03T12:34:56.789Z'
+}));
 
 import *  as  Styled from './example.styled.tsx';
 import { changeCard } from '@/module/common/hooks';

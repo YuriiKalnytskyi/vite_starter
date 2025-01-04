@@ -14,14 +14,13 @@ type Items = Item[];
 
 type filterOptionNew = {
   mode: 'new';
-  position?: string;
-  includes: 'includes' | 'startsWith'
+  includes?: 'includes' | 'startsWith'
 };
 
 type filterOptionDefault = {
   mode: 'default';
   position?: 'sticky' | 'static';
-  includes: 'includes' | 'startsWith'
+  includes?: 'includes' | 'startsWith'
 };
 
 type FilterOptions = filterOptionNew | filterOptionDefault;
