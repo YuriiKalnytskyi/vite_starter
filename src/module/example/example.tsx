@@ -284,6 +284,8 @@ export const Example = () => {
                 }}
                 filterOption={{
                   mode: 'default',
+                  includes: "startsWith",
+                  type: 'sort'
                 }}
               />
 
@@ -313,7 +315,9 @@ export const Example = () => {
                 }}
                 filterOption={{
                   mode: 'new',
-                  position: 'sticky'
+                  position: 'sticky',
+                  includes: "includes",
+                  type: 'filter'
                 }}
               />
             </DivCommon>

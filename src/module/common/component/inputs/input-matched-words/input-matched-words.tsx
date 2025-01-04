@@ -14,13 +14,15 @@ type Items = Item[];
 
 type filterOptionNew = {
   mode: 'new';
-  includes?: 'includes' | 'startsWith'
+  includes: 'includes' | 'startsWith'
+  type: 'sort' | 'filter'
 };
 
 type filterOptionDefault = {
   mode: 'default';
+  includes: 'includes' | 'startsWith'
+  type: 'sort' | 'filter'
   position?: 'sticky' | 'static';
-  includes?: 'includes' | 'startsWith'
 };
 
 type FilterOptions = filterOptionNew | filterOptionDefault;
@@ -50,8 +52,6 @@ type IInputMatchedWordsProps<T extends Items, F extends FilterOptions> = IMargin
   filterOption?: F;
 }
 
-//TODO filterOption.includes improve the text matching logic
-//TODO when filterOption.mode === 'new' move focus to search input
 //TODO search input correct startIcon
 //TODO add a block that will reflect that there are no such items according to the entered search
 //TODO  make logic with display of many items
@@ -79,7 +79,7 @@ export const InputMatchedWords = <T extends Items, F extends FilterOptions>({
     if (noFormikValue) {
       return {
         value: noFormikValue.value,
-        error: '',
+        error: noFormikValue?.error ?? '',
         setFieldValue: noFormikValue.setFieldValue
 
       };
@@ -122,15 +122,14 @@ export const InputMatchedWords = <T extends Items, F extends FilterOptions>({
     }
   });
 
+  const filterItems = () => {
+    if (filterOption && filterOption?.type === 'filter') {
+      return items.sort((a, b) => {
+        const aVisible = onTransformValue(a).toString().toLowerCase();
+        const bVisible = onTransformValue(b).toString().toLowerCase();
 
-  const _items = search.length ?
-    filterOption?.mode === 'default' ?
-      items.sort((a, b) => {
-        const aVisible = (visibleItem ? a[visibleItem] : a).toString().toLowerCase();
-        const bVisible = (visibleItem ? b[visibleItem] : b).toString().toLowerCase();
-
-        const aIncludes = aVisible.includes(search.toLowerCase());
-        const bIncludes = bVisible.includes(search.toLowerCase());
+        const aIncludes = aVisible[filterOption.includes](search.toLowerCase());
+        const bIncludes = bVisible[filterOption.includes](search.toLowerCase());
 
         if (aIncludes && bIncludes) return 0;
 
@@ -139,13 +138,30 @@ export const InputMatchedWords = <T extends Items, F extends FilterOptions>({
         if (bIncludes) return 1;
 
         return 0;
-      })
-      :
-      items.filter((item) => {
+      });
+    }
+
+    if (filterOption && filterOption?.type === 'sort') {
+      return items.filter((item) => {
         const visible = (visibleItem ? item[visibleItem] : item).toString().toLowerCase();
-        return visible.includes(search.toLowerCase());
-      })
-    : items;
+        return visible[filterOption.includes](search.toLowerCase());
+      });
+    }
+
+    return items;
+  };
+
+
+  const _items = search.length ? filterItems() : items;
+
+
+  const searchInputRef = useRef<HTMLInputElement | null>(null);
+
+  const handleFocus = () => {
+    if (filterOption?.mode === 'new') {
+      searchInputRef.current?.focus();
+    }
+  };
 
   return (
     <Styled.Wrapper $focused={focused} {...props} ref={ref}>
@@ -159,6 +175,7 @@ export const InputMatchedWords = <T extends Items, F extends FilterOptions>({
           height: '1.5rem',
           onClick: () => {
             setFocused(!focused);
+            handleFocus();
           },
           cursor: 'pointer'
         }}
@@ -170,7 +187,11 @@ export const InputMatchedWords = <T extends Items, F extends FilterOptions>({
           error,
           setFieldFocus: (_, isTouched) => {
             setFocused(isTouched);
+            handleFocus();
           }
+        }}
+        onClick={() => {
+          handleFocus();
         }}
         isDontChange={filterOption?.mode !== 'default'}
         readOnly={readOnly}
@@ -181,11 +202,11 @@ export const InputMatchedWords = <T extends Items, F extends FilterOptions>({
           id="SuggestedBlock" ref={inputHintBlockRef}
           $position={(filterOption as filterOptionDefault)?.position}
         >
-
           {
             filterOption && filterOption.mode === 'new' ? (
               <div id="search">
                 <Input
+                  refProps={searchInputRef}
                   height="3rem"
                   width="80%"
                   name="search"
@@ -193,10 +214,10 @@ export const InputMatchedWords = <T extends Items, F extends FilterOptions>({
                     value: search,
                     setFieldValue: (_, value) => setSearch(value)
                   }}
-                  isAutoFocus
                   startIcon={{
                     icon: searchIcon
                   }}
+                  isAutoFocus
                 />
               </div>
             ) : null
@@ -212,7 +233,6 @@ export const InputMatchedWords = <T extends Items, F extends FilterOptions>({
                 key={`${ind}}`}
                 $isChip={false}
                 $selected={selected}
-                $padding={undefined}
                 onClick={(e) => {
                   e.stopPropagation();
                   onClickHintOption(item);

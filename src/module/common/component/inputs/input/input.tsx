@@ -1,7 +1,7 @@
 import { IIconInput, IMargin } from '@/module/common/types';
 
 import * as Styled from './input.styled';
-import { ChangeEvent, ReactNode, useEffect, useMemo, useRef, useState } from 'react';
+import { ChangeEvent, ReactNode, RefObject, useEffect, useMemo, useRef, useState } from 'react';
 import { getIn, useFormikContext } from 'formik';
 
 import successIcon from '@/assets/icons/default/success-icon.svg';
@@ -40,16 +40,21 @@ export interface IInputProps extends IMargin {
   startIcon?: IIconInput;
   endIcon?: IIconInput;
   optionOnChange?: (name: string, value: string, setFieldValue: (name: string, value: string) => void) => void,
+  // refProps?: any,
+  refProps?: RefObject<HTMLInputElement>;
+  onClick?: () => void
 }
 
 export const Input = ({
                         height,
                         name,
                         label,
+                        refProps,
                         type,
                         placeholder,
                         isAutoComplete = false,
                         isAutoFocus = false,
+                        onClick,
                         isDontChange = false,
                         noFormikValue,
                         endIcon,
@@ -152,7 +157,7 @@ export const Input = ({
   const isPasswordError = isError && passwordError.includes(error ?? '');
 
   return (
-    <Styled.Wrapper id='input' $top={top} {...props} ref={ref}>
+    <Styled.Wrapper id="input" $top={top} {...props} ref={ref} onClick={onClick ? onClick : functionStub}>
       {label && (
         <Styled.Label
           htmlFor={name}
@@ -165,9 +170,10 @@ export const Input = ({
       )}
 
       <Styled.Input
+        ref={refProps}
         name={name}
         {...(isAutoComplete ? {} : { autoComplete: 'off', role: 'presentation' })}
-        {...(isAutoFocus ? { autoFocus: true } : {autoFocus: false})}
+        {...(isAutoFocus ? { autoFocus: true } : { autoFocus: false })}
         value={value}
         onChange={onChange}
         onBlur={onBlur}

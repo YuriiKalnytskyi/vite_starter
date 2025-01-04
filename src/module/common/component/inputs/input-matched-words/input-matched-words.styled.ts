@@ -59,7 +59,7 @@ export const SuggestedBlock = styled.ul<{ $position?: string }>`
         ${Center};
         background: ${COLORS.white};
         padding: ${SPACES.l} 0;
-        position: ${({ $position }) => $position ?? 'sticky'} ;
+        position: ${({ $position }) => $position ?? 'sticky'};
         top: 0;
         z-index: 1;
     }
@@ -88,9 +88,8 @@ export const SuggestedBlock = styled.ul<{ $position?: string }>`
 export const HintOption = styled.li<{
   $selected: boolean;
   $isChip: boolean;
-  $padding?: string;
 }>`
-    padding: ${({ $padding }) => $padding ?? `${SPACES.xs} ${SPACES.m}`};
+    padding: ${SPACES.xs} ${SPACES.m};
     background: ${({ $selected }) => ($selected ? COLORS.primary : COLORS.white)};
     display: flex;
     align-items: center;
