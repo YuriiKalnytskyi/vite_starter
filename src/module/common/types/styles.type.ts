@@ -18,6 +18,7 @@ export interface IDivCommon {
 export interface IIcon extends IMargin{
   icon: string;
   height?: string;
+  width?: string
   background?: string;
   cursor?: 'pointer' | 'text';
 }

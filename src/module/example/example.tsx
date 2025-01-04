@@ -185,7 +185,7 @@ export const Example = () => {
               />
               <Input
                 name="last_name"
-                label="Last Name"
+                label=" Name"
                 readOnly
                 startIcon={{ icon: testIcon, height: '1.5rem' }}
                 endIcon={{ icon: testIcon, height: '1.5rem', type: 'img' }}
@@ -193,7 +193,7 @@ export const Example = () => {
               <Input
                 name="email"
                 label={{
-                  text: 'test',
+                  text: 'Email',
                   required: true
                 }}
                 startIcon={{ icon: testIcon, height: '1.5rem' }}
@@ -244,25 +244,23 @@ export const Example = () => {
             </DivCommon>
 
             INPUTMATCHEDWORDS
-            <DivCommon fd="row" gap={SPACES.l} ai='flex-end' margin="0 0 2rem 0">
-              <InputMatchedWords
-                name="test"
-                label="Default"
-                items={['test', 'test2', 'test3', 'test4']}
-              />
+            <DivCommon fd="row" gap={SPACES.l} ai="flex-end" margin="0 0 2rem 0">
+              {/*<InputMatchedWords*/}
+              {/*  name="test"*/}
+              {/*  label="Default"*/}
+              {/*  items={['test', 'test2', 'test3', 'test4']}*/}
+              {/*/>*/}
 
-              <InputMatchedWords
-                name="multi_input"
-                label="Multi"
-                items={['test', 'test2', 'test3', 'test4']}
-                type={{
-                  type: 'multi'
-                }}
-              />
+              {/*<InputMatchedWords*/}
+              {/*  name="test"*/}
+              {/*  label="Default"*/}
+              {/*  items={['test', 'test2', 'test3', 'test4']}*/}
+              {/*  readOnly*/}
+              {/*/>*/}
 
               <InputMatchedWords
                 name="country"
-                label="Countri"
+                label="Countri (Type-filter) (Input - default)"
                 items={data?.countries ?? []}
                 {
                   ...(getIn(values, 'country')?.icon ?
@@ -287,30 +285,20 @@ export const Example = () => {
                 filterOption={{
                   mode: 'default',
                   includes: 'startsWith',
-                  type: 'sort'
+                  type: 'filter',
+                  isSavePreviousSelection: false
                 }}
               />
 
               <InputMatchedWords
-                name="country"
-                label="Countri Filter "
+                name="country_multi"
+                label="Countri (Type-sort - Input -new )  (Multi Select)"
                 items={data?.countries ?? []}
-                {
-                  ...(getIn(values, 'country')?.icon ?
-                      {
-                        startIcon: {
-                          icon: getIn(values, 'country').icon,
-                          type: 'img'
-                        }
-                      }
-                      : null
-                  )
-                }
                 visibleItem="name"
                 parseValue={(value, valueObj) => {
                   return (
                     <DivCommon fd="row" gap={SPACES.l}>
-                      <Icon icon={valueObj.icon} type="img" />
+                      {valueObj.icon && <Icon height="1rem" icon={valueObj.icon} type="img" />}
                       {value}
                     </DivCommon>
                   );
@@ -319,7 +307,19 @@ export const Example = () => {
                   mode: 'new',
                   position: 'sticky',
                   includes: 'includes',
-                  type: 'filter'
+                  type: 'sort'
+                }}
+                type={{
+                  mode: 'multi',
+                  parseValue: (value, valueObj) => {
+                    return (
+                      <DivCommon fd="row" ai="center" gap={SPACES.l}>
+                        {valueObj.icon && <Icon height="1rem" icon={valueObj.icon} type="img" />}
+                        {value}
+                      </DivCommon>
+                    );
+                  },
+                  addNewItem: true
                 }}
               />
             </DivCommon>

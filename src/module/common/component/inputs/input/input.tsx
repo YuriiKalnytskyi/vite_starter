@@ -40,7 +40,6 @@ export interface IInputProps extends IMargin {
   startIcon?: IIconInput;
   endIcon?: IIconInput;
   optionOnChange?: (name: string, value: string, setFieldValue: (name: string, value: string) => void) => void,
-  // refProps?: any,
   refProps?: RefObject<HTMLInputElement>;
   onClick?: () => void
 }
@@ -124,6 +123,7 @@ export const Input = ({
       }, 0);
 
       setTop(`${totalHeight / (childrenArray.length === 2 ? 4 : 1.8)}px`);
+      // setTop(`${totalHeight /  1.8}px`);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -150,7 +150,7 @@ export const Input = ({
 
   const paddingInput =
     (startIcon && `${SPACES.l}  ${SPACES.xxxxxxl} ${SPACES.l} ${SPACES.xxxxxxl_}`) ??
-    (endIcon && `${SPACES.l}  ${SPACES.xxxxxxl_} ${SPACES.l} ${SPACES.l}`) ??
+    (endIcon && `${SPACES.l} ${SPACES.xxxxxxl_} ${SPACES.l} ${SPACES.l}`) ??
     (endIcon && startIcon && `${SPACES.l}  ${SPACES.xxxxxxl_} ${SPACES.l} ${SPACES.xxxxxxl_}`) ??
     (type === 'password' ? `${SPACES.xs} ${SPACES.xxxxxxl} ${SPACES.xs} ${SPACES.m}` : undefined);
 

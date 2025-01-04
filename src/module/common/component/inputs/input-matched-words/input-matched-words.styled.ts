@@ -9,6 +9,7 @@ export interface IWProps extends IMargin {
   readOnly?: boolean;
   width?: string;
   $focused: boolean;
+  $newItemFlag: boolean
 }
 
 export const Wrapper = styled.div<IWProps>`
@@ -18,6 +19,20 @@ export const Wrapper = styled.div<IWProps>`
     #icon {
         transition: transform 0.5s ease;
     }
+
+    #addOrCloseIcon {
+        height: 1rem;
+
+        position: absolute;
+        right: ${SPACES.m};
+        z-index: 1;
+
+        transition: transform 0.5s ease;
+        transform: rotate( ${({$newItemFlag})=> $newItemFlag ?  '45deg' : '0deg'  }} );
+        cursor: pointer;
+    }
+
+
 
     ${({ $focused }) => $focused ? (
             css`
@@ -38,6 +53,26 @@ export const Wrapper = styled.div<IWProps>`
                 .endIcon {
                     transform: rotate(360deg);
                 }
+            `
+    )}
+
+    ${({ $newItemFlag }) => $newItemFlag ? (
+            css`
+            #addOrCloseIcon {
+                transform: rotate(90deg);
+            }
+
+            .endIcon {
+                transform: rotate(45deg) ;
+            }
+
+        `
+    ) : (
+            css`
+                #addOrCloseIcon {
+                    transform: rotate(45deg);
+                }
+                
             `
     )}
 `;
@@ -113,4 +148,32 @@ export const HintOption = styled.li<{
             background: ${COLORS.white}
         }
     }
+`;
+
+export const ChipContainer = styled.ul`
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    gap: ${SPACES.xs};
+    flex-wrap: wrap;
+
+    margin-top: ${SPACES.xxs};
+    position: absolute;
+`;
+
+export const Chip = styled.li`
+    width: fit-content;
+    cursor: pointer;
+
+    gap: ${SPACES.xs};
+
+    ${Center};
+    ${Fonts};
+    font-weight: ${FONTS.WEIGHTS.semi_bold};
+
+    padding: ${SPACES.xxs} ${SPACES.s};
+    background: ${COLORS.white100};
+    border-radius: 4px;
+
+    word-break: break-word;
 `;
