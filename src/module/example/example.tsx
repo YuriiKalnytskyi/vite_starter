@@ -244,7 +244,7 @@ export const Example = () => {
             </DivCommon>
 
             INPUTMATCHEDWORDS
-            <DivCommon fd="row" gap={SPACES.l} margin="0 0 2rem 0">
+            <DivCommon fd="row" gap={SPACES.l} ai='flex-end' margin="0 0 2rem 0">
               <InputMatchedWords
                 name="test"
                 label="Default"
@@ -252,10 +252,12 @@ export const Example = () => {
               />
 
               <InputMatchedWords
-                name="test"
-                label="Default"
+                name="multi_input"
+                label="Multi"
                 items={['test', 'test2', 'test3', 'test4']}
-                readOnly
+                type={{
+                  type: 'multi'
+                }}
               />
 
               <InputMatchedWords
@@ -284,7 +286,7 @@ export const Example = () => {
                 }}
                 filterOption={{
                   mode: 'default',
-                  includes: "startsWith",
+                  includes: 'startsWith',
                   type: 'sort'
                 }}
               />
@@ -316,7 +318,7 @@ export const Example = () => {
                 filterOption={{
                   mode: 'new',
                   position: 'sticky',
-                  includes: "includes",
+                  includes: 'includes',
                   type: 'filter'
                 }}
               />

@@ -114,14 +114,16 @@ export const Input = ({
       const children = ref.current?.children;
       if (!children) return;
 
-      const totalHeight = Array.from(children).reduce((acc, child) => {
+      const childrenArray = Array.from(children);
+
+      const totalHeight = childrenArray.reduce((acc, child) => {
         const className = (child as HTMLElement).className;
         const shouldInclude = !['startIcon', 'endIcon', 'passwordIcon', 'errorPassword', 'errorMessage']
           .some((excludedClass) => className.includes(excludedClass));
         return shouldInclude ? acc + (child as HTMLElement).offsetHeight : acc;
       }, 0);
 
-      setTop(`${totalHeight / 1.8}px`);
+      setTop(`${totalHeight / (childrenArray.length === 2 ? 4 : 1.8)}px`);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);

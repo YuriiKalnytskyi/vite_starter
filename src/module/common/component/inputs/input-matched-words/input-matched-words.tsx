@@ -29,12 +29,20 @@ type filterOptionDefault = {
 type FilterOptions = filterOptionNew | filterOptionDefault;
 
 
-type IInputMatchedWordsProps<T extends Items, F extends FilterOptions> = IMargin & {
-  name: string;
+type  IInputMatchedWordsTypeMulti = {
+  mode: 'multi';
+}
 
-  items: T;
-  visibleItem?: T extends Obj[] ? keyof T[number] : never | undefined;
-  parseValue?: (value: string, valueObj: T[number]) => unknown;
+type IInputMatchedWordsType = IInputMatchedWordsTypeMulti
+
+
+type IInputMatchedWordsProps<I extends Items, F extends FilterOptions, T extends IInputMatchedWordsType> = IMargin & {
+  name: string;
+  type?: T
+  filterOption?: F;
+  items: I;
+  visibleItem?: I extends Obj[] ? keyof I[number] : never | undefined;
+  parseValue?: (value: string, valueObj: I[number]) => unknown;
   label?: string | ReactNode | {
     text: string | ReactNode,
     required?: boolean
@@ -46,15 +54,19 @@ type IInputMatchedWordsProps<T extends Items, F extends FilterOptions> = IMargin
   readOnly?: boolean;
 
   noFormikValue?: {
-    value: T[number];
-    setFieldValue: (name: string, value: T[number]) => void;
-    error?: string,
+    // value: I[number] | any[]; //TODO
+    // setFieldValue: (name: string, value: I[number]) => void;
+
+    value: T extends IInputMatchedWordsTypeMulti ? I[number][] : I[number];
+    setFieldValue: (name: string, value: I[number] | I[number][]) => void;
+
+
+    error?: string;
   };
-  filterOption?: F;
+
 }
 
 //TODO search input correct startIcon
-//TODO add a block that will reflect that there are no such items according to the entered search
 //TODO  make logic with display of many items
 //TODO  make logic that will allow you to add new items quite easily
 //TODO check for errors
@@ -66,18 +78,20 @@ const onTransformValue = (_value: Item, visibleItem?: string): string => {
   return String(_value ?? '');
 };
 
-export const InputMatchedWords = <T extends Items, F extends FilterOptions>({
-                                                                              name,
-                                                                              placeholder, label,
-                                                                              visibleItem,
-                                                                              items,
-                                                                              readOnly,
-                                                                              noFormikValue,
-                                                                              startIcon,
-                                                                              parseValue,
-                                                                              filterOption,
-                                                                              ...props
-                                                                            }: IInputMatchedWordsProps<T, F>) => {
+export const InputMatchedWords = <I extends Items, F extends FilterOptions, T extends IInputMatchedWordsType>({
+                                                                                                                name,
+                                                                                                                placeholder,
+                                                                                                                type,
+                                                                                                                label,
+                                                                                                                visibleItem,
+                                                                                                                items,
+                                                                                                                readOnly,
+                                                                                                                noFormikValue,
+                                                                                                                startIcon,
+                                                                                                                parseValue,
+                                                                                                                filterOption,
+                                                                                                                ...props
+                                                                                                              }: IInputMatchedWordsProps<I, F, T>) => {
 
   const { setFieldValue, value, error } = (() => {
     if (noFormikValue) {
@@ -116,9 +130,21 @@ export const InputMatchedWords = <T extends Items, F extends FilterOptions>({
   }, [visibleValue, filterOption]);
 
   const onClickHintOption = (item: Item) => {
-    setFieldValue(name, item);
+    if (type && type.mode === 'multi') {
+      if (Array.isArray(value)) {
+        const isAlreadyAdded = value.find((v) => onTransformValue(v, visibleItem).toLowerCase() === onTransformValue(item, visibleItem).toLowerCase());
+        !isAlreadyAdded && setFieldValue(name, ([...value, item] as Item[]));
+      } else {
+        setFieldValue(name, [item] as Item[]);
+      }
+      setSearch('');
+
+    } else {
+      setFieldValue(name, item as I[number]);
+      setSearch(filterOption?.mode === 'default' ? onTransformValue(item, visibleItem) : '');
+    }
+
     setFocused(false);
-    setSearch(filterOption?.mode === 'default' ? onTransformValue(item, visibleItem) : '');
   };
 
 
@@ -159,6 +185,14 @@ export const InputMatchedWords = <T extends Items, F extends FilterOptions>({
     return items;
   };
 
+  const valueType = () => {
+    if ((type && type.mode === 'multi') || (filterOption && filterOption?.mode === 'default')) {
+      return search;
+    }
+    return visibleValue;
+  };
+
+  const _value = valueType();
 
   const _items = filterItems();
 
@@ -167,6 +201,8 @@ export const InputMatchedWords = <T extends Items, F extends FilterOptions>({
       searchInputRef.current?.focus();
     }
   };
+
+  console.log(value);
 
   return (
     <Styled.Wrapper $focused={focused} {...props} ref={ref}>
@@ -185,7 +221,7 @@ export const InputMatchedWords = <T extends Items, F extends FilterOptions>({
           cursor: 'pointer'
         }}
         noFormikValue={{
-          value: filterOption?.mode === 'default' ? search : visibleValue,
+          value: _value,
           setFieldValue: (_, value) => {
             filterOption?.mode === 'default' && setSearch(value);
           },
@@ -232,10 +268,12 @@ export const InputMatchedWords = <T extends Items, F extends FilterOptions>({
               const selected = visible === visibleValue;
 
               const _visible = parseValue ? parseValue(visible as string, item) : visible;
+              const isChip =  type && type.mode === 'multi' &&  ((value ?? []) as Item[]).find((v  ) => onTransformValue(v, visibleItem).toLowerCase() === onTransformValue(item, visibleItem).toLowerCase());
+
               return (
                 <Styled.HintOption
                   key={`${ind}}`}
-                  $isChip={false}
+                  $isChip={!!isChip}
                   $selected={selected}
                   onClick={(e) => {
                     e.stopPropagation();
