@@ -5,6 +5,6 @@ export * from './inputs/index';
 export * from './check-boxs/index';
 export * from './portal/index';
 export * from './drawer/index';
-export * from './table/index';
 export * from './pagination/pagination.tsx';
 export * from './icon/icon.tsx';
+export * from './table/table.tsx'

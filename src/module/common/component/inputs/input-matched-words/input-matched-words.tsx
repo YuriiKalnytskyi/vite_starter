@@ -79,10 +79,6 @@ type IInputMatchedWordsProps<
   };
 };
 
-//TODO search input correct startIcon
-//TODO search input correct plasIcom
-//TODO check for errors
-
 const onTransformValue = (_value: Item, visibleItem?: string): string => {
   if (visibleItem && typeof _value === 'object' && _value !== null) {
     return String((_value as Obj)[visibleItem] ?? '');
@@ -118,6 +114,8 @@ export const InputMatchedWords = <
     } else {
       // eslint-disable-next-line react-hooks/rules-of-hooks
       const { values, setFieldValue, errors } = useFormikContext();
+
+      console.log(errors, '=====');
 
       return {
         value: getIn(values, name),
@@ -183,6 +181,10 @@ export const InputMatchedWords = <
     if (focused) {
       setFocused(false);
       setSearch(filterOption?.mode === 'default' ? visibleValue : '');
+      if (newItemFlag) {
+        setNewItemFlag(false)
+        setNewItem('')
+      }
     }
   });
 
@@ -303,7 +305,8 @@ export const InputMatchedWords = <
             newItemFlag && setNewItem(value);
             filterOption?.mode === 'default' && setSearch(value);
           },
-          error,
+          error: Array.isArray(error)  ? error[0] : error,
+          touched: true,
           setFieldFocus: (_, isTouched) => {
             setFocused(isTouched);
             handleFocus();

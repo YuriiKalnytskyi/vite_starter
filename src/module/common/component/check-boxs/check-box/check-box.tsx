@@ -64,7 +64,7 @@ const CheckBoxIndex = ({
   ...props
 }: ICheckBoxIndex) => {
   return (
-    <Styled.Label {...props} onDoubleClick={onDoubleClick}>
+    <Styled.Label tabIndex={0} {...props} onDoubleClick={onDoubleClick}>
       <Styled.Input name={name} type='checkbox' checked={checked} onChange={onChange} />
       <Styled.Span className='text' type={type}>
         <span>{(label as string).toString()}</span>

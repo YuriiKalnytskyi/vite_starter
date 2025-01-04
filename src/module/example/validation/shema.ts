@@ -34,5 +34,6 @@ export const validationSchemaExample = Yup.object().shape({
       return true;
     })
     .required('common.is_required'),
-  cvv: validateSchema.text.min(3).max(3)
+  cvv: validateSchema.text.min(3).max(3),
+  country : Yup.array().of(Yup.string())
 });
