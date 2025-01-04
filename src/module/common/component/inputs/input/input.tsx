@@ -1,5 +1,5 @@
 import { getIn, useFormikContext } from 'formik';
-import { ChangeEvent, ReactNode, RefObject, useEffect, useMemo, useRef, useState } from 'react';
+import { ChangeEvent, KeyboardEvent, ReactNode, RefObject, useEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import successIcon from '@/assets/icons/default/success-icon.svg';
@@ -48,6 +48,7 @@ export interface IInputProps extends IMargin {
   ) => void;
   refProps?: RefObject<HTMLInputElement>;
   onClick?: () => void;
+  onKeyDown?: (e: KeyboardEvent<HTMLInputElement>) => void;
 }
 
 export const Input = ({
@@ -60,6 +61,7 @@ export const Input = ({
   isAutoComplete = false,
   isAutoFocus = false,
   onClick,
+                        onKeyDown,
   isDontChange = false,
   noFormikValue,
   endIcon,
@@ -190,6 +192,7 @@ export const Input = ({
         onChange={onChange}
         onBlur={onBlur}
         onFocus={onFocus}
+        onKeyDown={onKeyDown}
         placeholder={placeholder ?? ''}
         type={type === 'password' ? (isPassword ? 'text' : 'password') : type}
         height={height}

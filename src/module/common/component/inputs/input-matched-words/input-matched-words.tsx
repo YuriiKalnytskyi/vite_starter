@@ -1,83 +1,27 @@
 import { getIn, useFormikContext } from 'formik';
-import { ReactNode, useEffect, useRef, useState } from 'react';
+import { ReactNode, KeyboardEvent, useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import arrowBottom from '@/assets/icons/default/arrow-bottom-icon.svg';
 import closeIcon from '@/assets/icons/default/close-icon.svg';
 import searchIcon from '@/assets/icons/default/search.svg';
 import { Input } from '@/module/common/component';
-import { useClickOutside } from '@/module/common/hooks';
+import { useClickOutside, useHandleKeyPress } from '@/module/common/hooks';
 import { IconCommon } from '@/module/common/styles';
-import { IIconInput, IMargin } from '@/module/common/types';
 import { COLORS } from '@/theme';
+
+import {
+  filterOptionNew,
+  FilterOptions,
+  IInputMatchedWordsProps,
+  IInputMatchedWordsType,
+  Item,
+  Items,
+  Obj
+} from './input-matched-words.type.ts';
 
 import * as Styled from './input-matched-words.styled';
 
-type Obj = Record<string, unknown>;
-type Item = Obj | string;
-type Items = Item[];
-
-type BaseFilterOption = {
-  includes: 'includes' | 'startsWith';
-  type: 'sort' | 'filter';
-};
-
-type filterOptionNew = BaseFilterOption & {
-  mode: 'new';
-  position?: 'sticky' | 'static';
-};
-
-type filterOptionDefault = BaseFilterOption & {
-  mode: 'default';
-  isSavePreviousSelection?: boolean;
-};
-
-type FilterOptions = filterOptionNew | filterOptionDefault;
-
-type IParseValue<I extends Items> = (value: string, valueObj: I[number]) => unknown;
-
-type IInputMatchedWordsTypeMulti<I extends Items> = {
-  mode: 'multi';
-  parseValue?: IParseValue<I>;
-  addNewItem?:
-    | {
-        onClick?: () => void;
-      }
-    | boolean;
-};
-
-type IInputMatchedWordsType<I extends Items> = IInputMatchedWordsTypeMulti<I>;
-
-type IInputMatchedWordsProps<
-  I extends Items,
-  F extends FilterOptions,
-  T extends IInputMatchedWordsType<I>
-> = IMargin & {
-  name: string;
-  type?: T;
-  filterOption?: F;
-  items: I;
-  visibleItem?: I extends Obj[] ? keyof I[number] : never | undefined;
-  parseValue?: IParseValue<I>;
-  label?:
-    | string
-    | ReactNode
-    | {
-        text: string | ReactNode;
-        required?: boolean;
-      };
-  placeholder?: string;
-  startIcon?: IIconInput;
-
-  width?: string;
-  readOnly?: boolean;
-
-  noFormikValue?: {
-    value: T extends IInputMatchedWordsType<I> ? I[number][] : I[number];
-    setFieldValue: (name: string, value: I[number] | I[number][]) => void;
-    error?: string;
-  };
-};
 
 const onTransformValue = (_value: Item, visibleItem?: string): string => {
   if (visibleItem && typeof _value === 'object' && _value !== null) {
@@ -91,19 +35,19 @@ export const InputMatchedWords = <
   F extends FilterOptions,
   T extends IInputMatchedWordsType<I>
 >({
-  name,
-  placeholder,
-  type,
-  label,
-  visibleItem,
-  items,
-  readOnly,
-  noFormikValue,
-  startIcon,
-  parseValue,
-  filterOption,
-  ...props
-}: IInputMatchedWordsProps<I, F, T>) => {
+    name,
+    placeholder,
+    type,
+    label,
+    visibleItem,
+    items,
+    readOnly,
+    noFormikValue,
+    startIcon,
+    parseValue,
+    filterOption,
+    ...props
+  }: IInputMatchedWordsProps<I, F, T>) => {
   const { setFieldValue, value, error } = (() => {
     if (noFormikValue) {
       return {
@@ -114,8 +58,6 @@ export const InputMatchedWords = <
     } else {
       // eslint-disable-next-line react-hooks/rules-of-hooks
       const { values, setFieldValue, errors } = useFormikContext();
-
-      console.log(errors, '=====');
 
       return {
         value: getIn(values, name),
@@ -133,6 +75,8 @@ export const InputMatchedWords = <
   const [newItemFlag, setNewItemFlag] = useState(false);
   const [newItem, setNewItem] = useState('');
   const [search, setSearch] = useState(filterOption?.mode === 'default' ? visibleValue : '');
+
+  const [selectedItemIndex, setSelectedItemIndex] = useState<number | null>(null);
 
   const inputHintBlockRef = useRef<HTMLUListElement | null>(null);
 
@@ -182,8 +126,8 @@ export const InputMatchedWords = <
       setFocused(false);
       setSearch(filterOption?.mode === 'default' ? visibleValue : '');
       if (newItemFlag) {
-        setNewItemFlag(false)
-        setNewItem('')
+        setNewItemFlag(false);
+        setNewItem('');
       }
     }
   });
@@ -245,6 +189,22 @@ export const InputMatchedWords = <
       searchInputRef.current?.focus();
     }
   };
+  const handleKeyPressWithProps = (() => {
+    return (e: KeyboardEvent<HTMLInputElement>) => {
+      // eslint-disable-next-line react-hooks/rules-of-hooks
+      useHandleKeyPress(e, {
+        setInputValue: (v: Item, index: number | null) => {
+          addItem(v);
+          setSelectedItemIndex(index);
+        },
+        selectedItemIndex: selectedItemIndex ?? 0,
+        setSelectedItemIndex,
+        items,
+        ref: inputHintBlockRef
+      });
+    };
+  })();
+
 
   return (
     <Styled.Wrapper
@@ -255,7 +215,7 @@ export const InputMatchedWords = <
     >
       {type && type.mode === 'multi' && type.addNewItem ? (
         <IconCommon
-          id='addOrCloseIcon'
+          id="addOrCloseIcon"
           icon={closeIcon}
           onClick={(e) => {
             e.stopPropagation();
@@ -303,9 +263,12 @@ export const InputMatchedWords = <
           value: newItemFlag ? newItem : _value,
           setFieldValue: (_, value) => {
             newItemFlag && setNewItem(value);
-            filterOption?.mode === 'default' && setSearch(value);
+            if (filterOption?.mode === 'default') {
+              setSelectedItemIndex(0);
+              setSearch(value);
+            }
           },
-          error: Array.isArray(error)  ? error[0] : error,
+          error: Array.isArray(error) ? error[0] : error,
           touched: true,
           setFieldFocus: (_, isTouched) => {
             setFocused(isTouched);
@@ -315,6 +278,8 @@ export const InputMatchedWords = <
         onClick={() => {
           handleFocus();
         }}
+        onKeyDown={handleKeyPressWithProps}
+
         isDontChange={newItemFlag ? false : filterOption?.mode !== 'default'}
         readOnly={readOnly}
         refProps={mainInputRef}
@@ -322,21 +287,25 @@ export const InputMatchedWords = <
 
       {items?.length > 0 && (
         <Styled.SuggestedBlock
-          id='SuggestedBlock'
+          id="SuggestedBlock"
           ref={inputHintBlockRef}
           $position={(filterOption as filterOptionNew)?.position}
         >
           {filterOption && filterOption.mode === 'new' ? (
-            <div id='search'>
+            <div id="search">
               <Input
                 refProps={searchInputRef}
-                height='3rem'
-                width='80%'
-                name='search'
+                height="3rem"
+                width="80%"
+                name="search"
                 noFormikValue={{
                   value: search,
-                  setFieldValue: (_, value) => setSearch(value)
+                  setFieldValue: (_, value) => {
+                    setSearch(value);
+                    setSelectedItemIndex(0);
+                  }
                 }}
+                onKeyDown={handleKeyPressWithProps}
                 startIcon={{
                   icon: searchIcon
                 }}
@@ -348,6 +317,7 @@ export const InputMatchedWords = <
             _items.map((item, ind) => {
               const visible = onTransformValue(item, visibleItem);
               const selected = visible === visibleValue;
+              const selectedIndex = ind === selectedItemIndex;
               const _visible = parseValue ? parseValue(visible as string, item) : visible;
               const isChip =
                 type &&
@@ -359,19 +329,25 @@ export const InputMatchedWords = <
                     onTransformValue(item, visibleItem).toLowerCase()
                 );
 
+              const onSetSelectedItemIndex = () => {
+                setSelectedItemIndex(ind);
+              };
+
               return (
                 <Styled.HintOption
                   key={`${ind}}`}
                   $isChip={!!isChip}
-                  $selected={selected}
+                  $selected={selected || selectedIndex}
                   onClick={addItem.bind(this, item)}
+                  onMouseUp={onSetSelectedItemIndex}
+                  onFocus={onSetSelectedItemIndex}
                 >
                   {_visible as string | ReactNode}
                 </Styled.HintOption>
               );
             })
           ) : (
-            <Styled.HintOption $isChip={false} $selected={false} className='notFound'>
+            <Styled.HintOption $isChip={false} $selected={false} className="notFound">
               {translate('common.not_found_item')}
             </Styled.HintOption>
           )}
@@ -389,8 +365,8 @@ export const InputMatchedWords = <
               <Styled.Chip key={index}>
                 {_visible as string | ReactNode}
                 <IconCommon
-                  height='0.625rem'
-                  cursor='pointer'
+                  height="0.625rem"
+                  cursor="pointer"
                   icon={closeIcon}
                   background={COLORS.black}
                   onClick={deleteItem.bind(this, item)}
