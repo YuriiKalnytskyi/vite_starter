@@ -15,13 +15,13 @@ type Items = Item[];
 type filterOptionNew = {
   mode: 'new';
   position?: string;
-  includes: 'includes' | 'startsWith' //TODO
+  includes: 'includes' | 'startsWith'
 };
 
 type filterOptionDefault = {
   mode: 'default';
   position?: 'sticky' | 'static';
-  includes: 'includes' | 'startsWith' //TODO
+  includes: 'includes' | 'startsWith'
 };
 
 type FilterOptions = filterOptionNew | filterOptionDefault;
@@ -51,11 +51,13 @@ type IInputMatchedWordsProps<T extends Items, F extends FilterOptions> = IMargin
   filterOption?: F;
 }
 
+//TODO filterOption.includes improve the text matching logic
 //TODO when filterOption.mode === 'new' move focus to search input
 //TODO search input correct startIcon
 //TODO add a block that will reflect that there are no such items according to the entered search
 //TODO  make logic with display of many items
 //TODO  make logic that will allow you to add new items quite easily
+//TODO check for errors
 
 export const InputMatchedWords = <T extends Items, F extends FilterOptions>({
                                                                               name,
@@ -73,7 +75,6 @@ export const InputMatchedWords = <T extends Items, F extends FilterOptions>({
   const [focused, setFocused] = useState(false);
 
   const inputHintBlockRef = useRef<HTMLUListElement | null>(null);
-
 
   const { setFieldValue, value, error } = (() => {
     if (noFormikValue) {
