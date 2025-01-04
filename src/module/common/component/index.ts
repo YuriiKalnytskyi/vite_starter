@@ -7,3 +7,4 @@ export * from './portal/index';
 export * from './drawer/index';
 export * from './table/index';
 export * from './pagination/pagination.tsx';
+export * from './icon/icon.tsx'

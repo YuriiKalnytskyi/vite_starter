@@ -23,24 +23,6 @@ export interface IInputPropsStyles {
   placeholderColor?: string;
 }
 export type IOnSetValue = (name: string, value: string) => void;
-export interface IInputMatchedWordsProps extends IWProps, ISize, IInputDefault {
-  matchedWords: string[] | any[];
-  isFilter?: boolean;
-  isChip?: boolean;
-  isDontChange?: boolean;
-  isInput?: boolean;
-  innerPads?: string;
-  readOnly?: boolean;
-  readOnlyKeyboard?: boolean;
-  focused?: boolean;
-  isEdit?: boolean;
-  isFilterVisibleAllData?: boolean;
-  visibleItem?: string;
-  visibleIcon?: string;
-  isAutoComplete?: boolean;
-  isRequiredArrow?: boolean;
-  noFormikValue?: { value: string | { name: string; icon: string }; onSetValue: IOnSetValue };
-}
 
 export interface IInputMatchedWordsDynamic extends IMargin, ISize, IInputDefault {
   readOnly?: boolean;

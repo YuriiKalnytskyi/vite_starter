@@ -1,10 +1,11 @@
 import { memo } from 'react';
 
-import { Loader } from '@/module/common/component';
+import { Icon, Loader } from '@/module/common/component';
 import { IButtonProps } from '@/module/common/types';
-import { COLORS } from '@/theme';
+import { COLORS, SPACES } from '@/theme';
 
 import * as Styled from './button.styled';
+
 export const Button = memo(
   ({
      content,
@@ -41,32 +42,11 @@ export const Button = memo(
           />
         ) : (
           <>
-            {startIcon ? (startIcon.type === 'img' ? (
-                <Styled.ImgStart
-                  src={startIcon.icon}
-                  alt="icon"
-                  height={startIcon.height ?? '1.5rem'}
-                  className="startImg"
-                />
-              ) : (
-                <Styled.IconStart {...startIcon} className="start" />
-              )
-            ) : null}
-
+            {startIcon &&
+              <Icon {...startIcon} mr={content || endIcon ? SPACES.xxs : undefined} className="startIcon" />
+            }
             {content}
-
-            {endIcon ? (
-              endIcon.type === 'img' ? (
-                <Styled.ImgEnd
-                  src={endIcon.icon}
-                  alt="icon"
-                  height={endIcon.height ?? '1.5rem'}
-                  className="endImg"
-                />
-              ) : (
-                <Styled.IconEnd {...endIcon} className="endIcon" />
-              )
-            ) : null}
+            {endIcon && <Icon {...endIcon} ml={content || startIcon ? SPACES.xxs : undefined} className="endIcon" />}
           </>
         )}
       </Styled.StyledButton>

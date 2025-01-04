@@ -2,12 +2,12 @@ import { useState } from 'react';
 
 
 import testIcon from '@/assets/icons/vite.svg';
-import { Button, CheckBox, Input } from '@/module/common/component';
+import { Button, CheckBox, Icon, Input, InputMatchedWords } from '@/module/common/component';
 import { Table } from '@/module/common/component/table';
 import { DivCommon } from '@/module/common/styles';
 import { SPACES } from '@/theme';
 import { dateTransform, functionStub } from '@/utils';
-import { Formik, Form } from 'formik';
+import { Formik, Form, getIn } from 'formik';
 import { validationSchemaExample } from '@/module/example/validation/shema.ts';
 
 const dataTable = [
@@ -62,13 +62,34 @@ const dataTable = [
 ];
 
 import *  as  Styled from './example.styled.tsx';
-import { useChangeCard } from '@/module/common/hooks';
+import { changeCard } from '@/module/common/hooks';
+import { useQuery } from 'react-query';
+import axios from 'axios';
+import { onError } from '@/module/common/services';
 
 
 export const Example = () => {
 
   const [page, setPage] = useState(1);
 
+
+  const { data } = useQuery(
+    ['country'],
+    async () => {
+      const response = await axios.get('https://restcountries.com/v3.1/all?fields=name,flags,cca2');
+      const countries = response.data.map((country: any) => ({
+        name: country.name.common,
+        icon: country.flags?.svg,
+        cca2: country.cca2
+      }));
+      return { countries };
+    },
+    {
+      onError: (err: any) => {
+        onError(err);
+      }
+    }
+  );
 
   const parseValue = (value: unknown, key: string) => {
     if (key === 'createdAt') return dateTransform(value as string ?? '');
@@ -134,10 +155,10 @@ export const Example = () => {
         onSubmit={functionStub}
         validationSchema={validationSchemaExample}
       >
-        {() => (
+        {({ values }) => (
           <Form>
             CHECKBOX STATE (default, multi, radio)
-            <DivCommon fd="row" gap={SPACES.l} margin='0 0 2rem 0'>
+            <DivCommon fd="row" gap={SPACES.l} margin="0 0 2rem 0">
               <DivCommon height="100px" fd="row" ai="center" gap={SPACES.l}>
                 <CheckBox
                   name="default"
@@ -188,7 +209,7 @@ export const Example = () => {
             </DivCommon>
 
             INPUT STATE (default, readOnly, email, password)
-            <DivCommon fd="row" gap={SPACES.l} margin='0 0 2rem 0'>
+            <DivCommon fd="row" gap={SPACES.l} margin="0 0 2rem 0">
               <Input
                 name="first_name"
                 label="First Name"
@@ -217,41 +238,84 @@ export const Example = () => {
             </DivCommon>
 
             INPUT CARD
-            <DivCommon fd="row" gap={SPACES.l} margin='0 0 2rem 0'>
+            <DivCommon fd="row" gap={SPACES.l} margin="0 0 2rem 0">
               <Input
-                width='15rem'
+                width="15rem"
                 name="card"
                 label="Card"
                 placeholder="0000 0000 0000 0000"
                 optionOnChange={(name, value, setFieldValue) => {
-                  const _value = useChangeCard('card', value);
+                  const _value = changeCard('card', value);
                   setFieldValue(name, _value);
                 }}
               />
 
               <Input
-                width='7rem'
+                width="7rem"
                 name="expiry_data"
                 label="Date"
                 placeholder="MM/YY"
                 optionOnChange={(name, value, setFieldValue) => {
-                  const _value = useChangeCard('date', value);
+                  const _value = changeCard('date', value);
                   setFieldValue(name, _value);
                 }}
               />
 
               <Input
-                width='7rem'
+                width="7rem"
                 name="cvv"
-                type='password'
+                type="password"
                 label="CVV"
                 placeholder=""
                 optionOnChange={(name, value, setFieldValue) => {
-                  const _value = useChangeCard('cvc', value);
+                  const _value = changeCard('cvc', value);
                   setFieldValue(name, _value);
                 }}
               />
             </DivCommon>
+
+            INPUTMATCHEDWORDS
+            <DivCommon fd="row" gap={SPACES.l} margin="0 0 2rem 0">
+              <InputMatchedWords
+                name="test"
+                label="Default"
+                items={['test', 'test2', 'test3', 'test4']}
+              />
+
+              <InputMatchedWords
+                name="test"
+                label="Default"
+                items={['test', 'test2', 'test3', 'test4']}
+                readOnly
+              />
+
+              <InputMatchedWords
+                name="country"
+                label="Countri"
+                items={data?.countries ?? []}
+                {
+                  ...(getIn(values, 'country')?.icon ?
+                      {
+                        startIcon: {
+                          icon: getIn(values, 'country').icon,
+                          type: 'img'
+                        }
+                      }
+                      : null
+                  )
+                }
+                visibleItem="name"
+                parseValue={(value, valueObj) => {
+                  return (
+                    <DivCommon fd="row" gap={SPACES.l}>
+                      <Icon icon={valueObj.icon} type="img" />
+                      {value}
+                    </DivCommon>
+                  );
+                }}
+              />
+            </DivCommon>
+
 
           </Form>
         )}

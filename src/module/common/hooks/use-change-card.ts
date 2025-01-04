@@ -22,6 +22,6 @@ const formatObject = {
   cvc: formatCVC
 };
 
-export const useChangeCard = (type: 'card' | 'date' | 'cvc', value: string) => {
+export const changeCard = (type: 'card' | 'date' | 'cvc', value: string) => {
   return formatObject[type](value);
 };

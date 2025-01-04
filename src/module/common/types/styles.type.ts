@@ -15,11 +15,17 @@ export interface IDivCommon {
   anyStyled?: any;
 }
 
-export interface IIcon {
+export interface IIcon extends IMargin{
   icon: string;
   height?: string;
   background?: string;
   cursor?: 'pointer' | 'text';
+}
+
+export interface IIconInput extends IIcon {
+  onClick?: () => void;
+  type?: 'svg' | 'img' | string;
+  className?:string
 }
 
 export interface IMargin {

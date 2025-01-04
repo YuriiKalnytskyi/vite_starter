@@ -1,4 +1,4 @@
-import { IIcon, IMargin } from '@/module/common/types';
+import { IIconInput, IMargin } from '@/module/common/types';
 
 import * as Styled from './input.styled';
 import { ChangeEvent, ReactNode, useEffect, useMemo, useRef, useState } from 'react';
@@ -13,11 +13,7 @@ import { COLORS, SPACES } from '@/theme';
 import { passwordError, RegexConst } from '@/module/common/constants';
 import { useTranslation } from 'react-i18next';
 import { functionStub } from '@/utils';
-
-export interface IIconInput extends IIcon {
-  onClick?: () => void;
-  type?: 'svg' | 'img' | string;
-}
+import { Icon } from '@/module/common/component';
 
 export interface IInputProps extends IMargin {
   name: string;
@@ -31,10 +27,12 @@ export interface IInputProps extends IMargin {
   height?: string;
   width?: string;
   readOnly?: boolean;
+  isDontChange?: boolean
   noFormikValue?: {
     value: string,
     setFieldValue: (name: string, value: string) => void,
     setFieldTouched?: (name: string, isTouched: boolean) => void,
+    setFieldFocus?: (name: string, isTouched: boolean) => void,
     error?: string
     touched?: boolean
   };
@@ -43,16 +41,6 @@ export interface IInputProps extends IMargin {
   optionOnChange?: (name: string, value: string, setFieldValue: (name: string, value: string) => void) => void,
 }
 
-const renderIcon = (iconData: IIconInput | undefined, className: string) => {
-  if (!iconData) return null;
-
-  return iconData.type === 'img' ? (
-    <Styled.ImgIcon {...iconData} src={iconData.icon} alt="icon" className={className} />
-  ) : (
-    <IconCommon {...(iconData as Omit<IIconInput, 'type'>)} className={className} />
-  );
-};
-
 export const Input = ({
                         height,
                         name,
@@ -60,6 +48,7 @@ export const Input = ({
                         type,
                         placeholder,
                         isAutoComplete = false,
+                        isDontChange = false,
                         noFormikValue,
                         endIcon,
                         startIcon,
@@ -67,14 +56,15 @@ export const Input = ({
                         ...props
                       }: IInputProps) => {
 
-  const { setFieldValue, value, error, setFieldTouched, touched } = (() => {
+  const { setFieldValue, value, error, setFieldTouched, setFieldFocus, touched } = (() => {
     if (noFormikValue) {
       return {
         value: noFormikValue.value,
-        setFieldValue: noFormikValue.setFieldValue,
         error: noFormikValue.error ?? '',
+        touched: noFormikValue?.touched ?? false,
+        setFieldValue: noFormikValue.setFieldValue,
         setFieldTouched: noFormikValue?.setFieldTouched ?? functionStub,
-        touched: noFormikValue?.touched ?? false
+        setFieldFocus: noFormikValue?.setFieldFocus ?? functionStub
 
       };
     } else {
@@ -86,7 +76,8 @@ export const Input = ({
         error: getIn(errors, name),
         touched: getIn(touched, name),
         setFieldValue,
-        setFieldTouched
+        setFieldTouched,
+        setFieldFocus: setFieldTouched
       };
     }
   })();
@@ -94,18 +85,15 @@ export const Input = ({
 
 
   const onChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const _value = e.target.value;
-    console.log(_value, 'onChange');
-
-    if (optionOnChange) {
-      optionOnChange(name, _value, setFieldValue);
-    } else {
-      setFieldValue(name, _value); // Якщо немає кастомної логіки, встановлюємо значення за замовчуванням
-    }
+    const _value = isDontChange ? '' : e.target.value;
+    optionOnChange ? optionOnChange(name, _value, setFieldValue) : setFieldValue(name, _value);
   };
 
   const onBlur = () => {
-    setFieldTouched(name, true);
+    setFieldTouched(name, false);
+  };
+  const onFocus = () => {
+    setFieldFocus(name, true);
   };
 
 
@@ -151,9 +139,10 @@ export const Input = ({
     return [];
   }, [type, value]);
 
-  const innerPads =
+  const paddingInput =
     (startIcon && `${SPACES.l}  ${SPACES.xxxxxxl} ${SPACES.l} ${SPACES.xxxxxxl_}`) ??
-    (endIcon && `${SPACES.l}  ${SPACES.xxxxxxl_} ${SPACES.l} ${SPACES.xxxxxxl}`) ??
+    (endIcon && `${SPACES.l}  ${SPACES.xxxxxxl_} ${SPACES.l} ${SPACES.l}`) ??
+    (endIcon && startIcon && `${SPACES.l}  ${SPACES.xxxxxxl_} ${SPACES.l} ${SPACES.xxxxxxl_}`) ??
     (type === 'password' ? `${SPACES.xs} ${SPACES.xxxxxxl} ${SPACES.xs} ${SPACES.m}` : undefined);
 
 
@@ -179,11 +168,12 @@ export const Input = ({
         value={value}
         onChange={onChange}
         onBlur={onBlur}
+        onFocus={onFocus}
         placeholder={placeholder ?? ''}
+        type={type === 'password' ? (isPassword ? 'text' : 'password') : type}
         height={height}
         $isError={isError}
-        $innerPads={innerPads}
-        type={type === 'password' ? (isPassword ? 'text' : 'password') : type}
+        $padding={paddingInput}
         {...props}
       />
 
@@ -197,9 +187,9 @@ export const Input = ({
           className="passwordIcon"
         />
       )}
-
-      {renderIcon(startIcon, 'startIcon')}
-      {renderIcon(endIcon, 'endIcon')}
+      
+      {startIcon && <Icon {...startIcon} className="startIcon" />}
+      {endIcon && <Icon {...endIcon} className="endIcon" />}
 
       {isError &&
       !passwordError.includes(error ?? '') &&

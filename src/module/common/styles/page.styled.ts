@@ -2,6 +2,7 @@ import styled, { css } from 'styled-components';
 
 import { IDivCommon, IIcon } from '@/module/common/types';
 import { COLORS } from '@/theme';
+import { Margin } from '@/module/common/styles/margin.styled.ts';
 
 export const Center = css`
   display: flex;
@@ -38,4 +39,6 @@ export const IconCommon = styled.div<IIcon>`
   -webkit-mask-size: 100% 100%;
   mask-image: url(${({ icon }) => icon});
   cursor: ${({ cursor }) => cursor ?? 'text'};
+    
+  ${Margin};
 `;

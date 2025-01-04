@@ -63,9 +63,9 @@ export const Label = styled.label<{ $required?: boolean; $isError: boolean }>`
             `}
 `;
 
-export const commonStyles = css<{ $innerPads?: string, $isError?: boolean }>`
+export const commonStyles = css<{ $padding?: string, $isError?: boolean }>`
     margin: 0;
-    padding: ${({ $innerPads }) => $innerPads ?? `${SPACES.xxl} ${SPACES.xxxxl}`};
+    padding: ${({ $padding }) => $padding ?? `${SPACES.xxl} ${SPACES.xxxxl}`};
 
     border: 1px solid ${({ $isError }) => ($isError ? COLORS.mainRed : COLORS.rgba(COLORS.black, 0.4))};
     border-radius: 10px;
@@ -88,7 +88,11 @@ export const commonStyles = css<{ $innerPads?: string, $isError?: boolean }>`
 `;
 
 
-export const Input = styled.input<{ height?: string, $isError: boolean, $innerPads?: string }>`
+export const Input = styled.input<{
+  height?: string,
+  $isError: boolean,
+  $padding?: string,
+}>`
     width: 100% !important;
     height: ${({ height }) => height ?? '3rem'};
 
@@ -106,7 +110,6 @@ export const Input = styled.input<{ height?: string, $isError: boolean, $innerPa
 
     cursor: ${({ readOnly }) => (readOnly ? 'initial' : 'pointer')};
     pointer-events: ${({ readOnly }) => (readOnly ? 'none' : 'initial')};
-
 
     &[type='number'] {
         appearance: none;
@@ -131,7 +134,7 @@ export const VisibilityIcon = styled(IconCommon)`
 `;
 
 export const ImgIcon = styled.img<{ height?: string; }>`
-    height: ${({ height }) => `${height}` ?? '1.5rem'} !important;
+    height: ${({ height }) => height ?? '1.5rem'} !important;
     aspect-ratio: 1/1;
 `;
 

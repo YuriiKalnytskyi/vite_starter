@@ -1,9 +1,7 @@
 import styled, { css } from 'styled-components';
 
-
-
-import { Fonts, IconCommon, Margin } from '@/module/common/styles';
-import { IButtonAppearances, IButtonProps, IIconButton } from '@/module/common/types';
+import { Fonts, Margin } from '@/module/common/styles';
+import { IButtonAppearances, IButtonProps } from '@/module/common/types';
 import { COLORS, FONTS, MEDIA, SPACES, TRANSITIONS } from '@/theme';
 
 
@@ -31,7 +29,7 @@ const style = css<IButtonProps>`
 
     text-transform: capitalize;
     transition: all ${TRANSITIONS.duration.fast} ${TRANSITIONS.function.linear};
-    
+
     @media screen and (max-width: ${MEDIA.mobile_m}) {
         font-size: ${FONTS.SIZES.xxsm};
         line-height: ${FONTS.SIZES.xxxxl};
@@ -45,9 +43,11 @@ const style = css<IButtonProps>`
 
 const defaultStyledButton = css`
     cursor: pointer;
+
     & > *:not(:disabled) {
-        cursor: pointer!important;
+        cursor: pointer !important;
     }
+
     &:hover,
     &:focus {
         filter: saturate(150%);
@@ -59,9 +59,10 @@ const defaultStyledButton = css`
 
     &:disabled {
         opacity: 0.5;
-        cursor: initial!important;  
+        cursor: initial !important;
+
         & > * {
-            cursor: initial!important;
+            cursor: initial !important;
         }
 
         &:hover {
@@ -96,39 +97,10 @@ const buttonAppearances: IButtonAppearances = {
 };
 
 export const StyledButton = styled.button<IButtonProps>`
-    & > #loader{
-        height:100%!important;
-    };
+    & > #loader {
+        height: 100% !important;
+    }
+;
     ${style};
     ${({ variant }) => buttonAppearances[variant as keyof typeof buttonAppearances]}
 `;
-
-export const IconEnd = styled(IconCommon)<IIconButton>`
-  height: ${({ widthIcon }) => (widthIcon ? `${widthIcon} !important` : '24px !important')};
-  aspect-ratio: 1/1;
-  margin-right: ${({ marginIcon }) => marginIcon ?? SPACES.xs};
-  margin-left: ${({ marginIcon }) => marginIcon ?? SPACES.xs};
-
-`;
-
-export const IconStart = styled(IconCommon)<IIconButton>`
-  height: ${({ widthIcon }) => (widthIcon ? `${widthIcon} !important` : '24px !important')};
-  aspect-ratio: 1/1;
-  margin-right: ${({ marginIcon }) => marginIcon ?? SPACES.xs};
-`;
-
-export const ImgStart = styled.img.withConfig({
-  shouldForwardProp: (prop) => !['height', 'width'].includes(prop),
-})<{height:string; width?:string}>`
-    margin-right: 0.625rem;
-    height: ${({ height }) => height ?? '1.5rem'};
-    ${({ width }) => (width ? `width: ${width};` : 'aspect-ratio: 1 / 1;')}
-`;
-
-export const ImgEnd = styled.img.withConfig({
-  shouldForwardProp: (prop) => !['height', 'width'].includes(prop),
-})<{height:string; width?:string}>`
-    margin-left: 0.625rem;
-    height: ${({ height }) => height ?? '1.5rem'};
-    ${({ width }) => (width ? `width: ${width};` : 'aspect-ratio: 1 / 1;')};
-`
