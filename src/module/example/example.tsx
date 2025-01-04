@@ -25,17 +25,18 @@ const randomString = (minLength: number, maxLength: number): string => {
   return result;
 };
 
-const dataTable = Array.from({ length: 6 }, (_, index) => ({
-  id: index + 1,
-  user: index % 2 === 0 ? randomString(50, 500) : 'Tester',
-  email: 'tester@gmail.com',
-  amount: 150,
-  currency: 'USD',
-  createdAt: '2025-01-03T12:34:56.789Z'
-}));
-
 export const Example = () => {
   const [page, setPage] = useState(1);
+
+
+  const dataTable = Array.from({ length: 6 }, (_, index) => ({
+    id: index + 1,
+    user: page % 2 === 0 ? (index % 2 === 0 ? 'Tester' : randomString(50, 1000)) : (index % 2 === 0 ? randomString(50, 500) : 'Tester'),
+    email: 'tester@gmail.com',
+    amount: 150,
+    currency: 'USD',
+    createdAt: '2025-01-03T12:34:56.789Z'
+  }));
 
   const { data } = useQuery(
     ['country'],
