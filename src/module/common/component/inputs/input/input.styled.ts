@@ -63,25 +63,26 @@ export const commonStyles = css<{ $isError?: boolean, readOnly?:boolean }>`
     background: ${({ readOnly }) => readOnly && COLORS.white};
     border: 1px solid ${({ $isError }) => ($isError ? COLORS.mainRed : COLORS.rgba(COLORS.black, 0.4))};
     border-radius: 10px;
-    
+
     font-family: ${FONTS.FAMILIES.inter};
     font-size: ${FONTS.SIZES.l};
     font-weight: ${FONTS.WEIGHTS.normal};
-    
+
     cursor: ${({ readOnly }) => (readOnly ? 'initial' : 'pointer')};
     pointer-events: ${({ readOnly }) => (readOnly ? 'none' : 'initial')};
-    
+
     caret-color: ${COLORS.primary};
-    
+
     &:not(:focus-within) {
         cursor: pointer;
     }
 
     &:focus,
     &:focus-within {
-        border: 1px solid ${COLORS.primary} !important;  
-        outline: ${({ readOnly }) => readOnly && 'none'};
+        outline: none;
+        border: 1px solid ${COLORS.primary} !important;
     }
+
     &::placeholder {
         color: ${COLORS.rgba(COLORS.black, 0.4)};
     }
