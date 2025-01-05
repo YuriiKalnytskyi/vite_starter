@@ -137,10 +137,14 @@ export const ErrorPasswordContainer = styled.div`
 `;
 
 export const Error = styled.div`
-  position: absolute;
-  left: ${SPACES.xxxxxs};
-  font-size: ${FONTS.SIZES.s};
-  color: ${COLORS.error};
+    position: absolute;
+    left: ${SPACES.xxxxxs};
+    font-size: ${FONTS.SIZES.s};
+    color: ${COLORS.error};
+
+    &.textArea {
+        bottom: -${SPACES.m};
+    }
 `;
 
 export const ErrorPassword = styled.div<{ $isError: boolean; $isSuccess: boolean }>`

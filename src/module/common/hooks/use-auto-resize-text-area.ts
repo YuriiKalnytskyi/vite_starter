@@ -1,36 +1,57 @@
-import { useEffect, useRef } from 'react';
-
-import { pxToRem } from '@/utils';
+import { useEffect, useRef, useState } from 'react';
 
 export const useAutoResizeTextArea = (
   ref: HTMLTextAreaElement | null,
   value: string,
-  rows?: number
+  rows: number
 ) => {
+  const [height, setHeight] = useState(0);
+  const prevValue = useRef(value);
   const initialHeight = useRef('');
-  const isFirstRender = useRef(true);
+  const rowsInLine = useRef(0);
 
   useEffect(() => {
     if (ref) {
-      if (isFirstRender.current) {
-        initialHeight.current = pxToRem(ref.clientHeight);
-        isFirstRender.current = false;
+      if (initialHeight.current === '') {
+        initialHeight.current = ref.style.height;
       }
 
       if (!value) {
-        ref.style.height = initialHeight.current;
+        setHeight(parseInt(initialHeight.current, 10));
+        return;
       }
 
-      const { scrollHeight } = ref;
+      const paddingTop = parseInt(window.getComputedStyle(ref).paddingTop, 10);
+      const paddingBottom = parseInt(window.getComputedStyle(ref).paddingBottom, 10);
 
-      if (rows) {
-        if (rows * 44 < scrollHeight) {
-          ref.style.height = pxToRem(scrollHeight);
-        }
-      } else {
-        ref.style.height = pxToRem(scrollHeight);
+      if (value === prevValue.current) {
+        return;
       }
+
+      const lineWidth = ref.clientWidth - paddingTop - paddingBottom;
+      const lineHeight = parseInt(window.getComputedStyle(ref).fontSize, 10);
+
+      const charactersPerLine = Math.floor(lineWidth / lineHeight);
+
+      if (charactersPerLine !== rowsInLine.current) {
+        rowsInLine.current = charactersPerLine;
+      }
+
+      const numLines = Math.ceil(value.length / rowsInLine.current);
+
+      const newHeight = Math.max(
+        numLines * lineHeight + paddingTop + paddingBottom,
+        (rows + 1) * lineHeight + paddingTop + paddingBottom
+      );
+
+      setHeight(newHeight);
+      prevValue.current = value;
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [ref, value]);
+  }, [value, ref, rows]);
+
+  useEffect(() => {
+    if (ref && height) {
+      ref.style.height = `${height}px`;
+    }
+  }, [height, ref]);
 };

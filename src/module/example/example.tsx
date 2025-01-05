@@ -4,7 +4,16 @@ import { useState } from 'react';
 import { useQuery } from 'react-query';
 
 import testIcon from '@/assets/icons/vite.svg';
-import { Button, CheckBox, Icon, Input, InputCalendar, InputMatchedWords, Table } from '@/module/common/component';
+import {
+  Button,
+  CheckBox,
+  Icon,
+  Input,
+  InputCalendar,
+  InputMatchedWords,
+  Table,
+  TextArea
+} from '@/module/common/component';
 import { changeCard } from '@/module/common/hooks';
 import { onError } from '@/module/common/services';
 import { DivCommon } from '@/module/common/styles';
@@ -133,6 +142,7 @@ export const Example = () => {
           card: '',
           expiry_data: '',
           cvv: ''
+          // resizable: randomString(50, 1000)
         }}
         onSubmit={functionStub}
         validationSchema={validationSchemaExample}
@@ -343,6 +353,24 @@ export const Example = () => {
                 mode="multiple"
               />
             </DivCommon>
+
+            TEXTAREA
+            <DivCommon gap={SPACES.l} ai="flex-end" margin="0 0 2rem 0">
+              <TextArea
+                name="first_name"
+                rows={3}
+                label="TextArea"
+                resizable={false}
+              />
+            </DivCommon>
+
+              <TextArea
+                name="resizable"
+                rows={2}
+                label="TextArea resizable"
+                resizable
+              />
+
           </Form>
         )}
       </Formik>
