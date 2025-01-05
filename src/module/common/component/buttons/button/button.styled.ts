@@ -72,8 +72,8 @@ const defaultStyledButton = css`
 
 const buttonAppearances: IButtonAppearances = {
   primary: `
-    background-color: ${COLORS.green};
-    border: 1px solid ${COLORS.green};
+    background-color: ${COLORS.primary};
+    border: 1px solid ${COLORS.primary};
     color: ${COLORS.white};
         
     & > .start,
@@ -82,17 +82,6 @@ const buttonAppearances: IButtonAppearances = {
   }
   ${defaultStyledButton};  
 `,
-  inverse: `
-    background-color: ${COLORS.gray};
-    border: 1px solid ${COLORS.black};
-    color: ${COLORS.black};
-        
-    & > .start,
-    & > .end {
-    background-color: ${COLORS.white};
-  }
-   ${defaultStyledButton};  
-`
 };
 
 export const StyledButton = styled.button<IButtonProps>`

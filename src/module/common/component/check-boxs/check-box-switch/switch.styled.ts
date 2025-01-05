@@ -40,8 +40,8 @@ export const CheckBox = styled.input`
   width: 3.25rem;
   height: 2rem;
   &:checked + ${CheckBoxLabel} {
-    background: ${COLORS.green};
-    border: 2px solid ${COLORS.green};
+    background: ${COLORS.primary};
+    border: 2px solid ${COLORS.primary};
     &::after {
       content: '';
       display: block;

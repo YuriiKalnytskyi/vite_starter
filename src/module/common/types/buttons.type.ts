@@ -30,7 +30,7 @@ export interface IStartIcon extends IIcon {
 
 export interface IButtonProps extends IButtonBasicProps {
   disabled?: boolean;
-  variant?: 'primary' | 'inverse';
+  variant?: 'primary' ;
   pads?: string;
   startIcon?: IStartIcon;
   endIcon?: IStartIcon;
@@ -40,5 +40,4 @@ export interface IButtonProps extends IButtonBasicProps {
 
 export interface IButtonAppearances {
   primary: string;
-  inverse: string;
 }

@@ -18,7 +18,7 @@ export const Loading = ({ className, withAnimation, ...restProps }: ILoadingProp
   return (
     <animated.div className={`loading ${className}`} style={styles} {...restProps}>
       <Styled.MyContainer>
-        <Styled.Loader height='auto' color={COLORS.mainRed} />
+        <Styled.Loader height='auto' color={COLORS.primary} />
       </Styled.MyContainer>
     </animated.div>
   );

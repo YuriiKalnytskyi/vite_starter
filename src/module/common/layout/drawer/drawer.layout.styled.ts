@@ -12,13 +12,14 @@ export const Container = styled.div`
 
   padding: ${SPACES.xxxxxxls} ${SPACES.xxxxl};
 
-  &::-webkit-scrollbar {
-    width: 4px;
-    background-color: ${COLORS.green};
-  }
-  &::-webkit-scrollbar-thumb {
-    background-color: ${COLORS.green};
-  }
+    &::-webkit-scrollbar-track {
+        background-color: ${COLORS.primary};
+    }
+
+    &::-webkit-scrollbar-thumb {
+        background-color: ${COLORS.rgba(COLORS.primary, 0.8)};
+        border-radius: 0.25rem;
+    }
 
   @media screen and (max-width: ${MEDIA.tablet}) {
     width: 22rem;

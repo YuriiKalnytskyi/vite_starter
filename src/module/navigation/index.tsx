@@ -13,7 +13,7 @@ const Example = lazy(() =>
 );
 
 export const MainRouter = () => (
-  <Suspense fallback={<Loader size='medium' height='auto' color={COLORS.green} />}>
+  <Suspense fallback={<Loader size='medium' height='auto' color={COLORS.primary} />}>
     <Routes>
       <Route
         path={APP_KEYS.ROUTER_KEYS.EXAMPLE}

@@ -26,7 +26,7 @@ const style = {
 class ToastContainer {
   private notify({ title, text, icon, color }: ISantaToastNotify) {
     toast(
-      <Styled.ContentDiv data-element='toast'>
+      <Styled.ContentDiv data-element="toast">
         <Styled.ContentDivColumn>
           <h1>{title}</h1>
           <p>{text}</p>
@@ -35,7 +35,7 @@ class ToastContainer {
       {
         icon: (
           <Styled.Icon
-            className='icon'
+            className="icon"
             style={{
               WebkitMaskImage: `url(${icon})`,
               WebkitMaskSize: '100% 100%',
@@ -63,11 +63,11 @@ class ToastContainer {
       }
     }
 
-    this.notify({ title, text, icon: (await Icons).successIcon, color: COLORS.green });
+    this.notify({ title, text, icon: (await Icons).successIcon, color: COLORS.success });
   }
 
   public async error({ title, text }: IToastTitleProps) {
-    this.notify({ title, text, icon: (await Icons).successIcon, color: COLORS.mainRed });
+    this.notify({ title, text, icon: (await Icons).successIcon, color: COLORS.error });
   }
 }
 
