@@ -43,7 +43,7 @@ export interface IPadding {
   pt?: string;
 }
 
-export interface IFonts extends IMargin {
+export interface IFonts {
   ff?: string;
   fw?: string;
   fs?: string;

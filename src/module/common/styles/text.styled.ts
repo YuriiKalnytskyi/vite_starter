@@ -1,7 +1,7 @@
 import styled, { css } from 'styled-components';
 
 import { Margin } from '@/module/common/styles/margin.styled';
-import { IFonts } from '@/module/common/types';
+import { IFonts, IMargin } from '@/module/common/types';
 import { COLORS, FONTS } from '@/theme';
 
 export const Fonts = css<IFonts>`
@@ -19,19 +19,13 @@ export const Fonts = css<IFonts>`
     css<{ width?: string }>`
       width: ${({ width }) => width};
     `}
-
-  ${Margin};
 `;
 
-export const TitleCommon = styled.p<IFonts>`
+export const TitleCommon = styled.p<IFonts & IMargin>`
   ${Fonts};
   font-family: ${FONTS.FAMILIES.roboto};
 
   font-size: ${FONTS.SIZES.xxxxl};
   line-height: 1.5;
   ${Margin};
-`;
-
-export const SubTitleCommon = styled.span`
-  ${Fonts};
 `;

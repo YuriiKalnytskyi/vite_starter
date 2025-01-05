@@ -106,7 +106,7 @@ export const Input = ({
     updateIconTop('startIcon');
     updateIconTop('endIcon');
     updateIconTop('passwordIcon');
-  }, [startIcon, startIcon]);
+  }, [startIcon?.icon, endIcon?.icon]);
 
   const successPasswordMessages = useMemo(() => {
     if (type === 'password' && value) {

@@ -13,6 +13,7 @@ import { SPACES } from '@/theme';
 import { dateTransform, functionStub } from '@/utils';
 
 import * as Styled from './example.styled.tsx';
+import { APP_KEYS } from '../common/constants/index.ts';
 
 const randomString = (minLength: number, maxLength: number): string => {
   const length = Math.floor(Math.random() * (maxLength - minLength + 1)) + minLength;
@@ -90,6 +91,10 @@ export const Example = () => {
           />
           <Button content="button" variant="primary" isLoading={true} />
           <Button content="button" variant="primary" disabled />
+          <Button.AsNavLink
+            to={APP_KEYS.ROUTER_KEYS.HOME}
+            content="navigation button "
+          />
         </DivCommon>
       </DivCommon>
 
