@@ -51,7 +51,7 @@ export const Pagination = ({
     };
 
     useEffect(() => {
-        if (valuesDebounce !== null && valuesDebounce !== 0) {
+        if (valuesDebounce && valuesDebounce > 1 && valuesDebounce && +valuesDebounce < +lastPage ){
             onCertainPage(valuesDebounce);
             onReset();
 
@@ -103,7 +103,7 @@ export const Pagination = ({
                                     isAutoFocus
                                     type='number'
                                     noFormikValue={{
-                                        value: inputPage === 0 ? '' : inputPage?.toString() ?? '',
+                                        value: valuesDebounce && valuesDebounce < 1 || valuesDebounce && +valuesDebounce > +lastPage ? '' : inputPage?.toString() ?? '',
                                         setFieldValue: (_,value) =>setInputPage(+value)
                                     }}
                                 />
