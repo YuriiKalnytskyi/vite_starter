@@ -29,7 +29,7 @@ export const Pagination = ({
     const [isVisibleInput, setIsVisibleInput] = useState<number | null>(null);
     const [inputPage, setInputPage] = useState<number | null>(null);
     const [valuesDebounce] = useDebounce(inputPage, 1000);
-    console.log(inputPage, valuesDebounce)
+
     const onNext = () => {
         onPageChange(currentPage + 1);
     };
