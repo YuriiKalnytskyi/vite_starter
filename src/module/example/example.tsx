@@ -308,11 +308,23 @@ export const Example = () => {
             CALENDAR
             <DivCommon fd="row" gap={SPACES.l} ai="flex-end" margin="0 0 2rem 0">
 
-            <InputCalendar
-              label='Calendar'
-              name='Calendar'
-              mode='single'
-            />
+              <InputCalendar
+                label="Calendar (Date) "
+                name="calendar_single"
+                mode="single"
+                visibleOfMonths={1}
+              />
+              <InputCalendar
+                label="Calendar ({ftom:Date, to:Date }) "
+                name="calendar_range"
+                mode="range"
+                disabledDay={new Date()}
+              />
+              <InputCalendar
+                label="Calendar (Date[])"
+                name="calendar_multiple"
+                mode="multiple"
+              />
             </DivCommon>
           </Form>
         )}

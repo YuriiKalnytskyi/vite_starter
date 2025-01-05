@@ -48,48 +48,51 @@ export const PaginationButton = styled.button`
   border-radius: ${SPACES.xxsm};
 
   &.selected {
-    // border: 1px solid ${COLORS.tableHeader};
-    background: ${COLORS.tableHeader};
+    background: ${COLORS.primary};
     color: ${COLORS.white};
     font-weight: ${FONTS.WEIGHTS.semi_bold};
   }
 
   &:hover {
-    background: ${COLORS.tableHeader};
+    background: ${COLORS.primary};
     color: ${COLORS.white};
     font-weight: ${FONTS.WEIGHTS.semi_bold};
   }
 `;
 
 const prevNextBtnStyles = css`
-  ${buttonsCommonStyles};
-  width: 2rem;
-  height: 2rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+    ${buttonsCommonStyles};
+    width: 2rem;
+    height: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
-  border-radius: ${SPACES.xxsm};
+    border-radius: ${SPACES.xxsm};
 
-  &:hover {
-    background-color: ${COLORS.rgba(COLORS.tableRowActive, 0.3)};
-  }
+    &:hover {
+        background-color: ${COLORS.rgba(COLORS.primary, 0.3)};
+    }
 
-  &:disabled {
-    opacity: 0.5;
-    background-color: ${COLORS.white};
-  }
+    &:disabled {
+        opacity: 0.5;
+        background-color: ${COLORS.white};
 
-  &:active:not(:disabled) {
-    transform: scale(0.98);
-  }
+        .icon {
+            background: ${COLORS.rgba(COLORS.black, 0.3)};
+        }
+    }
+
+    &:active:not(:disabled) {
+        transform: scale(0.98);
+    }
 `;
 
 export const PrevPageButton = styled.button`
   ${prevNextBtnStyles};
   margin-right: 0.5rem;
   .icon {
-    background: ${COLORS.tableHeader};
+    background: ${COLORS.primary};
   }
 `;
 
@@ -97,6 +100,6 @@ export const NextPageButton = styled.button`
   ${prevNextBtnStyles};
   margin-left: 0.5rem;
   .icon {
-    background: ${COLORS.tableHeader};
+    background: ${COLORS.primary};
   }
 `;

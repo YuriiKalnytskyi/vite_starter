@@ -1,6 +1,7 @@
 export const INDEX = {
   default: 1,
   absolute: 2,
-  popup: 3,
-  drawer: 4
+  drawer: 3,
+  popup: 4,
+  extreme_case: 5,
 };

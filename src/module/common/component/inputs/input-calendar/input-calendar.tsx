@@ -1,18 +1,19 @@
 import { getIn, useFormikContext } from 'formik';
 import { useState } from 'react';
 import { DateRange, DaySelectionMode } from 'react-day-picker';
-// overriding styles
 import 'react-day-picker/dist/style.css';
 
 import calendarIcon from '@/assets/icons/default/calendar.svg';
 import closeIcon from '@/assets/icons/default/close-icon.svg';
-import { useClickOutside } from '@/module/common/hooks';
-// import '@/module/common/styles/react-day-picker.css';
-import { CalendarFormatUtil, functionStub } from '@/utils';
+import { useClickOutside, useIsMobile } from '@/module/common/hooks';
+import { dateTransform, functionStub } from '@/utils';
 
 import { Input } from '../index';
 import * as Styled from './input-calendar.styled';
 import { IInputDefault } from '@/module/common/types';
+import { Drawer } from '@/module/common/component';
+import { PopupLayout } from '@/module/common/layout';
+import { MEDIA } from '@/theme';
 
 export type DateSelection = DateRange | Date[] | Date | undefined;
 
@@ -22,7 +23,7 @@ export interface ICalendarProps extends IInputDefault {
   width?: string;
   height?: string;
   isIcon?: boolean;
-  numberOfMonths?: number;
+  visibleOfMonths?: 1 | 2;
   noFormikValue?: {
     value: DateSelection;
     setFieldValue: (name: string, value: DateSelection) => void;
@@ -32,6 +33,31 @@ export interface ICalendarProps extends IInputDefault {
   isFlexLabel?: boolean;
   isSelectYearOrMounts?: { fromYear?: number; toYear?: number };
 }
+
+const CalendarFormatUtil = <T extends DateSelection>(
+  data: T,
+  mode: DaySelectionMode | undefined
+): string => {
+  let filterDate = '';
+
+  if (data && mode === 'range' && 'from' in data && 'to' in data) {
+    const startDate = dateTransform(data.from, true);
+    const endDate = dateTransform(data.to, true);
+
+    filterDate = `${startDate} - ${endDate.includes('NaN') ? '' : endDate}`;
+  }
+
+  if (data && mode === 'single' && data instanceof Date) {
+    filterDate = dateTransform(data, true);
+  }
+
+  if (data && mode === 'multiple' && Array.isArray(data)) {
+    filterDate = data.map((v) => dateTransform(v, true)).join(' - ');
+  }
+
+  return filterDate;
+};
+
 
 export const InputCalendar = ({
                                 name,
@@ -43,7 +69,7 @@ export const InputCalendar = ({
                                 mode,
                                 isSelectYearOrMounts,
                                 disabledDay,
-                                numberOfMonths,
+                                visibleOfMonths,
                                 ...props
                               }: ICalendarProps) => {
   const { setFieldValue, value } = (() => {
@@ -85,11 +111,33 @@ export const InputCalendar = ({
     (mode === 'single' && (value as Date)) ||
     undefined;
 
+  const isMobile = useIsMobile();
+  const isTabletS = useIsMobile(MEDIA.tablet_s);
+
   const { ref } = useClickOutside(() => {
-    if (isCalendarOpened) {
+    if (isCalendarOpened && !isMobile) {
       handleButtonClick();
     }
   });
+
+  const CalendarCommon = () => (
+    <Styled.Calendar
+      mode={mode as any}
+      onSelect={onSelect}
+      selected={selected as DateSelection}
+      numberOfMonths={isTabletS ? 1 : isMobile && visibleOfMonths === 1 ? 2 : visibleOfMonths ?? 2}
+      {...(disabledDay ? { disabled: { after: disabledDay } } : {})}
+      weekStartsOn={1}
+      {...(isSelectYearOrMounts
+        ? {
+          captionLayout: 'dropdown-buttons',
+          fromYear: isSelectYearOrMounts.fromYear ?? 2022,
+          toYear: isSelectYearOrMounts.toYear ?? new Date().getFullYear()
+        }
+        : { captionLayout: 'dropdown' })}
+    />
+  );
+
 
   return (
     <Styled.Wrapper ref={ref} width={width} {...props} className="calendarContainer">
@@ -118,23 +166,24 @@ export const InputCalendar = ({
         isDontChange
       />
 
-      {isCalendarOpened && (
-        <Styled.Calendar
-          mode={mode as any}
-          onSelect={onSelect}
-          selected={selected as DateSelection}
-          numberOfMonths={numberOfMonths ?? 2}
-          {...(disabledDay ? { disabled: { after: disabledDay } } : {})}
-          weekStartsOn={1}
-          {...(isSelectYearOrMounts
-            ? {
-              captionLayout: 'dropdown-buttons',
-              fromYear: isSelectYearOrMounts.fromYear ?? 2022,
-              toYear: isSelectYearOrMounts.toYear ?? new Date().getFullYear()
-            }
-            : { captionLayout: 'dropdown' })}
-        />
+      {isCalendarOpened && !isMobile && (
+        <CalendarCommon />
       )}
+
+      {/*{isCalendarOpened && isMobile && (*/}
+        <Drawer
+          onClose={handleButtonClick}
+          open={isCalendarOpened && isMobile}
+          slidePosition="bottom"
+          contentPosition="bottom"
+        >
+          <PopupLayout height="50%" type="bottom" onClose={handleButtonClick}>
+            <CalendarCommon />
+          </PopupLayout>
+        </Drawer>
+      {/*)*/}
+      {/*}*/}
+
     </Styled.Wrapper>
   );
 };

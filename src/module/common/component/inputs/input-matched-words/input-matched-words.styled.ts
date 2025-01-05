@@ -163,7 +163,7 @@ export const Chip = styled.li`
   font-weight: ${FONTS.WEIGHTS.semi_bold};
 
   padding: ${SPACES.xxs} ${SPACES.s};
-  background: ${COLORS.white100};
+  background: ${COLORS.white};
   border-radius: 4px;
 
   word-break: break-word;

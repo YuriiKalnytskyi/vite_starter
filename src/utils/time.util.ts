@@ -1,5 +1,5 @@
 export const dateTransform = (
-  _time: string | undefined,
+  _time: string | undefined | Date,
   isSingle?: boolean,
   dayWithSuffix?: boolean
 ): string => {

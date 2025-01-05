@@ -9,13 +9,15 @@ export interface IPopupLayout {
   children?: ReactNode;
   width?: string;
   minWidth?: string;
+  type: 'bottom';
+  height?: string
 }
 
-export const PopupLayout = ({ children, onClose, width, minWidth }: IPopupLayout) => (
-  <div className='confirm_purchase above-all' onClick={onClose} style={{ height: '100dvh' }}>
+export const PopupLayout = ({ children, onClose,  type, ...props  }: IPopupLayout) => (
+  <div className={`popup ${type} above-all`} onClick={onClose}>
     <Styled.Container
-      width={width}
-      minWidth={minWidth}
+      $type={type}
+      {...props}
       onClick={(e: MouseEvent<HTMLDivElement>) => e.stopPropagation()}
     >
       <Styled.CloseBtn onClick={onClose} />
@@ -30,16 +32,3 @@ export interface IPopupLayoutBottom {
   children?: ReactNode;
   styled?: any;
 }
-
-export const PopupLayoutBottom = ({ children, onClose, styled }: IPopupLayoutBottom) => (
-  <div className='confirm_purchase2 above-all' onClick={onClose} style={{ height: '100dvh' }}>
-    <Styled.ContainerBottom
-      onClick={(e: MouseEvent<HTMLDivElement>) => e.stopPropagation()}
-      styled={styled}
-    >
-      <Styled.CloseBtn onClick={onClose} />
-
-      {children}
-    </Styled.ContainerBottom>
-  </div>
-);
