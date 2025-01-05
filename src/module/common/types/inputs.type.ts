@@ -34,8 +34,5 @@ export interface IInputTextareaProps extends IMargin, IInputDefault {
 }
 
 
-export interface ISwitch {
-  name: string;
-  label?: string;
-}
+
 

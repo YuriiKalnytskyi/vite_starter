@@ -34,28 +34,28 @@ export const Wrapper = styled.div<IWProps>`
 `;
 
 export const Label = styled.label<{ $required?: boolean; $isError: boolean }>`
-  position: relative;
-  display: block;
-  ${Fonts};
-  white-space: nowrap;
+    position: relative;
+    display: block;
+    ${Fonts};
+    white-space: nowrap;
 
-  text-transform: capitalize;
+    text-transform: capitalize;
 
-  color: ${({ $isError }) => ($isError ? COLORS.error : COLORS.black)};
-  margin-bottom: ${SPACES.xxxs};
+    color: ${({ $isError }) => ($isError ? COLORS.error : COLORS.black)};
+    margin-bottom: ${SPACES.xxxs};
 
-  ${({ $required }) =>
-    $required &&
-    css`
-      &::after {
-        content: '*';
-        right: 0;
-        top: 0;
-      }
-    `}
+    ${({ $required }) =>
+            $required &&
+            css`
+                &::after {
+                    content: '*';
+                    right: 0;
+                    top: 0;
+                }
+            `}
 `;
 
-export const commonStyles = css<{ $isError?: boolean, readOnly?:boolean }>`
+export const commonStyles = css<{ $isError?: boolean, readOnly?: boolean }>`
     background: ${({ readOnly }) => readOnly && COLORS.white};
     border: 1px solid ${({ $isError }) => ($isError ? COLORS.error : COLORS.rgba(COLORS.black, 0.4))};
     border-radius: 10px;
@@ -94,7 +94,7 @@ export const Input = styled.input<{
     width: 100% !important;
     height: ${({ height }) => height ?? '3rem'};
     padding: ${({ $padding }) => $padding ?? `${SPACES.xxl} ${SPACES.xxxxl}`};
-    
+
     &[type='number'] {
         appearance: none;
         -moz-appearance: textfield;
@@ -109,31 +109,31 @@ export const Input = styled.input<{
 `;
 
 export const VisibilityIcon = styled(IconCommon)`
-  height: 1.5rem;
-  aspect-ratio: 1/1;
-  color: ${COLORS.black};
-  cursor: pointer;
-  position: absolute;
-  right: 2rem;
+    height: 1.5rem;
+    aspect-ratio: 1/1;
+    color: ${COLORS.black};
+    cursor: pointer;
+    position: absolute;
+    right: 2rem;
 `;
 
 export const ErrorPasswordContainer = styled.div`
-  width: 100%;
-  left: ${SPACES.xxxxxs};
-  bottom: -${SPACES.xxxs};
-  gap: 10px;
-  display: flex;
-  flex-wrap: wrap;
-  position: relative;
+    width: 100%;
+    left: ${SPACES.xxxxxs};
+    bottom: -${SPACES.xxxs};
+    gap: 10px;
+    display: flex;
+    flex-wrap: wrap;
+    position: relative;
 
-  @media screen and (max-width: ${MEDIA.mobile_l}) {
-    flex-wrap: wrap;
-    position: relative;
-  }
-  @media screen and (max-width: ${MEDIA.tablet}) {
-    flex-wrap: wrap;
-    position: relative;
-  }
+    @media screen and (max-width: ${MEDIA.mobile_l}) {
+        flex-wrap: wrap;
+        position: relative;
+    }
+    @media screen and (max-width: ${MEDIA.tablet}) {
+        flex-wrap: wrap;
+        position: relative;
+    }
 `;
 
 export const Error = styled.div`
@@ -145,12 +145,19 @@ export const Error = styled.div`
     &.textArea {
         bottom: -${SPACES.m};
     }
+
+    &.maxLength {
+        width: fit-content;
+        right: 0 ;
+        left: auto;
+        color: ${COLORS.black};
+    }
 `;
 
 export const ErrorPassword = styled.div<{ $isError: boolean; $isSuccess: boolean }>`
-  ${Fonts};
-  color: ${({ $isError, $isSuccess }) =>
-    $isError ? COLORS.error : $isSuccess ? COLORS.primary : COLORS.rgba(COLORS.black, 0.8)};
-  display: flex;
-  gap: 2px;
+    ${Fonts};
+    color: ${({ $isError, $isSuccess }) =>
+            $isError ? COLORS.error : $isSuccess ? COLORS.primary : COLORS.rgba(COLORS.black, 0.8)};
+    display: flex;
+    gap: 2px;
 `;

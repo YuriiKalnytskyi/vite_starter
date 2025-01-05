@@ -3,7 +3,7 @@ import {KeyboardEvent} from 'react'
 
 import { IMargin } from '@/module/common/types';
 
-import * as Styled from './check-box.styled';
+import * as Styled from './check-box.styled.ts';
 
 type Obj = Record<string, unknown>;
 type Item = Obj | string;

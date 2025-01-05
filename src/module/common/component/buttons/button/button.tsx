@@ -53,15 +53,16 @@ const ButtonComponent =
      variant = 'primary',
      onClick,
      isLoading,
-     ...restProps
+     startIcon, endIcon,
+     ...props
    }: IButtonProps) => {
-    const disabled = (typeof isLoading === 'boolean' && isLoading) || restProps.disabled;
+    const disabled = (typeof isLoading === 'boolean' && isLoading) || props.disabled;
     return (
       <Styled.StyledButton
         id={id}
         type={type ?? 'button'}
         variant={variant}
-        {...restProps}
+        {...props}
         disabled={disabled}
         onClick={(e) => {
           e.stopPropagation();
@@ -69,19 +70,19 @@ const ButtonComponent =
         }}
         {...{ inert: disabled ? '' : undefined }}
       >
-        <ButtonContent {...restProps} isLoading={isLoading} />
+        <ButtonContent {...props} isLoading={isLoading} startIcon={startIcon} endIcon={endIcon} />
       </Styled.StyledButton>
     );
   };
 
-const AsNavLink = (props: TNavLink) => {
+const AsNavLink = ({ startIcon, endIcon, ...props }: TNavLink) => {
   const disabled = (typeof props.isLoading === 'boolean' && props.isLoading) || props.disabled;
   return (
     <Styled.NavLink
       {...{ inert: disabled ? '' : undefined }}
       {...props}
     >
-      <ButtonContent {...props} />
+      <ButtonContent {...props} startIcon={startIcon} endIcon={endIcon} />
     </Styled.NavLink>
   );
 };

@@ -9,7 +9,7 @@ import { useClickOutside, useIsMobile } from '@/module/common/hooks';
 import { dateTransform, functionStub } from '@/utils';
 
 import { Input } from '../index';
-import * as Styled from './input-calendar.styled';
+import * as Styled from './calendar.styled';
 import { IInputDefault } from '@/module/common/types';
 import { Drawer } from '@/module/common/component';
 import { PopupLayout } from '@/module/common/layout';
@@ -19,7 +19,7 @@ export type DateSelection = DateRange | Date[] | Date | undefined;
 
 
 export interface ICalendarProps extends IInputDefault {
-  readOnly?: boolean
+  readOnly?: boolean;
   width?: string;
   height?: string;
   isIcon?: boolean;
@@ -59,20 +59,20 @@ const CalendarFormatUtil = <T extends DateSelection>(
 };
 
 
-export const InputCalendar = ({
-                                name,
-                                label,
-                                width,
-                                placeholder,
-                                height,
-                                noFormikValue,
-                                readOnly,
-                                mode,
-                                isSelectYearOrMounts,
-                                disabledDay,
-                                visibleOfMonths,
-                                ...props
-                              }: ICalendarProps) => {
+export const Calendar = ({
+                           name,
+                           label,
+                           width,
+                           placeholder,
+                           height,
+                           noFormikValue,
+                           readOnly,
+                           mode,
+                           isSelectYearOrMounts,
+                           disabledDay,
+                           visibleOfMonths,
+                           ...props
+                         }: ICalendarProps) => {
   const { setFieldValue, value } = (() => {
     if (noFormikValue) {
       return {
@@ -173,16 +173,16 @@ export const InputCalendar = ({
       )}
 
       {/*{isCalendarOpened && isMobile && (*/}
-        <Drawer
-          onClose={handleButtonClick}
-          open={isCalendarOpened && isMobile}
-          slidePosition="bottom"
-          contentPosition="bottom"
-        >
-          <PopupLayout height="50%" type="bottom" onClose={handleButtonClick}>
-            <CalendarCommon />
-          </PopupLayout>
-        </Drawer>
+      <Drawer
+        onClose={handleButtonClick}
+        open={isCalendarOpened && isMobile}
+        slidePosition="bottom"
+        contentPosition="bottom"
+      >
+        <PopupLayout height="50%" type="bottom" onClose={handleButtonClick}>
+          <CalendarCommon />
+        </PopupLayout>
+      </Drawer>
       {/*)*/}
       {/*}*/}
 

@@ -9,8 +9,8 @@ import {
   CheckBox,
   Icon,
   Input,
-  InputCalendar,
-  InputMatchedWords, Phone,
+  Calendar,
+  MatchedWords, Phone,
   Table,
   TextArea
 } from '@/module/common/component';
@@ -187,6 +187,9 @@ export const Example = () => {
                   />
                 </DivCommon>
               </DivCommon>
+              <DivCommon height="100px" fd="row" ai="center" gap={SPACES.l}>
+                <Input.Switch name='switch' label='Switch'/>
+              </DivCommon>
             </DivCommon>
 
             INPUT CARD
@@ -249,13 +252,13 @@ export const Example = () => {
             </DivCommon>
             INPUTMATCHEDWORDS
             <DivCommon fd="row" gap={SPACES.l} ai="flex-end" margin="0 0 2rem 0">
-              <InputMatchedWords
+              <Input.MatchedWords
                 name="test"
                 label="Default"
                 items={['test', 'test2', 'test3', 'test4']}
               />
 
-              <InputMatchedWords
+              <MatchedWords
                 name="test"
                 width="400px"
                 label="Default"
@@ -263,7 +266,7 @@ export const Example = () => {
                 readOnly
               />
 
-              <InputMatchedWords
+              <MatchedWords
                 name="country"
                 label="Countri (Type-filter) (Input - default)"
                 items={data?.countries ?? []}
@@ -292,7 +295,7 @@ export const Example = () => {
                 }}
               />
 
-              <InputMatchedWords
+              <MatchedWords
                 name="country_multi"
                 label="Countri (Type-sort - Input -new )  (Multi Select) (Dynamic items)"
                 items={data?.countries ?? []}
@@ -328,26 +331,26 @@ export const Example = () => {
 
             Phone
             <DivCommon fd="row" gap={SPACES.l} ai="flex-end" margin="0 0 2rem 0">
-              <Phone
-                name='phone'
-                label='Phone'
+              <Input.Phone
+                name="phone"
+                label="Phone"
               />
               <Phone
-                name='phone'
-                label='Phone'
+                name="phone"
+                label="Phone"
                 readOnly
               />
             </DivCommon>
 
             CALENDAR
             <DivCommon fd="row" gap={SPACES.l} ai="flex-end" margin="0 0 2rem 0">
-              <InputCalendar
-                label="Calendar (Date) "
+              <Input.Calendar
+                label="Calendar (Date)"
                 name="calendar_single"
                 mode="single"
                 visibleOfMonths={1}
               />
-              <InputCalendar
+              <Calendar
                 width="400px"
                 label="Calendar (Date) "
                 name="calendar_single"
@@ -355,13 +358,13 @@ export const Example = () => {
                 visibleOfMonths={1}
                 readOnly
               />
-              <InputCalendar
+              <Calendar
                 label="Calendar ({ftom:Date, to:Date }) "
                 name="calendar_range"
                 mode="range"
                 disabledDay={new Date()}
               />
-              <InputCalendar
+              <Calendar
                 label="Calendar (Date[])"
                 name="calendar_multiple"
                 mode="multiple"
@@ -370,11 +373,12 @@ export const Example = () => {
 
             TEXTAREA
             <DivCommon gap={SPACES.l} ai="flex-end" margin="0 0 2rem 0">
-              <TextArea
+              <Input.TextArea
                 name="first_name"
                 rows={3}
                 label="TextArea"
                 resizable={false}
+                maxLength={300}
               />
             </DivCommon>
 

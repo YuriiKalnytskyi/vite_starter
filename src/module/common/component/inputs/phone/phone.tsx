@@ -5,7 +5,6 @@ import * as StyledCommon from '../input/input.styled.ts';
 import { IInputDefault, IMargin } from '@/module/common/types';
 import { passwordError } from '@/module/common/constants';
 import { useTranslation } from 'react-i18next';
-import { ChangeEvent } from 'react';
 import { functionStub } from '@/utils';
 
 interface IPhone extends IInputDefault, IMargin {

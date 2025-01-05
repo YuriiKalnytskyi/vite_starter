@@ -14,7 +14,7 @@ import { functionStub } from '@/utils';
 import * as Styled from './input.styled';
 import { IInputProps } from './input.type.ts';
 
-export const Input = ({
+export const InputComponent= ({
                         height,
                         name,
                         label,
@@ -157,6 +157,7 @@ export const Input = ({
       )}
 
       <Styled.Input
+        id={name}
         className="Input"
         ref={refProps}
         name={name}

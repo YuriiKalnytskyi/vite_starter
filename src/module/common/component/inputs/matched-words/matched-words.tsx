@@ -18,9 +18,9 @@ import {
   Item,
   Items,
   Obj
-} from './input-matched-words.type.ts';
+} from './matched-words.type.ts';
 
-import * as Styled from './input-matched-words.styled';
+import * as Styled from './matched-words.styled';
 
 
 const onTransformValue = (_value: Item, visibleItem?: string): string => {
@@ -30,7 +30,7 @@ const onTransformValue = (_value: Item, visibleItem?: string): string => {
   return String(_value ?? '');
 };
 
-export const InputMatchedWords = <
+export const MatchedWords = <
   I extends Items,
   F extends FilterOptions,
   T extends IInputMatchedWordsType<I>
@@ -307,7 +307,7 @@ export const InputMatchedWords = <
                 }}
                 onKeyDown={handleKeyPressWithProps}
                 startIcon={{
-                  icon: searchIcon,
+                  icon: searchIcon
                 }}
                 isAutoFocus
               />

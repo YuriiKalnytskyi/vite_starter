@@ -15,7 +15,7 @@ export interface IInputTextareaProps extends IInputDefault, IMargin {
   maxLength?: number;
   resizable?: boolean;
 
-  width?:string
+  width?: string;
 
   noFormikValue?: {
     value: string;
@@ -105,6 +105,7 @@ export const TextArea = forwardRef<HTMLDivElement, IInputTextareaProps>(
         )}
 
         <Styled.Input
+          id={name}
           ref={resizable ? textAreaRef : null}
           $isError={isError}
           readOnly={readOnly}
@@ -119,13 +120,11 @@ export const TextArea = forwardRef<HTMLDivElement, IInputTextareaProps>(
           onFocus={onFocus}
         />
 
-        {/*{maxLength ? (*/}
-        {/*  <Styled.MaxLength>*/}
-        {/*    <Styled.MaxLengthText>*/}
-        {/*      {value?.length}/{maxLength}*/}
-        {/*    </Styled.MaxLengthText>*/}
-        {/*  </Styled.MaxLength>*/}
-        {/*) : null}*/}
+        {maxLength ? (
+          <StyledCommon.Error className='maxLength'>
+            {value?.length}/{maxLength}
+          </StyledCommon.Error>
+        ) : null}
 
 
         {
