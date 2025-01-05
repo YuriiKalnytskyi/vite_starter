@@ -29,7 +29,7 @@ export const Pagination = ({
     const [isVisibleInput, setIsVisibleInput] = useState<number | null>(null);
     const [inputPage, setInputPage] = useState<number | null>(null);
     const [valuesDebounce] = useDebounce(inputPage, 1000);
-
+    console.log(inputPage, valuesDebounce)
     const onNext = () => {
         onPageChange(currentPage + 1);
     };
@@ -92,27 +92,24 @@ export const Pagination = ({
                 {pagination.map((pageNumber, index) => {
                     if (typeof pageNumber === 'string') {
                         return index === isVisibleInput ? (
-                            <Styled.PaginateInput
-                                key={index}
-                                ref={ref}
-                                onMouseOut={() => onSetIsVisibleInput(null)}
-                            >
                                 <Input
+                                    refProps={ref}
+                                    key={index}
                                     name='input-page'
                                     width='2rem'
                                     isAutoFocus
                                     type='number'
                                     noFormikValue={{
-                                        value: valuesDebounce && valuesDebounce < 1 || valuesDebounce && +valuesDebounce > +lastPage ? '' : inputPage?.toString() ?? '',
+                                        value: (inputPage && inputPage <= 0 || inputPage && +inputPage > +lastPage ) ? '' : inputPage?.toString() ?? '',
                                         setFieldValue: (_,value) =>setInputPage(+value)
                                     }}
                                 />
-                            </Styled.PaginateInput>
                             ) :
                             (
                                 <Styled.PaginateButtonsListItem
                                     key={index}
                                     onMouseEnter={() => onSetIsVisibleInput(index)}
+                                    onMouseLeave={() => onSetIsVisibleInput(null)}
                                 >&#8230;</Styled.PaginateButtonsListItem>
                             );
                     }
