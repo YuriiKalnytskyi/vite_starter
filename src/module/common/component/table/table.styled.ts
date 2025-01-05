@@ -16,7 +16,7 @@ const cellControlledSizes = css`
 
   &.title {
     width: 100% !important;
-    position: relative;
+    //position: relative;
     padding: ${FONTS.SIZES.xxsm} ${FONTS.SIZES.l};
   }
 
@@ -98,7 +98,7 @@ export const Head = styled.thead`
 `;
 
 export const Body = styled.tbody`
-  position: relative;
+  //position: relative;
 
   ${layoutCss};
 

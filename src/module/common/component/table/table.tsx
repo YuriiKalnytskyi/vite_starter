@@ -123,7 +123,7 @@ export const TableIndex = ({
                             $tooltipLength={tooltipLength}
                             $linesToTruncate={linesToTruncate ?? 3}
                             $lastIndexHorizontal={i === arrayHeader.length - 1}
-                            $firstIndexVertical={index === arrayBody.length - 1}
+                            $firstIndexVertical={index >= arrayBody.length - 2}
                             $tooltipText={typeof _value === 'string' ? _value : ''}
                           >
                             {typeof _value === 'boolean' ? _value.toString() : _value ?? ''}

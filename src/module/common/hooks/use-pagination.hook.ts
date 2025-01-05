@@ -38,9 +38,10 @@ export const usePagination = ({
 
     const firstPageIndex = 1;
     const lastPageIndex = totalPageCount;
+    const defaultVisibleItem = 5;
 
     if (!shouldShowLeftDots && shouldShowRightDots) {
-      const leftItemCount = 3 + 2 * siblingCount;
+      const leftItemCount = defaultVisibleItem * siblingCount;
       const leftRange = range(1, leftItemCount);
 
       return [...leftRange, DOTS, totalPageCount];
@@ -48,7 +49,7 @@ export const usePagination = ({
 
     // Case 3: No right dots to show, but left dots to be shown
     if (shouldShowLeftDots && !shouldShowRightDots) {
-      const rightItemCount = 3 + 2 * siblingCount;
+      const rightItemCount = defaultVisibleItem * siblingCount;
       const rightRange = range(totalPageCount - rightItemCount + 1, totalPageCount);
       return [firstPageIndex, DOTS, ...rightRange];
     }

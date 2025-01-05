@@ -14,7 +14,6 @@ export const Container = styled.div`
 
 export const PaginateButtonsList = styled.ul`
   list-style: none;
-  min-width: 18rem;
 
   && {
     display: flex;
@@ -22,8 +21,24 @@ export const PaginateButtonsList = styled.ul`
     justify-content: center;
     gap: ${SPACES.xxs};
   }
+    
+    .Input {
+        height: 2rem;
+        width: 2rem;
+        padding: 0;
+        border-radius: 0.25rem;
+        text-align: center;
+        font-size: ${FONTS.SIZES.m};
+    }
 `;
-export const PaginateButtonsListItem = styled.li``;
+export const PaginateButtonsListItem = styled.li`
+    cursor: pointer
+`;
+export const PaginateInput = styled.li`
+    input {
+        cursor: text;
+    }
+`;
 
 const buttonsCommonStyles = css`
   display: inline-flex;
