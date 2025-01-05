@@ -1,7 +1,6 @@
 export const COLORS = {
-
   primary: '#247B43',
-
+  
   white: '#ffffff',
   black: '#000000',
   error: '#A23030',

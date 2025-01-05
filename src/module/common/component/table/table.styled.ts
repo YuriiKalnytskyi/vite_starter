@@ -224,19 +224,19 @@ export const ItemLabel = styled.strong<{
 
     transition: visibility ${`${TRANSITIONS.duration.fast} ${TRANSITIONS.function.linear}`};
 
-    &::-webkit-scrollbar {
-      width: 0.25rem;
-    }
+      &::-webkit-scrollbar {
+          width: 0.25rem;
+      }
 
-    &::-webkit-scrollbar-thumb {
-      background-color: ${COLORS.primary};
-      border-radius: 0.25rem;
-    }
+      &::-webkit-scrollbar-track {
+          background-color: ${COLORS.rgba(COLORS.primary, 0.2)};
 
-    &::-webkit-scrollbar-track {
-      background: transparent;
-      border-radius: 0.25rem;
-    }
+      }
+
+      &::-webkit-scrollbar-thumb {
+          background-color: ${COLORS.primary};
+          border-radius: 0.25rem;
+      }
   }
 
   ${({ $tooltipText, $tooltipLength = 16 }) =>

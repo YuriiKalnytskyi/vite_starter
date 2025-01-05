@@ -10,7 +10,7 @@ import {
   Icon,
   Input,
   InputCalendar,
-  InputMatchedWords,
+  InputMatchedWords, Phone,
   Table,
   TextArea
 } from '@/module/common/component';
@@ -141,7 +141,8 @@ export const Example = () => {
           last_name: 'test',
           card: '',
           expiry_data: '',
-          cvv: ''
+          cvv: '',
+          phone: ''
           // resizable: randomString(50, 1000)
         }}
         onSubmit={functionStub}
@@ -325,6 +326,19 @@ export const Example = () => {
               />
             </DivCommon>
 
+            Phone
+            <DivCommon fd="row" gap={SPACES.l} ai="flex-end" margin="0 0 2rem 0">
+              <Phone
+                name='phone'
+                label='Phone'
+              />
+              <Phone
+                name='phone'
+                label='Phone'
+                readOnly
+              />
+            </DivCommon>
+
             CALENDAR
             <DivCommon fd="row" gap={SPACES.l} ai="flex-end" margin="0 0 2rem 0">
               <InputCalendar
@@ -364,12 +378,12 @@ export const Example = () => {
               />
             </DivCommon>
 
-              <TextArea
-                name="resizable"
-                rows={2}
-                label="TextArea resizable"
-                resizable
-              />
+            <TextArea
+              name="resizable"
+              rows={2}
+              label="TextArea resizable"
+              resizable
+            />
 
           </Form>
         )}

@@ -8,6 +8,7 @@ export const validationSchemaExample = Yup.object().shape({
   email: validateSchema.email,
   first_name: validateSchema.name,
   last_name: validateSchema.name,
+  phone: validateSchema.email,
 
   card: validateSchema.text,
   expiry_data: Yup.string()

@@ -9,7 +9,7 @@ export const Wrapper = styled.div<IMargin & {width?:string, readOnly?: boolean}>
     position: relative;
     width: ${({ width }) => width ?? '100%'};
     opacity: ${({ readOnly }) => (readOnly ? '0.4' : '1')};
-    
+    overflow: hidden;
     
     ${Margin};
 `;
@@ -18,12 +18,14 @@ export const Input = styled.textarea<{ $isError: boolean, readOnly?:boolean }>`
     height: 100%;
     ${commonStyles};
     padding: ${SPACES.xxl} ${SPACES.xxxxl};
-
+    box-sizing: border-box;
 
     outline: none;
     resize: vertical;
     overflow-y: auto;
     transition: height 0.5s ease;
+    
+    scroll-margin-top: 10px;
 
     &::-webkit-scrollbar {
         width: 0.3rem;
