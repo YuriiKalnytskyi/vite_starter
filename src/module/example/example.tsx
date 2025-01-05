@@ -39,6 +39,7 @@ const randomString = (minLength: number, maxLength: number): string => {
 
 //InputMatchedWords
 //TODO search input correct startIcon
+//TODO remove focus from input after selecting an item
 
 //Input
 //TODO add arrows for number type
@@ -251,8 +252,9 @@ export const Example = () => {
               <Input name="password" label="Password" type="password" />
             </DivCommon>
             INPUTMATCHEDWORDS
-            <DivCommon fd="row" gap={SPACES.l} ai="flex-end" margin="0 0 2rem 0">
+            <Styled.Sctol fd="row" gap={SPACES.l} ai="flex-end" margin="0 0 2rem 0">
               <Input.MatchedWords
+                width="400px"
                 name="test"
                 label="Default"
                 items={['test', 'test2', 'test3', 'test4']}
@@ -267,6 +269,7 @@ export const Example = () => {
               />
 
               <MatchedWords
+                width="400px"
                 name="country"
                 label="Countri (Type-filter) (Input - default)"
                 items={data?.countries ?? []}
@@ -296,6 +299,7 @@ export const Example = () => {
               />
 
               <MatchedWords
+                width="400px"
                 name="country_multi"
                 label="Countri (Type-sort - Input -new )  (Multi Select) (Dynamic items)"
                 items={data?.countries ?? []}
@@ -327,7 +331,7 @@ export const Example = () => {
                   addNewItem: true
                 }}
               />
-            </DivCommon>
+            </Styled.Sctol>
 
             Phone
             <DivCommon fd="row" gap={SPACES.l} ai="flex-end" margin="0 0 2rem 0">

@@ -19,7 +19,7 @@ export const Wrapper = styled.div<IWProps>`
     #icon {
         transition: transform 0.5s ease;
     }
-    
+
     #addOrCloseIcon {
         height: 1rem;
 
@@ -28,10 +28,9 @@ export const Wrapper = styled.div<IWProps>`
         z-index: 1;
 
         transition: transform 0.5s ease;
-        transform: rotate(${({ $newItemFlag }) => ($newItemFlag ? '45deg' : '0deg')}
+        transform: rotate(${({ $newItemFlag }) => ($newItemFlag ? '45deg' : '0deg')});
     }
 
-);
     cursor: pointer;
 }
 
@@ -77,6 +76,8 @@ ${({ $newItemFlag }) =>
 export const SuggestedBlock = styled.ul<{ $position?: string }>`
     display: none;
     background: ${COLORS.white};
+    border: 1px solid ${COLORS.rgba(COLORS.black, 0.4)};
+
     border-radius: 8px;
     width: 100%;
     flex-direction: column;
@@ -99,20 +100,19 @@ export const SuggestedBlock = styled.ul<{ $position?: string }>`
     overflow-x: hidden;
 
     &::-webkit-scrollbar {
-        width: 0.5rem;
+        width: 0.3rem;
     }
 
     &::-webkit-scrollbar-track {
-        background-color: ${COLORS.primary};
+        background-color: ${COLORS.rgba(COLORS.primary, 0.2)};
+
     }
 
     &::-webkit-scrollbar-thumb {
-        background-color: ${COLORS.rgba(COLORS.primary, 0.8)};
+        background-color: ${COLORS.primary};
         border-radius: 0.25rem;
     }
 
-    scrollbar-width: none;
-    -ms-overflow-style: none;
 `;
 
 export const HintOption = styled.li<{

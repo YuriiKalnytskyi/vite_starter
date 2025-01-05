@@ -1,12 +1,12 @@
 import { getIn, useFormikContext } from 'formik';
-import { ReactNode, KeyboardEvent, useEffect, useRef, useState } from 'react';
+import { ReactNode, KeyboardEvent, useEffect, useRef, useState, RefObject } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import arrowBottom from '@/assets/icons/default/arrow-bottom-icon.svg';
 import closeIcon from '@/assets/icons/default/close-icon.svg';
 import searchIcon from '@/assets/icons/default/search.svg';
-import { Input } from '@/module/common/component';
-import { useClickOutside, useHandleKeyPress } from '@/module/common/hooks';
+import { Input, Portal } from '@/module/common/component';
+import { useClickOutside, useHandleKeyPress, usePortalPositioning } from '@/module/common/hooks';
 import { IconCommon } from '@/module/common/styles';
 import { COLORS } from '@/theme';
 
@@ -78,7 +78,6 @@ export const MatchedWords = <
 
   const [selectedItemIndex, setSelectedItemIndex] = useState<number | null>(null);
 
-  const inputHintBlockRef = useRef<HTMLUListElement | null>(null);
 
   useEffect(() => {
     if (filterOption?.mode === 'default' && search !== visibleValue) {
@@ -118,9 +117,10 @@ export const MatchedWords = <
       setFieldValue(name, nextValue);
     }
   };
-
+  const inputHintBlockRef = useRef<HTMLUListElement | null>(null);
   const searchInputRef = useRef<HTMLInputElement | null>(null);
   const mainInputRef = useRef<HTMLInputElement | null>(null);
+
   const { ref } = useClickOutside(() => {
     if (focused) {
       setFocused(false);
@@ -130,7 +130,7 @@ export const MatchedWords = <
         setNewItem('');
       }
     }
-  });
+  }, [inputHintBlockRef]);
 
   const filterItems = () => {
     if (
@@ -175,7 +175,6 @@ export const MatchedWords = <
   };
 
   const _value = valueType();
-
   const _items = filterItems();
 
   const handleFocus = () => {
@@ -205,13 +204,15 @@ export const MatchedWords = <
     };
   })();
 
+  const { setting } = usePortalPositioning(mainInputRef, focused);
+
 
   return (
     <Styled.Wrapper
       $focused={newItemFlag ? false : focused}
       $newItemFlag={newItemFlag}
       {...props}
-      ref={ref}
+      ref={ref as RefObject<HTMLDivElement>}
     >
       {type && type.mode === 'multi' && type.addNewItem ? (
         <IconCommon
@@ -239,6 +240,7 @@ export const MatchedWords = <
       ) : null}
       <Input
         name={name}
+        width={props.width}
         placeholder={placeholder}
         label={label}
         {...(startIcon ? { startIcon } : {})}
@@ -285,73 +287,79 @@ export const MatchedWords = <
         refProps={mainInputRef}
       />
 
-      {items?.length > 0 && (
-        <Styled.SuggestedBlock
-          id="SuggestedBlock"
-          ref={inputHintBlockRef}
-          $position={(filterOption as filterOptionNew)?.position}
-        >
-          {filterOption && filterOption.mode === 'new' ? (
-            <div id="search">
-              <Input
-                refProps={searchInputRef}
-                height="3rem"
-                width="80%"
-                name="search"
-                noFormikValue={{
-                  value: search,
-                  setFieldValue: (_, value) => {
-                    setSearch(value);
-                    setSelectedItemIndex(0);
-                  }
-                }}
-                onKeyDown={handleKeyPressWithProps}
-                startIcon={{
-                  icon: searchIcon
-                }}
-                isAutoFocus
-              />
-            </div>
-          ) : null}
-          {_items.length ? (
-            _items.map((item, ind) => {
-              const visible = onTransformValue(item, visibleItem);
-              const selected = visible === visibleValue;
-              const selectedIndex = ind === selectedItemIndex;
-              const _visible = parseValue ? parseValue(visible as string, item) : visible;
-              const isChip =
-                type &&
-                Array.isArray(value) &&
-                type.mode === 'multi' &&
-                ((value ?? []) as Item[]).find(
-                  (v) =>
-                    onTransformValue(v, visibleItem).toLowerCase() ===
-                    onTransformValue(item, visibleItem).toLowerCase()
+      {items?.length > 0 && focused && (
+        <Portal>
+          <Styled.SuggestedBlock
+            id="SuggestedBlock"
+            ref={inputHintBlockRef}
+            $position={(filterOption as filterOptionNew)?.position}
+            style={{
+              ...setting,
+              overflow: 'auto'
+            }}
+          >
+            {filterOption && filterOption.mode === 'new' ? (
+              <div id="search">
+                <Input
+                  refProps={searchInputRef}
+                  height="3rem"
+                  width="80%"
+                  name="search"
+                  noFormikValue={{
+                    value: search,
+                    setFieldValue: (_, value) => {
+                      setSearch(value);
+                      setSelectedItemIndex(0);
+                    }
+                  }}
+                  onKeyDown={handleKeyPressWithProps}
+                  startIcon={{
+                    icon: searchIcon
+                  }}
+                  isAutoFocus
+                />
+              </div>
+            ) : null}
+            {_items.length ? (
+              _items.map((item, ind) => {
+                const visible = onTransformValue(item, visibleItem);
+                const selected = visible === visibleValue;
+                const selectedIndex = ind === selectedItemIndex;
+                const _visible = parseValue ? parseValue(visible as string, item) : visible;
+                const isChip =
+                  type &&
+                  Array.isArray(value) &&
+                  type.mode === 'multi' &&
+                  ((value ?? []) as Item[]).find(
+                    (v) =>
+                      onTransformValue(v, visibleItem).toLowerCase() ===
+                      onTransformValue(item, visibleItem).toLowerCase()
+                  );
+
+                const onSetSelectedItemIndex = () => {
+                  setSelectedItemIndex(ind);
+                };
+
+                return (
+                  <Styled.HintOption
+                    key={`${ind}}`}
+                    $isChip={!!isChip}
+                    $selected={selected || selectedIndex}
+                    onClick={addItem.bind(this, item)}
+                    onMouseUp={onSetSelectedItemIndex}
+                    onFocus={onSetSelectedItemIndex}
+                  >
+                    {_visible as string | ReactNode}
+                  </Styled.HintOption>
                 );
-
-              const onSetSelectedItemIndex = () => {
-                setSelectedItemIndex(ind);
-              };
-
-              return (
-                <Styled.HintOption
-                  key={`${ind}}`}
-                  $isChip={!!isChip}
-                  $selected={selected || selectedIndex}
-                  onClick={addItem.bind(this, item)}
-                  onMouseUp={onSetSelectedItemIndex}
-                  onFocus={onSetSelectedItemIndex}
-                >
-                  {_visible as string | ReactNode}
-                </Styled.HintOption>
-              );
-            })
-          ) : (
-            <Styled.HintOption $isChip={false} $selected={false} className="notFound">
-              {translate('common.not_found_item')}
-            </Styled.HintOption>
-          )}
-        </Styled.SuggestedBlock>
+              })
+            ) : (
+              <Styled.HintOption $isChip={false} $selected={false} className="notFound">
+                {translate('common.not_found_item')}
+              </Styled.HintOption>
+            )}
+          </Styled.SuggestedBlock>
+        </Portal>
       )}
 
       {type && type.mode === 'multi' && (value as Item[])?.length ? (
