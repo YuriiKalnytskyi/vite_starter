@@ -47,11 +47,6 @@ const defaultStyledButton = css`
         cursor: pointer !important;
     }
 
-    &:focus,
-    &:hover {
-        filter: saturate(150%);
-    }
-
     &:active {
         opacity: 0.7;
     }
@@ -69,7 +64,23 @@ const defaultStyledButton = css`
         }
     }
 
+    @media (hover: hover) {
+        &:focus,
+        &:hover {
+            filter: saturate(150%);
+        }
+    }
 
+    @media (hover: none) {
+        &:focus {
+            outline: none;
+            filter: none;
+        }
+
+        &:hover {
+            filter: none;
+        }
+    }
 `;
 
 const buttonAppearances: Record<Required<IButtonProps>['variant'], RuleSet<object>> = {
