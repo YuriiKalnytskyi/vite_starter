@@ -7,34 +7,30 @@ import { COLORS, FONTS, MEDIA, SPACES } from '@/theme';
 export interface IWProps extends IMargin {
   readOnly?: boolean;
   width?: string;
-  $top?: string;
 }
 
 export const Wrapper = styled.div<IWProps>`
-  position: relative;
-  width: ${({ width }) => width ?? '100%'};
-  opacity: ${({ readOnly }) => (readOnly ? '0.4' : '1')};
+    position: relative;
+    width: ${({ width }) => width ?? '100%'};
+    opacity: ${({ readOnly }) => (readOnly ? '0.4' : '1')};
 
-  ${Margin};
+    ${Margin};
 
-  & .startIcon,
-  & .endIcon,
-  & .passwordIcon {
-    position: absolute;
-    top: ${({ $top }) => $top ?? '34%'};
-  }
+    & .startIcon,
+    & .endIcon,
+    & .passwordIcon {
+        position: absolute;
+        transform: translate(0%, -50%);
+    }
 
-  & .startIcon {
-    left: ${SPACES.l};
-  }
+    & .startIcon {
+        left: ${SPACES.l};
+    }
 
-  & .endIcon {
-    right: ${SPACES.xs};
-  }
-
-  & .passwordIcon {
-    right: ${SPACES.xs};
-  }
+    & .passwordIcon,
+    & .endIcon {
+        right: ${SPACES.xs};
+    }
 `;
 
 export const Label = styled.label<{ $required?: boolean; $isError: boolean }>`

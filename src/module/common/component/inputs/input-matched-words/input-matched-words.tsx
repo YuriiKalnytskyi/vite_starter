@@ -307,7 +307,7 @@ export const InputMatchedWords = <
                 }}
                 onKeyDown={handleKeyPressWithProps}
                 startIcon={{
-                  icon: searchIcon
+                  icon: searchIcon,
                 }}
                 isAutoFocus
               />

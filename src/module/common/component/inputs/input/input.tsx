@@ -74,31 +74,39 @@ export const Input = ({
   const [isPassword, setIsPassword] = useState(false);
   const ref = useRef<HTMLDivElement | null>(null);
 
-  const [top, setTop] = useState('50%');
   useEffect(() => {
-    if (type === 'password' || startIcon || endIcon) {
-      const children = ref.current?.children;
-      if (!children) return;
+    if (!ref.current) return;
 
-      const childrenArray = Array.from(children);
+    const includesClasses = [
+      'Label',
+      'Input'
+    ];
 
-      const totalHeight = childrenArray.reduce((acc, child) => {
-        const className = (child as HTMLElement).className;
-        const shouldInclude = ![
-          'startIcon',
-          'endIcon',
-          'passwordIcon',
-          'errorPassword',
-          'errorMessage'
-        ].some((excludedClass) => className.includes(excludedClass));
-        return shouldInclude ? acc + (child as HTMLElement).offsetHeight : acc;
-      }, 0);
+    const children = Array.from(ref.current.children);
+    const allowedItems = children.filter((child) => {
+      const className = (child as HTMLElement).className;
+      return includesClasses.some((includedClass) => className.includes(includedClass));
+    });
 
-      setTop(`${totalHeight / (childrenArray.length === 2 ? 4 : 1.8)}px`);
-      // setTop(`${totalHeight /  1.8}px`);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+    const contentHeight = allowedItems.reduce((acc, child) => {
+      const className = (child as HTMLElement).className;
+      return acc + ((child as HTMLElement).offsetHeight / (className.includes('Input') ? 1.7 : 1));
+    }, 0);
+
+    const updateIconTop = (className: string) => {
+      const iconElement = children.find((child) =>
+        (child as HTMLElement).className.includes(className)
+      ) as HTMLElement | undefined;
+
+      if (iconElement) {
+        iconElement.style.top = `${contentHeight - (allowedItems.length  === 1 ? 5 : 0)}px`;
+      }
+    };
+
+    updateIconTop('startIcon');
+    updateIconTop('endIcon');
+    updateIconTop('passwordIcon');
+  }, [startIcon, startIcon]);
 
   const successPasswordMessages = useMemo(() => {
     if (type === 'password' && value) {
@@ -132,7 +140,6 @@ export const Input = ({
   return (
     <Styled.Wrapper
       id="input"
-      $top={top}
       {...props}
       ref={ref}
       onClick={onClick ? onClick : functionStub}
@@ -140,6 +147,7 @@ export const Input = ({
     >
       {label && (
         <Styled.Label
+          className="Label"
           htmlFor={name}
           $isError={isError}
           $required={typeof label === 'object' && 'required' in label ? label.required : false}
@@ -149,6 +157,7 @@ export const Input = ({
       )}
 
       <Styled.Input
+        className="Input"
         ref={refProps}
         name={name}
         {...(isAutoComplete ? {} : { autoComplete: 'off', role: 'presentation' })}

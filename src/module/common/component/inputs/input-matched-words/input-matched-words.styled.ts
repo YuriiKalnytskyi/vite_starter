@@ -12,103 +12,107 @@ export interface IWProps extends IMargin {
 }
 
 export const Wrapper = styled.div<IWProps>`
-  position: relative;
-  width: ${({ width }) => width ?? '100%'};
+    position: relative;
+    width: ${({ width }) => width ?? '100%'};
 
-  #icon {
-    transition: transform 0.5s ease;
-  }
+    .endIcon,
+    #icon {
+        transition: transform 0.5s ease;
+    }
+    
+    #addOrCloseIcon {
+        height: 1rem;
 
-  #addOrCloseIcon {
-    height: 1rem;
+        position: absolute;
+        right: ${SPACES.m};
+        z-index: 1;
 
-    position: absolute;
-    right: ${SPACES.m};
-    z-index: 1;
+        transition: transform 0.5s ease;
+        transform: rotate(${({ $newItemFlag }) => ($newItemFlag ? '45deg' : '0deg')}
+    }
 
-    transition: transform 0.5s ease;
-    transform: rotate(${({ $newItemFlag }) => ($newItemFlag ? '45deg' : '0deg')}});
+);
     cursor: pointer;
-  }
+}
 
-  ${({ $focused }) =>
-    $focused
-      ? css`
-          #SuggestedBlock {
-            display: flex;
-          }
+${({ $focused }) =>
+        $focused
+                ? css`
+                    #SuggestedBlock {
+                        display: flex;
+                    }
 
-          .endIcon {
-            transform: rotate(180deg);
-          }
-        `
-      : css`
-          #SuggestedBlock {
-            display: none;
-          }
+                    .endIcon {
+                        transform: translate(0%, -50%) rotate(180deg);
+                    }
+                `
+                : css`
+                    #SuggestedBlock {
+                        display: none;
+                    }
 
-          .endIcon {
-            transform: rotate(360deg);
-          }
-        `}
+                    .endIcon {
+                        transform: translate(0%, -50%) rotate(360deg);
+                    }
+                `}
+${({ $newItemFlag }) =>
+        $newItemFlag
+                ? css`
+                    #addOrCloseIcon {
+                        transform: rotate(90deg);
+                    }
 
-  ${({ $newItemFlag }) =>
-    $newItemFlag
-      ? css`
-          #addOrCloseIcon {
-            transform: rotate(90deg);
-          }
-
-          .endIcon {
-            transform: rotate(45deg);
-          }
-        `
-      : css`
-          #addOrCloseIcon {
-            transform: rotate(45deg);
-          }
-        `}
+                    .endIcon {
+                        right: ${SPACES.m};
+                        transform: translate(0%, -50%) rotate(45deg);
+                    }
+                `
+                : css`
+                    #addOrCloseIcon {
+                        transform: rotate(45deg);
+                    }
+                `}
 `;
 
 export const SuggestedBlock = styled.ul<{ $position?: string }>`
-  display: none;
-  background: ${COLORS.white};
-  border-radius: 8px;
-  width: 100%;
-  flex-direction: column;
-  max-height: 14rem;
-  position: absolute;
-  z-index: 1;
-  box-shadow: 0 0 4px ${COLORS.gray100};
-
-  #search {
-    width: 100%;
-    ${Center};
+    display: none;
     background: ${COLORS.white};
-    padding: ${SPACES.l} 0;
-    position: ${({ $position }) => $position ?? 'sticky'};
-    top: 0;
+    border-radius: 8px;
+    width: 100%;
+    flex-direction: column;
+    max-height: 14rem;
+    position: absolute;
     z-index: 1;
-  }
+    box-shadow: 0 0 4px ${COLORS.rgba(COLORS.black, 0.8)};
 
-  overflow-y: auto;
-  overflow-x: hidden;
+    #search {
+        width: 100%;
+        ${Center};
+        background: ${COLORS.white};
+        padding: ${SPACES.l} 0;
+        position: ${({ $position }) => $position ?? 'sticky'};
+        top: 0;
+        z-index: 1;
+    }
 
-  &::-webkit-scrollbar {
-    width: 0.1px;
-    background-color: ${COLORS.green};
-  }
+    overflow-y: auto;
+    overflow-x: hidden;
 
-  &::-webkit-scrollbar-thumb {
-    background-color: ${COLORS.black};
-  }
+    &::-webkit-scrollbar {
+        width: 0.5rem;
+    }
 
-  &::-webkit-scrollbar-thumb {
-    background-color: ${COLORS.green};
-  }
+    &::-webkit-scrollbar-track {
+        background-color: ${COLORS.primary};
+    }
 
-  scrollbar-width: none;
-  -ms-overflow-style: none;
+    &::-webkit-scrollbar-thumb {
+        background-color: ${COLORS.rgba(COLORS.primary, 0.8)};
+        border-radius: 0.25rem;
+    }
+
+    scrollbar-width: none;
+    -ms-overflow-style: none;
 `;
 
 export const HintOption = styled.li<{
@@ -163,7 +167,7 @@ export const Chip = styled.li`
   font-weight: ${FONTS.WEIGHTS.semi_bold};
 
   padding: ${SPACES.xxs} ${SPACES.s};
-  background: ${COLORS.white};
+  background: ${COLORS.rgba(COLORS.black, 0.3)};
   border-radius: 4px;
 
   word-break: break-word;

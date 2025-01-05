@@ -9,6 +9,10 @@ export const Wrapper = styled.div<IMargin & { width?: string }>`
 
     width: ${({ width }) => width ?? '100%'};
 
+    .endIcon {
+        transform: rotate(45deg);
+    }
+
     .rdp-day_selected,
     .rdp-day_selected:focus-visible,
     .rdp-day_selected:hover {
