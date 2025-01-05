@@ -1,4 +1,5 @@
 import { getIn, useFormikContext } from 'formik';
+import {KeyboardEvent} from 'react'
 
 import { IMargin } from '@/module/common/types';
 
@@ -63,8 +64,13 @@ const CheckBoxIndex = ({
   onDoubleClick,
   ...props
 }: ICheckBoxIndex) => {
+  const handleKeyDown = (event: KeyboardEvent<HTMLLabelElement>) => {
+    if (event.key === 'Enter') {
+      onChange();
+    }
+  };
   return (
-    <Styled.Label tabIndex={0} {...props} onDoubleClick={onDoubleClick}>
+    <Styled.Label tabIndex={0} {...props} onDoubleClick={onDoubleClick}  onKeyDown={handleKeyDown}>
       <Styled.Input name={name} type='checkbox' checked={checked} onChange={onChange} />
       <Styled.Span className='text' type={type}>
         <span>{(label as string).toString()}</span>

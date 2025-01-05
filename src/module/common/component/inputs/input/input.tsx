@@ -153,7 +153,7 @@ export const Input = ({
         name={name}
         {...(isAutoComplete ? {} : { autoComplete: 'off', role: 'presentation' })}
         {...(isAutoFocus ? { autoFocus: true } : { autoFocus: false })}
-        // spellCheck={isSpellCheck}
+        spellCheck={isSpellCheck}
         value={value}
         onChange={onChange}
         onBlur={onBlur}
@@ -197,7 +197,7 @@ export const Input = ({
               <Styled.ErrorPassword $isError={isError} $isSuccess={isSuccess} key={index}>
                 <IconCommon
                   icon={successIcon}
-                  background={isError ? COLORS.error : isSuccess ? COLORS.primary : COLORS.gray}
+                  background={isError ? COLORS.error : isSuccess ? COLORS.primary : COLORS.rgba(COLORS.black, 0.8)}
                 />
 
                 {text}

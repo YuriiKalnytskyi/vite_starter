@@ -172,27 +172,7 @@ export const Example = () => {
                 </DivCommon>
               </DivCommon>
             </DivCommon>
-            INPUT STATE (default, readOnly, email, password)
-            <DivCommon fd="row" gap={SPACES.l} margin="0 0 2rem 0">
-              <Input name="first_name" label="First Name" isSpellCheck />
-              <Input
-                name="last_name"
-                label=" Name"
-                readOnly
-                startIcon={{ icon: testIcon, height: '1.5rem' }}
-                endIcon={{ icon: testIcon, height: '1.5rem', type: 'img' }}
-              />
-              <Input
-                name="email"
-                label={{
-                  text: 'Email',
-                  required: true
-                }}
-                startIcon={{ icon: testIcon, height: '1.5rem' }}
-                endIcon={{ icon: testIcon, height: '1.5rem', type: 'img' }}
-              />
-              <Input name="password" label="Password" type="password" />
-            </DivCommon>
+
             INPUT CARD
             <DivCommon fd="row" gap={SPACES.l} margin="0 0 2rem 0">
               <Input
@@ -229,6 +209,28 @@ export const Example = () => {
                 }}
               />
             </DivCommon>
+            INPUT STATE (default, readOnly, email, password)
+            <DivCommon fd="row" gap={SPACES.l} margin="0 0 2rem 0">
+              <Input name="first_name" label="First Name" isSpellCheck />
+              <Input
+                name="last_name"
+                label=" Name"
+                readOnly
+                width="400px"
+                startIcon={{ icon: testIcon, height: '1.5rem' }}
+                endIcon={{ icon: testIcon, height: '1.5rem', type: 'img' }}
+              />
+              <Input
+                name="email"
+                label={{
+                  text: 'Email',
+                  required: true
+                }}
+                startIcon={{ icon: testIcon, height: '1.5rem' }}
+                endIcon={{ icon: testIcon, height: '1.5rem', type: 'img' }}
+              />
+              <Input name="password" label="Password" type="password" />
+            </DivCommon>
             INPUTMATCHEDWORDS
             <DivCommon fd="row" gap={SPACES.l} ai="flex-end" margin="0 0 2rem 0">
               <InputMatchedWords
@@ -239,6 +241,7 @@ export const Example = () => {
 
               <InputMatchedWords
                 name="test"
+                width="400px"
                 label="Default"
                 items={['test', 'test2', 'test3', 'test4']}
                 readOnly
@@ -309,7 +312,6 @@ export const Example = () => {
 
             CALENDAR
             <DivCommon fd="row" gap={SPACES.l} ai="flex-end" margin="0 0 2rem 0">
-
               <InputCalendar
                 label="Calendar (Date) "
                 name="calendar_single"
@@ -317,6 +319,7 @@ export const Example = () => {
                 visibleOfMonths={1}
               />
               <InputCalendar
+                width="400px"
                 label="Calendar (Date) "
                 name="calendar_single"
                 mode="single"

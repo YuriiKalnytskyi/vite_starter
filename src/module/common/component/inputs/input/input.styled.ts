@@ -45,7 +45,7 @@ export const Label = styled.label<{ $required?: boolean; $isError: boolean }>`
 
   text-transform: capitalize;
 
-  color: ${({ $isError }) => ($isError ? COLORS.mainRed : COLORS.black)};
+  color: ${({ $isError }) => ($isError ? COLORS.error : COLORS.black)};
   margin-bottom: ${SPACES.xxxs};
 
   ${({ $required }) =>
@@ -61,7 +61,7 @@ export const Label = styled.label<{ $required?: boolean; $isError: boolean }>`
 
 export const commonStyles = css<{ $isError?: boolean, readOnly?:boolean }>`
     background: ${({ readOnly }) => readOnly && COLORS.white};
-    border: 1px solid ${({ $isError }) => ($isError ? COLORS.mainRed : COLORS.rgba(COLORS.black, 0.4))};
+    border: 1px solid ${({ $isError }) => ($isError ? COLORS.error : COLORS.rgba(COLORS.black, 0.4))};
     border-radius: 10px;
 
     font-family: ${FONTS.FAMILIES.inter};
@@ -144,13 +144,13 @@ export const Error = styled.div`
   position: absolute;
   left: ${SPACES.xxxxxs};
   font-size: ${FONTS.SIZES.s};
-  color: ${COLORS.mainRed};
+  color: ${COLORS.error};
 `;
 
 export const ErrorPassword = styled.div<{ $isError: boolean; $isSuccess: boolean }>`
   ${Fonts};
   color: ${({ $isError, $isSuccess }) =>
-    $isError ? COLORS.error : $isSuccess ? COLORS.primary : COLORS.gray};
+    $isError ? COLORS.error : $isSuccess ? COLORS.primary : COLORS.rgba(COLORS.black, 0.8)};
   display: flex;
   gap: 2px;
 `;
