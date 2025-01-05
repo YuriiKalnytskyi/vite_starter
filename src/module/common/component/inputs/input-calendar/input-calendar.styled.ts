@@ -10,7 +10,7 @@ export const Wrapper = styled.div<IMargin & { width?: string }>`
     width: ${({ width }) => width ?? '100%'};
 
     .endIcon {
-        transform: rotate(45deg);
+        transform: translate(0%, -50%) rotate(45deg);
     }
 
     .rdp-day_selected,

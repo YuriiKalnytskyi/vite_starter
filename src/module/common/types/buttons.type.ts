@@ -1,4 +1,5 @@
 import { ButtonHTMLAttributes, ReactNode } from 'react';
+import { LinkProps } from 'react-router-dom';
 
 import { IIcon, IMargin } from './styles.type';
 
@@ -38,6 +39,5 @@ export interface IButtonProps extends IButtonBasicProps {
   background?: string;
 }
 
-export interface IButtonAppearances {
-  primary: string;
-}
+export type TNavLink = LinkProps & IButtonProps;
+
