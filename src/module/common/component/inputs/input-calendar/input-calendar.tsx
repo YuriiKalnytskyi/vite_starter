@@ -19,7 +19,7 @@ export type DateSelection = DateRange | Date[] | Date | undefined;
 
 
 export interface ICalendarProps extends IInputDefault {
-  name: string;
+  readOnly?: boolean
   width?: string;
   height?: string;
   isIcon?: boolean;
@@ -66,6 +66,7 @@ export const InputCalendar = ({
                                 placeholder,
                                 height,
                                 noFormikValue,
+                                readOnly,
                                 mode,
                                 isSelectYearOrMounts,
                                 disabledDay,
@@ -164,6 +165,7 @@ export const InputCalendar = ({
           }
         })}
         isDontChange
+        readOnly={readOnly}
       />
 
       {isCalendarOpened && !isMobile && (

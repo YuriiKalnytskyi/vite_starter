@@ -24,9 +24,11 @@ const randomString = (minLength: number, maxLength: number): string => {
   return result;
 };
 
+
+//TODO replace the plus cone
+
 //InputMatchedWords
 //TODO search input correct startIcon
-//TODO search input correct plasIcom
 
 //Input
 //TODO add arrows for number type
@@ -313,6 +315,13 @@ export const Example = () => {
                 name="calendar_single"
                 mode="single"
                 visibleOfMonths={1}
+              />
+              <InputCalendar
+                label="Calendar (Date) "
+                name="calendar_single"
+                mode="single"
+                visibleOfMonths={1}
+                readOnly
               />
               <InputCalendar
                 label="Calendar ({ftom:Date, to:Date }) "
