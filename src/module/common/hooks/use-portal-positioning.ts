@@ -1,16 +1,24 @@
-import { RefObject, useEffect, useState, Fragment } from 'react';
+import {  useEffect, useState, Fragment } from 'react';
 import { Portal } from '@/module/common/component';
 
-export const usePortalPositioning = <T extends HTMLElement>(ref: RefObject<T>, focused: boolean) => {
-  const [setting, setSetting] = useState<{ top: number; left: number; width: number }>({ top: 0, left: 0, width: 0 });
+export const usePortalPositioning = <T extends HTMLElement>(
+  ref: T | null,
+  focused: boolean,
+  parentScroll?: boolean
+) => {
+
+  const initValue: { top: number; left: number; width: number, clientHeight: number } = { top: 0, left: 0, width: 0, clientHeight:0 }
+
+  const [setting, setSetting] = useState(initValue);
   const [parentHasScroll, setParentHasScroll] = useState<boolean>(false);
 
   useEffect(() => {
     const calculatePosition = () => {
-      if (ref.current) {
-        const rect = ref.current.getBoundingClientRect();
+      if (ref) {
+        const rect = ref.getBoundingClientRect();
         setSetting({
-          width: ref.current.clientWidth,
+          width: ref.clientWidth,
+          clientHeight: ref.clientHeight,
           top: rect.bottom + window.scrollY,
           left: rect.left + window.scrollX
         });
@@ -18,7 +26,7 @@ export const usePortalPositioning = <T extends HTMLElement>(ref: RefObject<T>, f
     };
 
     const checkParentOverflow = () => {
-      let currentElement: HTMLElement | null = ref.current;
+      let currentElement: HTMLElement | null = ref;
       while (currentElement && currentElement.parentElement) {
         const overflowX = getComputedStyle(currentElement.parentElement).overflowX;
         if (overflowX === 'auto' || overflowX === 'scroll') {
@@ -65,7 +73,10 @@ export const usePortalPositioning = <T extends HTMLElement>(ref: RefObject<T>, f
         rootElement.removeEventListener('wheel', preventScroll);
       }
     };
-  }, [focused]);
+  }, [ref?.id, focused]);
 
-  return { setting: parentHasScroll ? setting : {}, Component: parentHasScroll ? Portal : Fragment };
+  return {
+    setting: (parentHasScroll ?? parentScroll) ? setting : initValue,
+    Component: (parentHasScroll ?? parentScroll) ? Portal : Fragment
+  };
 };

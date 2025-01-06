@@ -1,6 +1,6 @@
 import styled, { css } from 'styled-components';
 
-import { COLORS, FONTS, MEDIA, SHADOWS, SPACES, TRANSITIONS } from '@/theme';
+import { COLORS, FONTS, MEDIA, SPACES } from '@/theme';
 
 import { Fonts} from '../../styles';
 
@@ -169,86 +169,16 @@ const labelPriceCommonStyles = css`
   ${Fonts};
 `;
 
-export const ItemLabel = styled.strong<{
-  $linesToTruncate?: number;
-  $tooltipLength?: number;
-  $tooltipText: string;
-  background?: string;
-  $lastIndexHorizontal?: boolean;
-  $firstIndexVertical?: boolean;
+export const ItemLabel = styled.div<{
+  $linesToTruncate: number;
 }>`
-  position: relative;
-  display: block;
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-
-  ${({ $linesToTruncate }) =>
-          $linesToTruncate &&
-    css`
-        -webkit-line-clamp: ${$linesToTruncate};
-    `}
-  ${labelPriceCommonStyles}
-    .tooltipHover {
-    position: absolute;
-    ${({ $firstIndexVertical }) =>
-      $firstIndexVertical
-        ? css`
-            bottom: 35%;
-          `
-        : css`
-            top: 35%;
-          `}
-    ${({ $lastIndexHorizontal }) =>
-      $lastIndexHorizontal
-        ? css`
-            right: 40%;
-          `
-        : css`
-            left: 40%;
-          `}
-        width: max-content;
-    max-height: 5.5rem;
-    max-width: 16rem;
-    content: ${({ $tooltipText }) => `'${$tooltipText}'`};
-    padding: ${`${SPACES.xxxxxs} ${SPACES.xs}`};
-    font-weight: ${FONTS.WEIGHTS.normal};
-    font-size: ${FONTS.SIZES.s};
-    border: 1px solid ${COLORS.primary};
-    border-radius: ${SPACES.xxsm};
-    word-break: break-all;
-    background-color: ${COLORS.white};
-    box-shadow: ${SHADOWS.xs};
-
-    visibility: hidden;
-    overflow-y: auto;
-
-    z-index: 11;
-
-    transition: visibility ${`${TRANSITIONS.duration.fast} ${TRANSITIONS.function.linear}`};
-
-      &::-webkit-scrollbar {
-          width: 0.25rem;
-      }
-
-      &::-webkit-scrollbar-track {
-          background-color: ${COLORS.rgba(COLORS.primary, 0.2)};
-
-      }
-
-      &::-webkit-scrollbar-thumb {
-          background-color: ${COLORS.primary};
-          border-radius: 0.25rem;
-      }
-  }
-
-  ${({ $tooltipText, $tooltipLength = 16 }) =>
-    $tooltipText?.length >= $tooltipLength &&
-    css`
-      &:hover .tooltipHover {
-        visibility: visible;
-      }
-    `}
+    position: relative;
+    display: -webkit-box; 
+    -webkit-box-orient: vertical; 
+    overflow: hidden; 
+    -webkit-line-clamp: ${({ $linesToTruncate }) => $linesToTruncate};
+    white-space: normal; 
+    ${labelPriceCommonStyles};
 `;
 
 export const WrapperPagination = styled.div`
@@ -257,22 +187,32 @@ export const WrapperPagination = styled.div`
 `;
 
 
-export const SuggestedBlock = styled.div<{ $position?: string, height?: string, $focus?:boolean }>`
-    display: ${({$focus}) => $focus ? 'block' : 'none'} !important;
-    background: ${COLORS.white};
-    border: 1px solid ${COLORS.rgba(COLORS.black, 0.4)};
-
-    border-radius: 8px;
+export const Tooltip = styled.div`
+    display: flex;
     width: 100%;
-    flex-direction: column;
     max-height: 14rem;
+    min-height: 4rem;
+    height: fit-content !important;
+    min-width: 10rem;
+    max-width: 10rem;
+
+    padding: ${SPACES.xxxxxs} ${SPACES.xs};
+    word-wrap: break-word;
+    word-break: break-all;
+
+    ${labelPriceCommonStyles};
+
+
+    background: ${COLORS.white};
+    border-radius: 8px;
+    border: 1px solid ${COLORS.rgba(COLORS.black, 0.4)};
     box-shadow: 0 0 4px ${COLORS.rgba(COLORS.black, 0.8)};
 
     position: absolute;
-        // top: ${({height}) => height ?? '3rem'} !important;
     z-index: 1;
     overflow-y: auto;
     overflow-x: hidden;
+    overscroll-behavior-y: none;
 
     &::-webkit-scrollbar {
         width: 0.3rem;
@@ -287,5 +227,4 @@ export const SuggestedBlock = styled.div<{ $position?: string, height?: string, 
         background-color: ${COLORS.primary};
         border-radius: 0.25rem;
     }
-
 `;
