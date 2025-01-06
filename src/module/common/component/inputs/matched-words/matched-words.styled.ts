@@ -73,7 +73,7 @@ ${({ $newItemFlag }) =>
                 `}
 `;
 
-export const SuggestedBlock = styled.ul<{ $position?: string, height?: string }>`
+export const SuggestedBlock = styled.ul<{ $position?: string }>`
     display: none;
     background: ${COLORS.white};
     border: 1px solid ${COLORS.rgba(COLORS.black, 0.4)};
@@ -95,7 +95,6 @@ export const SuggestedBlock = styled.ul<{ $position?: string, height?: string }>
     }
     
     position: absolute;
-    // top: ${({height})=> height ?? '3rem'} !important;
     z-index: 1;
     overflow-y: auto;
     overflow-x: hidden;

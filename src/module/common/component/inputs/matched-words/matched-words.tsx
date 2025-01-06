@@ -204,7 +204,7 @@ export const MatchedWords = <
     };
   })();
 
-  const { setting, Component } = usePortalPositioning(ref, focused);
+  const { setting, Component } = usePortalPositioning(ref.current, focused);
 
   return (
     <Styled.Wrapper
@@ -292,7 +292,6 @@ export const MatchedWords = <
           <Styled.SuggestedBlock
             id="SuggestedBlock"
             ref={inputHintBlockRef}
-            height={props.height}
             $position={(filterOption as filterOptionNew)?.position}
             style={{
               ...setting,

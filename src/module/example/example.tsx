@@ -53,7 +53,7 @@ export const Example = () => {
     const [page, setPage] = useState(1);
 
 
-    const dataTable = Array.from({length: 1}, (_, index) => ({
+    const dataTable = Array.from({length: 6}, (_, index) => ({
         id: index + 1,
         user: page % 2 === 0 ? (index % 2 === 0 ? 'Tester' : randomString(50, 1000)) : (index % 2 === 0 ? randomString(50, 500) : 'Tester'),
         email: 'tester@gmail.com',
