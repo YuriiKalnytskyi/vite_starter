@@ -4,6 +4,7 @@ import { DivCommon } from '@/module/common/styles';
 
 export const Container = styled(DivCommon)`
     overflow-y: auto;
+    overflow-x: hidden;
     padding-bottom: 20rem;
     position: relative;
 

@@ -48,6 +48,7 @@ export type IInputMatchedWordsProps<
   startIcon?: IIconInput;
 
   width?: string;
+  height?: string;
   readOnly?: boolean;
 
   noFormikValue?: {

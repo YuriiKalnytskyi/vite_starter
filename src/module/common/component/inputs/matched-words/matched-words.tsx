@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next';
 import arrowBottom from '@/assets/icons/default/arrow-bottom-icon.svg';
 import closeIcon from '@/assets/icons/default/close-icon.svg';
 import searchIcon from '@/assets/icons/default/search.svg';
-import { Input, Portal } from '@/module/common/component';
+import { Input } from '@/module/common/component';
 import { useClickOutside, useHandleKeyPress, usePortalPositioning } from '@/module/common/hooks';
 import { IconCommon } from '@/module/common/styles';
 import { COLORS } from '@/theme';
@@ -204,8 +204,7 @@ export const MatchedWords = <
     };
   })();
 
-  const { setting } = usePortalPositioning(mainInputRef, focused);
-
+  const { setting, Component } = usePortalPositioning(ref, focused);
 
   return (
     <Styled.Wrapper
@@ -241,6 +240,7 @@ export const MatchedWords = <
       <Input
         name={name}
         width={props.width}
+        height={props.height}
         placeholder={placeholder}
         label={label}
         {...(startIcon ? { startIcon } : {})}
@@ -288,14 +288,15 @@ export const MatchedWords = <
       />
 
       {items?.length > 0 && focused && (
-        <Portal>
+        <Component>
           <Styled.SuggestedBlock
             id="SuggestedBlock"
             ref={inputHintBlockRef}
+            height={props.height}
             $position={(filterOption as filterOptionNew)?.position}
             style={{
               ...setting,
-              overflow: 'auto'
+              // overflow: 'auto'
             }}
           >
             {filterOption && filterOption.mode === 'new' ? (
@@ -359,7 +360,7 @@ export const MatchedWords = <
               </Styled.HintOption>
             )}
           </Styled.SuggestedBlock>
-        </Portal>
+        </Component>
       )}
 
       {type && type.mode === 'multi' && (value as Item[])?.length ? (

@@ -73,7 +73,7 @@ ${({ $newItemFlag }) =>
                 `}
 `;
 
-export const SuggestedBlock = styled.ul<{ $position?: string }>`
+export const SuggestedBlock = styled.ul<{ $position?: string, height?: string }>`
     display: none;
     background: ${COLORS.white};
     border: 1px solid ${COLORS.rgba(COLORS.black, 0.4)};
@@ -82,8 +82,6 @@ export const SuggestedBlock = styled.ul<{ $position?: string }>`
     width: 100%;
     flex-direction: column;
     max-height: 14rem;
-    position: absolute;
-    z-index: 1;
     box-shadow: 0 0 4px ${COLORS.rgba(COLORS.black, 0.8)};
 
     #search {
@@ -95,7 +93,10 @@ export const SuggestedBlock = styled.ul<{ $position?: string }>`
         top: 0;
         z-index: 1;
     }
-
+    
+    position: absolute;
+    // top: ${({height})=> height ?? '3rem'} !important;
+    z-index: 1;
     overflow-y: auto;
     overflow-x: hidden;
 

@@ -297,7 +297,6 @@ export const Example = () => {
                   isSavePreviousSelection: false
                 }}
               />
-
               <MatchedWords
                 width="400px"
                 name="country_multi"

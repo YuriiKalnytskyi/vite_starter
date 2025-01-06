@@ -68,6 +68,7 @@ export const Wrapper = styled.div`
   box-shadow: 0 0 0.625rem ${COLORS.rgba(COLORS.black, 0.2)};
 `;
 export const Table = styled.table`
+    width: 100%;
   min-width: 100%;
 
   &.full {
