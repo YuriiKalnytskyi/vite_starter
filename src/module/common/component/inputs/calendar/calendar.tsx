@@ -11,7 +11,6 @@ import { dateTransform, functionStub } from '@/utils';
 import { Input } from '../index';
 import * as Styled from './calendar.styled';
 import { IInputDefault } from '@/module/common/types';
-import { Drawer } from '@/module/common/component';
 import { PopupLayout } from '@/module/common/layout';
 import { MEDIA } from '@/theme';
 
@@ -173,16 +172,16 @@ export const Calendar = ({
       )}
 
       {/*{isCalendarOpened && isMobile && (*/}
-      <Drawer
-        onClose={handleButtonClick}
-        open={isCalendarOpened && isMobile}
-        slidePosition="bottom"
-        contentPosition="bottom"
-      >
-        <PopupLayout height="50%" type="bottom" onClose={handleButtonClick}>
+      {/*<Drawer*/}
+      {/*  onClose={handleButtonClick}*/}
+      {/*  open={isCalendarOpened && isMobile}*/}
+      {/*  slidePosition="bottom"*/}
+      {/*  contentPosition="bottom"*/}
+      {/*>*/}
+        <PopupLayout height="50%" type="bottom" onClose={handleButtonClick} open={isCalendarOpened && isMobile}>
           <CalendarCommon />
         </PopupLayout>
-      </Drawer>
+      {/*</Drawer>*/}
       {/*)*/}
       {/*}*/}
 

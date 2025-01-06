@@ -48,6 +48,23 @@ export const config = {
       transform: 'translateY(+100%)'
     },
     config: {
+      duration: 300,
+    }
+  },
+  top: {
+    from: {
+      opacity: 1,
+      transform: 'translateY(-100%)'
+    },
+    enter: {
+      opacity: 1,
+      transform: 'translateY(0%)'
+    },
+    leave: {
+      opacity: 1,
+      transform: 'translateY(-100%)'
+    },
+    config: {
       duration: 300
     }
   }

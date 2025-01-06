@@ -58,7 +58,6 @@ export const MatchedWords = <
     } else {
       // eslint-disable-next-line react-hooks/rules-of-hooks
       const { values, setFieldValue, errors } = useFormikContext();
-
       return {
         value: getIn(values, name),
         error: getIn(errors, name),

@@ -22,7 +22,7 @@ export const Drawer = ({
   const onBackdropClick = (e: MouseEvent<HTMLDivElement>) => {
     if (e.target === e.currentTarget) {
       e.stopPropagation();
-      onClose(false);
+      onClose();
     }
   };
 

@@ -8,6 +8,7 @@ import {
     Button,
     Calendar,
     CheckBox,
+    Drawer,
     Icon,
     Input,
     MatchedWords,
@@ -25,6 +26,7 @@ import {dateTransform, functionStub} from '@/utils';
 
 import * as Styled from './example.styled.tsx';
 import {APP_KEYS} from '../common/constants/index.ts';
+import {DrawerLayout, PopupLayout} from "@/module/common/layout";
 
 const randomString = (minLength: number, maxLength: number): string => {
     const length = Math.floor(Math.random() * (maxLength - minLength + 1)) + minLength;
@@ -46,12 +48,23 @@ const randomString = (minLength: number, maxLength: number): string => {
 //Input
 //TODO add arrows for number type
 
+//Loader
+//TODO optimization loader ...
+
+//Phone
+//TODO delete component and to matched-worlds ...
+
 //Pagination
 //TODO add input to ...
 
+//Calendar
+//TODO check click to calendar ...
+
 export const Example = () => {
     const [page, setPage] = useState(1);
-
+    const [openDrawer, setOpenDrawer] = useState(false);
+    const [openPopup, setOpenPopup] = useState(false);
+    const [popupPosition, setPopupPosition] = useState<'bottom' | 'top' | 'left' | 'right'  >('bottom');
 
     const dataTable = Array.from({length: 1}, (_, index) => ({
         id: index + 1,
@@ -65,11 +78,12 @@ export const Example = () => {
     const {data} = useQuery(
         ['country'],
         async () => {
-            const response = await axios.get('https://restcountries.com/v3.1/all?fields=name,flags,cca2');
+            const response = await axios.get('https://restcountries.com/v3.1/all?fields=name,flags,cca2,idd');
             const countries = response.data.map((country: any) => ({
                 name: country.name.common,
                 icon: country.flags?.svg,
-                cca2: country.cca2
+                cca2: country.cca2,
+                idd: country.idd
             }));
             return {countries};
         },
@@ -85,6 +99,14 @@ export const Example = () => {
         return value;
     };
 
+    const onTogglePopup = (position: 'bottom' | 'top' | 'left' | 'right' | null) => {
+        setOpenPopup((prev) => !prev);
+        console.log(position, '***************')
+        position && setPopupPosition(position);
+    };
+    const onToggle = () => {
+        setOpenDrawer((prev) => !prev);
+    };
     return (
         <Styled.Container
             height="100dvh"
@@ -393,9 +415,38 @@ export const Example = () => {
                             resizable
                         />
 
+
+                        DRAWER
+                        <Button content='open drawer' variant='primary' onClick={onToggle}/>
+                        <Button content='open popup button'  variant='primary' onClick={onTogglePopup.bind(this, 'bottom')}/>
+                        <Button content='open popup left'  variant='primary' onClick={onTogglePopup.bind(this, 'left')}/>
+                        <Button content='open popup right'  variant='primary'  onClick={onTogglePopup.bind(this, 'right')}/>
+                        <Button content='open popup top'  variant='primary' onClick={onTogglePopup.bind(this, 'top')}/>
+
                     </Form>
                 )}
             </Formik>
+
+                <Drawer onClose={onToggle} open={openDrawer} contentPosition={'left'} slidePosition={'bottom'}>
+                    <DrawerLayout title={'Test'} onClose={onToggle}>
+                        POPUP BUTTON
+                        <Button content='open popup button' variant='primary' onClick={onTogglePopup}/>
+                        <Button content='open popup left'  variant='primary' onClick={onTogglePopup}/>
+
+
+                    </DrawerLayout>
+                </Drawer>
+
+                <PopupLayout
+                    open={openPopup}
+                    onClose={onTogglePopup.bind(this, null)}
+                    slidePosition={popupPosition}
+                    contentPosition={'bottom'}
+                >
+                    sdsdsdds
+                </PopupLayout>
+
+
         </Styled.Container>
     );
 };

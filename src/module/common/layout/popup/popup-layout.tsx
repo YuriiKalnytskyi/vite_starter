@@ -1,34 +1,56 @@
-import { MouseEvent, ReactNode } from 'react';
+import {MouseEvent, ReactNode} from 'react';
 
 import '@/styles/popup-layout.css';
 
 import * as Styled from './popup-layout.styled';
+import {Drawer} from "@/module/common/component";
+import { PositionType} from "@/module/common/types";
+import {useIsMobile} from "@/module/common/hooks";
 
 export interface IPopupLayout {
-  onClose?: () => void;
-  children?: ReactNode;
-  width?: string;
-  minWidth?: string;
-  type: 'bottom';
-  height?: string
+    onClose: () => void;
+    children?: ReactNode;
+    width?: string;
+    minWidth?: string;
+    slidePosition: PositionType;
+    contentPosition: 'bottom' | 'top' | 'center';
+    height?: string;
+    open: boolean;
 }
 
-export const PopupLayout = ({ children, onClose,  type, ...props  }: IPopupLayout) => (
-  <div className={`popup ${type} above-all`} onClick={onClose}>
-    <Styled.Container
-      $type={type}
-      {...props}
-      onClick={(e: MouseEvent<HTMLDivElement>) => e.stopPropagation()}
-    >
-      <Styled.CloseBtn onClick={onClose} />
+export const PopupLayout = ({children, onClose, open, contentPosition = 'center', slidePosition = 'right', ...props}: IPopupLayout) => {
+    const contentPositionProps = useIsMobile()
+        ? ['bottom', 'top'].includes(contentPosition)
+            ? contentPosition
+            : 'center'
+        : ['bottom', 'top'].includes(contentPosition)
+            ? 'center'
+            : contentPosition;    return (
+        <Drawer
+            onClose={onClose}
+            open={open}
+            slidePosition={slidePosition}
+            contentPosition={contentPositionProps}
+        >
 
-      {children}
-    </Styled.Container>
-  </div>
-);
+            <div className={`popup ${contentPositionProps} above-all`} onClick={onClose}>
+                <Styled.Container
+                    $type={contentPositionProps}
+                    {...props}
+                    onClick={(e: MouseEvent<HTMLDivElement>) => e.stopPropagation()}
+                >
+                    <Styled.CloseBtn onClick={onClose}/>
+
+                    {children}
+                </Styled.Container>
+            </div>
+
+        </Drawer>
+    )
+};
 
 export interface IPopupLayoutBottom {
-  onClose?: () => void;
-  children?: ReactNode;
-  styled?: any;
+    onClose?: () => void;
+    children?: ReactNode;
+    styled?: any;
 }

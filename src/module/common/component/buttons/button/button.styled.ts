@@ -99,7 +99,7 @@ const buttonAppearances: Record<Required<IButtonProps>['variant'], RuleSet<objec
 };
 
 export const StyledButton = styled.button<IButtonProps>`
-    all: unset;
+    //all: unset;
 
     & > #loader {
         height: 100% !important;

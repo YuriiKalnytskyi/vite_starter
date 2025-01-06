@@ -2,6 +2,7 @@ import styled from 'styled-components';
 
 import { CloseButton } from '@/module/common/component';
 import { COLORS, FONTS, INDEX, MEDIA, SPACES } from '@/theme';
+import {ContentPositionType} from "@/module/common/types";
 
 
 export const Wrapper = styled.div`
@@ -47,15 +48,15 @@ export const Container = styled.div<{
   height?:string
   width?: string;
   minWidth?: string,
-  $type: 'bottom'
+  $type: ContentPositionType
 }>`
     z-index: ${INDEX.extreme_case};
     display: flex;
     flex-direction: column;
     align-items: flex-end;
     padding: 3.5rem;
-    width: ${({ width, $type }) => width ?? $type === 'bottom' ? '100%' : '21rem'};
-    height: ${({ height }) => height ?? '80%'};
+    width: ${({ width, $type }) => width ?? ($type === 'bottom' || $type === 'top') ? '100%' : '21rem'};
+    height: ${({ height, $type }) => height ?? ($type === 'left' || $type === 'right' ? '100%' : '80%')};
     min-width: ${({ minWidth }) => minWidth ?? '21rem'};
     font-family: ${FONTS.FAMILIES.inter};
     border-radius: 12px;

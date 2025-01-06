@@ -15,6 +15,15 @@
   background-color: #0000009c;
 }
 
+.backdrop.center > * {
+  width: 100%;
+  height: 100%;
+  top: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .backdrop.right > * {
   position: absolute;
   right: 0;
@@ -23,6 +32,12 @@
 .backdrop.left > * {
   position: absolute;
   left: 0;
+  /*width: 100%;*/
+  /*height: 100%;*/
+  /*top: 0;*/
+  /*display: flex;*/
+  /*align-items: center;*/
+  /*justify-content: center;*/
 }
 
 .backdrop.bottom > * {
@@ -32,3 +47,11 @@
   display: flex;
   align-items: flex-end;
 }
+.backdrop.top > * {
+  width: 100%;
+  height: 100%;
+  top: 0;
+  display: flex;
+  align-items: flex-start;
+}
+

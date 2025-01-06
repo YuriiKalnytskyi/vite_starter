@@ -54,8 +54,6 @@ export const TableIndex = ({
 
 
     const {setting, Component} = usePortalPositioning(inputHintBlockRef, !!focused);
-    console.log(focused)
-
 
     return (
         <Styled.Table className={className ?? ''}>

@@ -1,12 +1,17 @@
 import { ReactNode } from 'react';
 
+export type PositionType = 'bottom' | 'top' | 'left' | 'right' ;
+export type ContentPositionType = PositionType | 'center';
+
+
 export interface IDrawerProps {
-  slidePosition?: 'left' | 'right' | 'bottom';
-  contentPosition?: 'left' | 'right' | 'bottom';
+  slidePosition?: PositionType;
+  contentPosition?: ContentPositionType;
   className?: string;
   children: ReactNode;
-  onClose: (arg: boolean) => void;
+  onClose: () => void;
   open: boolean;
   component?: string;
   style?: any;
 }
+
