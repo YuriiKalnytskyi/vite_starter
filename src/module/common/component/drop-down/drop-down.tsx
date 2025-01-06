@@ -1,4 +1,4 @@
-import { ReactNode, useRef, useState } from 'react';
+import { ReactNode, RefObject, useRef, useState } from 'react';
 
 import { useClickOutside } from '@/module/common/hooks';
 import { functionStub } from '@/utils';
@@ -53,7 +53,7 @@ export const DropDown = ({
 
   return (
     <Styled.Wrapper
-      ref={ref}
+      ref={ref as RefObject<HTMLDivElement>}
       onMouseEnter={isHover ? onSetIsOpen.bind(this, true) : functionStub}
       onMouseLeave={isHover ? onSetIsOpen.bind(this, false) : functionStub}
       id='DropDown'

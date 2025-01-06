@@ -1,5 +1,5 @@
 import { getIn, useFormikContext } from 'formik';
-import { useState } from 'react';
+import { RefObject, useState } from 'react';
 import { DateRange, DaySelectionMode } from 'react-day-picker';
 import 'react-day-picker/dist/style.css';
 
@@ -141,7 +141,7 @@ export const Calendar = ({
 
 
   return (
-    <Styled.Wrapper ref={ref} width={width} {...props} className="calendarContainer">
+    <Styled.Wrapper ref={ref as RefObject<HTMLDivElement>} width={width} {...props} className="calendarContainer">
       <Input
         noFormikValue={{
           value: CalendarFormatUtil(selected, mode),

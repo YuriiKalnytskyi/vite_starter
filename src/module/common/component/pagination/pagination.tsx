@@ -5,7 +5,7 @@ import {IconCommon} from '@/module/common/styles';
 import {IPaginationProps} from '@/module/common/types';
 
 import * as Styled from './pagination.styled';
-import {useEffect, useState} from "react";
+import { RefObject, useEffect, useState } from 'react';
 import {Input} from "@/module/common/component";
 import { useDebounce } from 'use-debounce';
 
@@ -93,7 +93,7 @@ export const Pagination = ({
                     if (typeof pageNumber === 'string') {
                         return index === isVisibleInput ? (
                                 <Input
-                                    refProps={ref}
+                                    refProps={ref as RefObject<HTMLInputElement>}
                                     key={index}
                                     name='input-page'
                                     width='2rem'
