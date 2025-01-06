@@ -2,7 +2,7 @@ import styled, { css } from 'styled-components';
 
 import { COLORS, FONTS, MEDIA, SHADOWS, SPACES, TRANSITIONS } from '@/theme';
 
-import { Fonts } from '../../styles';
+import { Fonts} from '../../styles';
 
 const layoutCss = css`
   display: table;
@@ -29,7 +29,7 @@ const cellControlledSizes = css`
 export const Container = styled.div`
   box-shadow: 0 0 0.625rem ${COLORS.rgba(COLORS.black, 0.2)};
   width: 100%;
-
+  min-height: fit-content;
   &.scroll {
     width: 100% !important;
     overflow-x: auto;
@@ -66,6 +66,7 @@ export const Container = styled.div`
 export const Wrapper = styled.div`
   overflow: hidden;
   box-shadow: 0 0 0.625rem ${COLORS.rgba(COLORS.black, 0.2)};
+  min-height: fit-content;
 `;
 export const Table = styled.table`
     width: 100%;
@@ -176,6 +177,7 @@ export const ItemLabel = styled.strong<{
   $lastIndexHorizontal?: boolean;
   $firstIndexVertical?: boolean;
 }>`
+  position: relative;
   display: block;
   display: -webkit-box;
   -webkit-box-orient: vertical;
@@ -252,4 +254,38 @@ export const ItemLabel = styled.strong<{
 export const WrapperPagination = styled.div`
   width: fit-content;
   margin: 0 auto;
+`;
+
+
+export const SuggestedBlock = styled.div<{ $position?: string, height?: string, $focus?:boolean }>`
+    display: ${({$focus}) => $focus ? 'block' : 'none'} !important;
+    background: ${COLORS.white};
+    border: 1px solid ${COLORS.rgba(COLORS.black, 0.4)};
+
+    border-radius: 8px;
+    width: 100%;
+    flex-direction: column;
+    max-height: 14rem;
+    box-shadow: 0 0 4px ${COLORS.rgba(COLORS.black, 0.8)};
+
+    position: absolute;
+        // top: ${({height}) => height ?? '3rem'} !important;
+    z-index: 1;
+    overflow-y: auto;
+    overflow-x: hidden;
+
+    &::-webkit-scrollbar {
+        width: 0.3rem;
+    }
+
+    &::-webkit-scrollbar-track {
+        background-color: ${COLORS.rgba(COLORS.primary, 0.2)};
+
+    }
+
+    &::-webkit-scrollbar-thumb {
+        background-color: ${COLORS.primary};
+        border-radius: 0.25rem;
+    }
+
 `;

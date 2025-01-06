@@ -91,9 +91,12 @@ export const Pagination = ({
                 {pagination.map((pageNumber, index) => {
                     if (typeof pageNumber === 'string') {
                         return index === isVisibleInput ? (
+                            <Styled.PaginateInput
+                                ref={ref as RefObject<HTMLLIElement>}
+                                key={index}
+                                onMouseLeave={() => onSetIsVisibleInput(null)}
+                            >
                                 <Input
-                                    refProps={ref as RefObject<HTMLInputElement>}
-                                    key={index}
                                     name='input-page'
                                     width='2rem'
                                     isAutoFocus
@@ -103,12 +106,12 @@ export const Pagination = ({
                                         setFieldValue: (_,value) =>setInputPage(+value)
                                     }}
                                 />
+                            </Styled.PaginateInput>
                             ) :
                             (
                                 <Styled.PaginateButtonsListItem
                                     key={index}
                                     onMouseEnter={() => onSetIsVisibleInput(index)}
-                                    onMouseLeave={() => onSetIsVisibleInput(null)}
                                 >&#8230;</Styled.PaginateButtonsListItem>
                             );
                     }
