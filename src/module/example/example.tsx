@@ -12,7 +12,7 @@ import {
   Calendar,
   MatchedWords, Phone,
   Table,
-  TextArea
+  TextArea, Switch
 } from '@/module/common/component';
 import { changeCard } from '@/module/common/hooks';
 import { onError } from '@/module/common/services';
@@ -108,7 +108,7 @@ export const Example = () => {
         </DivCommon>
       </DivCommon>
 
-      <DivCommon>
+      <DivCommon >
         <Table
           className="scroll"
           tooltipLength={25}
@@ -154,7 +154,7 @@ export const Example = () => {
             CHECKBOX STATE (default, multi, radio)
             <DivCommon fd="row" gap={SPACES.l} margin="0 0 2rem 0">
               <DivCommon height="100px" fd="row" ai="center" gap={SPACES.l}>
-                <CheckBox name="default" type="default" items="string" />
+                <Input.CheckBox name="default" type="default" items="string" />
                 <CheckBox
                   name="defaultObj"
                   type="default"
@@ -190,6 +190,7 @@ export const Example = () => {
               </DivCommon>
               <DivCommon height="100px" fd="row" ai="center" gap={SPACES.l}>
                 <Input.Switch name='switch' label='Switch'/>
+                <Switch name='switch' label='Switch'/>
               </DivCommon>
             </DivCommon>
 

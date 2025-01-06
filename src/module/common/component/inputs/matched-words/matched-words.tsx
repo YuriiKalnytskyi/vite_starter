@@ -296,7 +296,6 @@ export const MatchedWords = <
             $position={(filterOption as filterOptionNew)?.position}
             style={{
               ...setting,
-              // overflow: 'auto'
             }}
           >
             {filterOption && filterOption.mode === 'new' ? (

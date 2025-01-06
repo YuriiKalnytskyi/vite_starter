@@ -54,7 +54,6 @@ export const Pagination = ({
         if (valuesDebounce && valuesDebounce > 1 && valuesDebounce && +valuesDebounce < +lastPage ){
             onCertainPage(valuesDebounce);
             onReset();
-
         }
     }, [valuesDebounce]);
 
