@@ -6,14 +6,14 @@ import { MEDIA, SPACES } from '@/theme';
 export const Container = styled.div`
   width: 26.563rem;
   height: 100%;
-  background-color: ${ ({theme})=>  theme. white};
+  background-color: ${ ({theme})=>  theme.COLORS.white};
 
-  overflow-y: scroll;
+  overflow-y: auto;
 
   padding: ${SPACES.xxxxxxls} ${SPACES.xxxxl};
 
     &::-webkit-scrollbar-track {
-        background-color: ${ ({theme})=>  theme. primary};
+        background-color: ${ ({theme})=>  theme.COLORS.primary};
     }
 
     &::-webkit-scrollbar-thumb {

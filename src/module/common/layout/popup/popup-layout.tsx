@@ -4,7 +4,7 @@ import '@/styles/popup-layout.css';
 
 import * as Styled from './popup-layout.styled';
 import {Drawer} from "@/module/common/component";
-import { PositionType} from "@/module/common/types";
+import {ContentPositionType} from "@/module/common/types";
 import {useIsMobile} from "@/module/common/hooks";
 
 export interface IPopupLayout {
@@ -12,20 +12,29 @@ export interface IPopupLayout {
     children?: ReactNode;
     width?: string;
     minWidth?: string;
-    slidePosition: PositionType;
-    contentPosition: 'bottom' | 'top' | 'center';
+    slidePosition: ContentPositionType;
+    contentPosition: ContentPositionType;
     height?: string;
     open: boolean;
 }
 
-export const PopupLayout = ({children, onClose, open, contentPosition = 'center', slidePosition = 'right', ...props}: IPopupLayout) => {
+export const PopupLayout = ({
+                                children,
+                                onClose,
+                                open,
+                                contentPosition = 'center',
+                                slidePosition = 'right',
+                                ...props
+                            }: IPopupLayout) => {
     const contentPositionProps = useIsMobile()
-        ? ['bottom', 'top'].includes(contentPosition)
+        ? ['bottom', 'top', 'left', 'right'].includes(contentPosition)
             ? contentPosition
             : 'center'
-        : ['bottom', 'top'].includes(contentPosition)
+        : ['bottom', 'top', 'left', 'right'].includes(contentPosition)
             ? 'center'
-            : contentPosition;    return (
+            : contentPosition;
+
+    return (
         <Drawer
             onClose={onClose}
             open={open}
@@ -40,13 +49,13 @@ export const PopupLayout = ({children, onClose, open, contentPosition = 'center'
                     onClick={(e: MouseEvent<HTMLDivElement>) => e.stopPropagation()}
                 >
                     <Styled.CloseBtn onClick={onClose}/>
-
-                    {children}
+                        {children}
                 </Styled.Container>
             </div>
 
         </Drawer>
     )
+
 };
 
 export interface IPopupLayoutBottom {

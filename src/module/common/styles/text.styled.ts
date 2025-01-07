@@ -21,7 +21,9 @@ export const Fonts = css<IFonts>`
     `}
 `;
 
-export const TitleCommon = styled.p<IFonts & IMargin>`
+export const TitleCommon = styled.p.withConfig({
+  shouldForwardProp: (prop) => !['ml', 'mr', 'mb', 'mt'].includes(prop),
+})<IFonts & IMargin>`
   ${Fonts};
   font-family: ${FONTS.FAMILIES.roboto};
 

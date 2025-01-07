@@ -3,7 +3,7 @@ import { MouseEvent } from 'react';
 
 import '@/styles/drawer.css';
 
-import { IDrawerProps } from '../../types';
+import {IDrawerProps} from '../../types';
 import { Portal } from '../portal';
 import { config } from './drawer.config';
 import * as Styled from './drawer.styled';

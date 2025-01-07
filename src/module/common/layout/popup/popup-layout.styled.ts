@@ -56,7 +56,7 @@ export const Container = styled.div<{
     align-items: flex-end;
     padding: 3.5rem;
     width: ${({ width, $type }) => width ?? ($type === 'bottom' || $type === 'top') ? '100%' : '21rem'};
-    height: ${({ height, $type }) => height ?? ($type === 'left' || $type === 'right' ? '100%' : '80%')};
+    height: ${({ height, $type }) => height ?? ($type === 'left' || $type === 'right' ? '100%' : '30%')};
     min-width: ${({ minWidth }) => minWidth ?? '21rem'};
     font-family: ${FONTS.FAMILIES.inter};
     border-radius: 12px;

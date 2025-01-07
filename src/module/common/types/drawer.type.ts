@@ -5,7 +5,7 @@ export type ContentPositionType = PositionType | 'center';
 
 
 export interface IDrawerProps {
-  slidePosition?: PositionType;
+  slidePosition?: ContentPositionType;
   contentPosition?: ContentPositionType;
   className?: string;
   children: ReactNode;

@@ -67,5 +67,25 @@ export const config = {
     config: {
       duration: 300
     }
+  },
+  center: {
+    from: {
+      opacity: 0,
+      transform: 'scale(0.5)',
+      borderRadius: '50%'
+    },
+    enter: {
+      opacity: 1,
+      transform: 'scale(1)',
+      borderRadius: '0'
+    },
+    leave: {
+      opacity: 0,
+      transform: 'scale(0.5)',
+      borderRadius: '50%'
+    },
+    config: {
+      duration: 300
+    }
   }
 };
