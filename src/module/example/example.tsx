@@ -65,7 +65,8 @@ export const Example = () => {
   const [page, setPage] = useState(1);
   const [openDrawer, setOpenDrawer] = useState(false);
   const [openPopup, setOpenPopup] = useState(false);
-  const [popupPosition, setPopupPosition] = useState<'bottom' | 'top' | 'left' | 'right'>('bottom');
+  const [slidePosition, setSlidePosition] = useState<'bottom' | 'top' | 'left' | 'right'>('bottom');
+  const [contentPosition, setContentPosition] = useState<'bottom' | 'top' | 'center'>('bottom');
 
   const dataTable = Array.from({ length: 6 }, (_, index) => ({
     id: index + 1,
@@ -100,10 +101,11 @@ export const Example = () => {
     return value;
   };
 
-  const onTogglePopup = (position: 'bottom' | 'top' | 'left' | 'right' | null) => {
+  const onTogglePopup = (slidePosition: 'bottom' | 'top' | 'left' | 'right' | null, contentPosition: 'bottom' | 'top' | 'center'  | null) => {
     setOpenPopup((prev) => !prev);
-    console.log(position, '***************');
-    position && setPopupPosition(position);
+    slidePosition && setSlidePosition(slidePosition);
+    contentPosition && setContentPosition(contentPosition);
+
   };
   const onToggle = () => {
     setOpenDrawer((prev) => !prev);
@@ -431,10 +433,13 @@ export const Example = () => {
             <Button content="open drawer" variant="primary" onClick={onToggle} />
             <Button content="open popup button" variant="primary"
                     onClick={onTogglePopup.bind(this, 'bottom')} />
-            <Button content="open popup left" variant="primary" onClick={onTogglePopup.bind(this, 'left')} />
-            <Button content="open popup right" variant="primary" onClick={onTogglePopup.bind(this, 'right')} />
-            <Button content="open popup top" variant="primary" onClick={onTogglePopup.bind(this, 'top')} />
 
+            <Button content="open popup right" variant="primary" onClick={onTogglePopup.bind(this, 'right')} />
+
+            <Button content="Popup animation-top content-top" variant="primary" onClick={onTogglePopup.bind(this, 'top', 'top')} />
+            <Button content="Popup animation-bottom content-bottom" variant="primary" onClick={onTogglePopup.bind(this, 'bottom', 'bottom')} />
+
+            <Button content="Popup animation-left content-left" variant="primary" onClick={onTogglePopup.bind(this, 'left', 'center')} />
           </Form>
         )}
       </Formik>
@@ -442,8 +447,8 @@ export const Example = () => {
       <Drawer onClose={onToggle} open={openDrawer} contentPosition={'left'} slidePosition={'bottom'}>
         <DrawerLayout title={'Test'} onClose={onToggle}>
           POPUP BUTTON
-          <Button content="open popup button" variant="primary" onClick={onTogglePopup} />
-          <Button content="open popup left" variant="primary" onClick={onTogglePopup} />
+          {/*<Button content="open popup button" variant="primary" onClick={onTogglePopup} />*/}
+          {/*<Button content="open popup left" variant="primary" onClick={onTogglePopup} />*/}
 
 
         </DrawerLayout>
@@ -451,9 +456,9 @@ export const Example = () => {
 
       <PopupLayout
         open={openPopup}
-        onClose={onTogglePopup.bind(this, null)}
-        slidePosition={popupPosition}
-        contentPosition={'bottom'}
+        onClose={onTogglePopup.bind(this, null, null)}
+        slidePosition={slidePosition}
+        contentPosition={contentPosition}
       >
         sdsdsdds
       </PopupLayout>
