@@ -32,7 +32,7 @@ export const Input = styled.input<{ background?: string }>`
 
   &:checked ~ .text::after {
     opacity: 1;
-    background: ${ ({theme})=>  theme. error};
+    background: ${ ({theme})=>  theme.COLORS.error};
   }
 
   &:checked ~ .text::before {

@@ -36,7 +36,7 @@ export const Input = styled.textarea<{ $isError: boolean, readOnly?: boolean }>`
     }
 
     &::-webkit-scrollbar-thumb {
-        background-color: ${ ({theme})=>  theme. primary};
+        background-color: ${ ({theme})=>  theme.COLORS.primary};
         border-radius: 0.25rem;
     }
 `;
@@ -45,7 +45,7 @@ export const MaxLength = styled.p`
     position: absolute;
     ${Fonts};
     font-size: ${FONTS.SIZES.s};
-    color: ${ ({theme})=>  theme. error};
+    color: ${ ({theme})=>  theme.COLORS.error};
     justify-content: flex-end;
 
 
@@ -66,6 +66,6 @@ export const MaxLength = styled.p`
 //
 //
 // export const MaxLengthText = styled(ErrorInfoText)`
-//     color: ${ ({theme})=>  theme. black};
+//     color: ${ ({theme})=>  theme.COLORS.black};
 //     opacity: 0.88;
 // `;

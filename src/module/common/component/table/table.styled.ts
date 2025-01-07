@@ -225,7 +225,7 @@ export const Tooltip = styled.div`
     }
 
     &::-webkit-scrollbar-thumb {
-        background-color: ${ ({theme})=>  theme. primary};
+        background-color: ${ ({theme})=>  theme.COLORS.primary};
         border-radius: 0.25rem;
     }
 `;

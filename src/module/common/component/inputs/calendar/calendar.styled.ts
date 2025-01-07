@@ -89,8 +89,8 @@ export const Wrapper = styled.div<IMargin & { width?: string }>`
     }
 
     .rdp-day_today:not(.rdp-day_outside) {
-        color: ${ ({theme})=>  theme. white};
-        background-color: ${ ({theme})=>  theme. primary};
+        color: ${ ({theme})=>  theme.COLORS.white};
+        background-color: ${ ({theme})=>  theme.COLORS.primary};
         border-radius: 0.125rem;
     }
 
@@ -101,8 +101,8 @@ export const Wrapper = styled.div<IMargin & { width?: string }>`
     }
 
     .rdp-button:hover:not([disabled]):not(.rdp-day_selected) {
-        color: ${ ({theme})=>  theme. white};
-        background-color: ${ ({theme})=>  theme. primary};
+        color: ${ ({theme})=>  theme.COLORS.white};
+        background-color: ${ ({theme})=>  theme.COLORS.primary};
         border-radius: 0;
     }
 
@@ -113,7 +113,7 @@ export const Calendar = styled(DayPicker)`
     cursor: pointer;
     
 
-    background: ${ ({theme})=>  theme. white};
+    background: ${ ({theme})=>  theme.COLORS.white};
     border: 1px solid ${ ({theme})=>  theme.COLORS.rgba(theme.COLORS.black, 0.4)};
     border-radius: 0.25rem;
 

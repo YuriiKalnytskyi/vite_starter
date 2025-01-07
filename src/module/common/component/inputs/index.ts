@@ -1,8 +1,7 @@
-import { Calendar, CheckBox, InputComponent, MatchedWords, Phone, Switch, TextArea } from '@/module/common/component';
+import { Calendar, CheckBox,  MatchedWords, Switch, TextArea, Input } from '@/module/common/component';
 
-export const Input = Object.assign(InputComponent, {
+export const Inputs = Object.assign(Input, {
   TextArea,
-  Phone,
   Calendar,
   MatchedWords,
   CheckBox,
@@ -11,7 +10,6 @@ export const Input = Object.assign(InputComponent, {
 
 export * from './input/input';
 export * from './text-area/text-area.tsx';
-export * from './phone/phone.tsx';
 export * from './calendar/calendar.tsx';
 export * from './matched-words/matched-words.tsx';
 export * from './check-box/check-box.tsx';

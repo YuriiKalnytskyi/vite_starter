@@ -15,7 +15,7 @@ export const FieldLabel = styled.span`
   font-family: ${FONTS.FAMILIES.inter};
   font-weight: ${FONTS.WEIGHTS.medium};
   font-size: ${FONTS.SIZES.m};
-  color: ${ ({theme})=>  theme. black};
+  color: ${ ({theme})=>  theme.COLORS.black};
 `;
 
 export const Avatar = styled.img`

@@ -75,8 +75,11 @@ export const usePortalPositioning = <T extends HTMLElement>(
     };
   }, [ref?.id, focused]);
 
+  const _parentScroll = parentHasScroll ?? parentScroll
+
   return {
-    setting: (parentHasScroll ?? parentScroll) ? setting : initValue,
-    Component: (parentHasScroll ?? parentScroll) ? Portal : Fragment
+    setting: _parentScroll ? setting : initValue,
+    Component: _parentScroll ? Portal : Fragment,
+    isParentScroll: _parentScroll
   };
 };

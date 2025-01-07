@@ -15,7 +15,7 @@ import * as Styled from './input.styled';
 import { IInputProps } from './input.type.ts';
 import { useTheme } from 'styled-components';
 
-export const InputComponent= ({
+export const Input= ({
                         height,
                         name,
                         label,

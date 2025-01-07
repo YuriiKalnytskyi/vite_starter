@@ -205,7 +205,10 @@ export const MatchedWords = <
     };
   })();
 
-  const { setting, Component } = usePortalPositioning(ref.current, focused);
+  const { setting, Component, isParentScroll } = usePortalPositioning(ref.current, focused);
+
+
+  console.log(setting,  '======', name);
 
   return (
     <Styled.Wrapper
@@ -294,9 +297,7 @@ export const MatchedWords = <
             id="SuggestedBlock"
             ref={inputHintBlockRef}
             $position={(filterOption as filterOptionNew)?.position}
-            style={{
-              ...setting,
-            }}
+            style={isParentScroll ? setting : {}}
           >
             {filterOption && filterOption.mode === 'new' ? (
               <div id="search">

@@ -67,7 +67,7 @@ export const commonStyles = css<{ $isError?: boolean, readOnly?: boolean }>`
     cursor: ${({ readOnly }) => (readOnly ? 'initial' : 'pointer')};
     pointer-events: ${({ readOnly }) => (readOnly ? 'none' : 'initial')};
 
-    caret-color: ${ ({theme})=>  theme. primary};
+    caret-color: ${ ({theme})=>  theme.COLORS.primary};
 
     &:not(:focus-within) {
         cursor: pointer;
@@ -111,7 +111,7 @@ export const Input = styled.input<{
 export const VisibilityIcon = styled(IconCommon)`
     height: 1.5rem;
     aspect-ratio: 1/1;
-    color: ${ ({theme})=>  theme. black};
+    color: ${ ({theme})=>  theme.COLORS.black};
     cursor: pointer;
     position: absolute;
     right: 2rem;
@@ -140,7 +140,7 @@ export const Error = styled.div`
     position: absolute;
     left: ${SPACES.xxxxxs};
     font-size: ${FONTS.SIZES.s};
-    color: ${ ({theme})=>  theme. error};
+    color: ${ ({theme})=>  theme.COLORS.error};
 
     &.textArea {
         bottom: -${SPACES.m};
@@ -150,7 +150,7 @@ export const Error = styled.div`
         width: fit-content;
         right: 0 ;
         left: auto;
-        color: ${ ({theme})=>  theme. black};
+        color: ${ ({theme})=>  theme.COLORS.black};
     }
 `;
 

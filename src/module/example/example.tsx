@@ -5,16 +5,16 @@ import {useQuery} from 'react-query';
 
 import testIcon from '@/assets/icons/vite.svg';
 import {
-    Button,
-    Calendar,
-    CheckBox,
-    Icon,
-    Input,
-    MatchedWords,
-    Phone,
-    Switch,
-    Table,
-    TextArea
+  Button,
+  Calendar,
+  CheckBox,
+  Drawer,
+  Icon,
+  Input, Inputs,
+  MatchedWords,
+  Switch,
+  Table,
+  TextArea
 } from '@/module/common/component';
 import {changeCard} from '@/module/common/hooks';
 import {onError} from '@/module/common/services';
@@ -52,7 +52,7 @@ const randomString = (minLength: number, maxLength: number): string => {
 //TODO optimization loader ...
 
 //Phone
-//TODO delete component and to matched-worlds ...
+//TODO delete component and to DropDown ...
 
 //Pagination
 //TODO add input to ...
@@ -78,24 +78,24 @@ export const Example = () => {
         createdAt: '2025-01-03T12:34:56.789Z'
     }));
 
-    const {data} = useQuery(
-        ['country'],
-        async () => {
-            const response = await axios.get('https://restcountries.com/v3.1/all?fields=name,flags,cca2,idd');
-            const countries = response.data.map((country: any) => ({
-                name: country.name.common,
-                icon: country.flags?.svg,
-                cca2: country.cca2,
-                idd: country.idd
-            }));
-            return {countries};
-        },
-        {
-            onError: (err: any) => {
-                onError(err);
-            }
-        }
-    );
+  const { data } = useQuery(
+    ['country'],
+    async () => {
+      const response = await axios.get('https://restcountries.com/v3.1/all?fields=name,flags,cca2,idd');
+      const countries = response.data.map((country: any) => ({
+        name: country.name.common,
+        icon: country.flags?.svg,
+        cca2: country.cca2,
+        phone:  country.idd.root + country.idd?.suffixes.join('')
+      }));
+      return { countries };
+    },
+    {
+      onError: (err: any) => {
+        onError(err);
+      }
+    }
+  );
 
     const parseValue = (value: unknown, key: string) => {
         if (key === 'createdAt') return dateTransform((value as string) ?? '');
@@ -192,7 +192,7 @@ export const Example = () => {
                         CHECKBOX STATE (default, multi, radio)
                         <DivCommon fd="row" gap={SPACES.l} margin="0 0 2rem 0">
                             <DivCommon height="100px" fd="row" ai="center" gap={SPACES.l}>
-                                <Input.CheckBox name="default" type="default" items="string"/>
+                                <Inputs.CheckBox name="default" type="default" items="string"/>
                                 <CheckBox
                                     name="defaultObj"
                                     type="default"
@@ -232,72 +232,72 @@ export const Example = () => {
                             </DivCommon>
                         </DivCommon>
 
-                        INPUT CARD
-                        <DivCommon fd="row" gap={SPACES.l} margin="0 0 2rem 0">
-                            <Input
-                                width="15rem"
-                                name="card"
-                                label="Card"
-                                placeholder="0000 0000 0000 0000"
-                                optionOnChange={(name, value, setFieldValue) => {
-                                    const _value = changeCard('card', value);
-                                    setFieldValue(name, _value);
-                                }}
-                            />
+            INPUT CARD
+            <DivCommon fd="row" gap={SPACES.l} margin="0 0 2rem 0">
+              <Inputs
+                width="15rem"
+                name="card"
+                label="Card"
+                placeholder="0000 0000 0000 0000"
+                optionOnChange={(name, value, setFieldValue) => {
+                  const _value = changeCard('card', value);
+                  setFieldValue(name, _value);
+                }}
+              />
 
-                            <Input
-                                width="7rem"
-                                name="expiry_data"
-                                label="Date"
-                                placeholder="MM/YY"
-                                optionOnChange={(name, value, setFieldValue) => {
-                                    const _value = changeCard('date', value);
-                                    setFieldValue(name, _value);
-                                }}
-                            />
+              <Inputs
+                width="7rem"
+                name="expiry_data"
+                label="Date"
+                placeholder="MM/YY"
+                optionOnChange={(name, value, setFieldValue) => {
+                  const _value = changeCard('date', value);
+                  setFieldValue(name, _value);
+                }}
+              />
 
-                            <Input
-                                width="7rem"
-                                name="cvv"
-                                type="password"
-                                label="CVV"
-                                placeholder=""
-                                optionOnChange={(name, value, setFieldValue) => {
-                                    const _value = changeCard('cvc', value);
-                                    setFieldValue(name, _value);
-                                }}
-                            />
-                        </DivCommon>
-                        INPUT STATE (default, readOnly, email, password)
-                        <DivCommon fd="row" gap={SPACES.l} margin="0 0 2rem 0">
-                            <Input name="first_name" label="First Name" isSpellCheck/>
-                            <Input
-                                name="last_name"
-                                label=" Name"
-                                readOnly
-                                width="400px"
-                                startIcon={{icon: testIcon, height: '1.5rem'}}
-                                endIcon={{icon: testIcon, height: '1.5rem', type: 'img'}}
-                            />
-                            <Input
-                                name="email"
-                                label={{
-                                    text: 'Email',
-                                    required: true
-                                }}
-                                startIcon={{icon: testIcon, height: '1.5rem'}}
-                                endIcon={{icon: testIcon, height: '1.5rem', type: 'img'}}
-                            />
-                            <Input name="password" label="Password" type="password"/>
-                        </DivCommon>
-                        INPUTMATCHEDWORDS
-                        <Styled.Sctol fd="row" gap={SPACES.l} ai="flex-end" margin="0 0 2rem 0">
-                            <Input.MatchedWords
-                                width="400px"
-                                name="test"
-                                label="Default"
-                                items={['test', 'test2', 'test3', 'test4']}
-                            />
+              <Inputs
+                width="7rem"
+                name="cvv"
+                type="password"
+                label="CVV"
+                placeholder=""
+                optionOnChange={(name, value, setFieldValue) => {
+                  const _value = changeCard('cvc', value);
+                  setFieldValue(name, _value);
+                }}
+              />
+            </DivCommon>
+            INPUT STATE (default, readOnly, email, password)
+            <DivCommon fd="row" gap={SPACES.l} margin="0 0 2rem 0">
+              <Input name="first_name" label="First Name" isSpellCheck />
+              <Input
+                name="last_name"
+                label=" Name"
+                readOnly
+                width="400px"
+                startIcon={{ icon: testIcon, height: '1.5rem' }}
+                endIcon={{ icon: testIcon, height: '1.5rem', type: 'img' }}
+              />
+              <Input
+                name="email"
+                label={{
+                  text: 'Email',
+                  required: true
+                }}
+                startIcon={{ icon: testIcon, height: '1.5rem' }}
+                endIcon={{ icon: testIcon, height: '1.5rem', type: 'img' }}
+              />
+              <Input name="password" label="Password" type="password" />
+            </DivCommon>
+            INPUTMATCHEDWORDS
+            <Styled.Sctol fd="row" gap={SPACES.l} ai="flex-end" margin="0 0 2rem 0">
+              <Inputs.MatchedWords
+                width="400px"
+                name="test"
+                label="Default"
+                items={['test', 'test2', 'test3', 'test4']}
+              />
 
                             <MatchedWords
                                 name="test"
@@ -371,65 +371,87 @@ export const Example = () => {
                             />
                         </Styled.Sctol>
 
-                        Phone
-                        <DivCommon fd="row" gap={SPACES.l} ai="flex-end" margin="0 0 2rem 0">
-                            <Input.Phone
-                                name="phone"
-                                label="Phone"
-                            />
-                            <Phone
-                                name="phone"
-                                label="Phone"
-                                readOnly
-                            />
-                        </DivCommon>
+            Phone
+            <DivCommon fd="row" gap={SPACES.l} ai="flex-end" margin="0 0 2rem 0">
 
-                        CALENDAR
-                        <DivCommon fd="row" gap={SPACES.l} ai="flex-end" margin="0 0 2rem 0">
-                            <Input.Calendar
-                                label="Calendar (Date)"
-                                name="calendar_single"
-                                mode="single"
-                                visibleOfMonths={1}
-                            />
-                            <Calendar
-                                width="400px"
-                                label="Calendar (Date) "
-                                name="calendar_single"
-                                mode="single"
-                                visibleOfMonths={1}
-                                readOnly
-                            />
-                            <Calendar
-                                label="Calendar ({ftom:Date, to:Date }) "
-                                name="calendar_range"
-                                mode="range"
-                                disabledDay={new Date()}
-                            />
-                            <Calendar
-                                label="Calendar (Date[])"
-                                name="calendar_multiple"
-                                mode="multiple"
-                            />
-                        </DivCommon>
+              <MatchedWords
+                width="400px"
+                name="phone"
+                label="phone (Type-sort - Input -new ) "
+                items={data?.countries ?? []}
+                visibleItem="phone"
+                parseValue={(value, valueObj) => {
+                  return (
+                    <DivCommon fd="row" ai='center' gap={SPACES.l}>
+                      {valueObj.icon && <Icon height="1rem" icon={valueObj.icon} type="img" />}
+                      {valueObj.name} {' '}
+                      {value}
+                    </DivCommon>
+                  );
+                }}
+                {...(getIn(values, 'phone')?.icon
+                  ? {
+                    startIcon: {
+                      icon: getIn(values, 'phone').icon,
+                      type: 'img'
+                    }
+                  }
+                  : null)}
+                filterOption={{
+                  mode: 'default',
+                  includes: 'startsWith',
+                  type: 'filter',
+                  isSavePreviousSelection: false
+                }}
+              />
+            </DivCommon>
 
-                        TEXTAREA
-                        <DivCommon gap={SPACES.l} ai="flex-end" margin="0 0 2rem 0">
-                            <Input.TextArea
-                                name="first_name"
-                                rows={3}
-                                label="TextArea"
-                                resizable={false}
-                                maxLength={300}
-                            />
-                        </DivCommon>
+            CALENDAR
+            <DivCommon fd="row" gap={SPACES.l} ai="flex-end" margin="0 0 2rem 0">
+              <Inputs.Calendar
+                label="Calendar (Date)"
+                name="calendar_single"
+                mode="single"
+                visibleOfMonths={1}
+              />
+              <Calendar
+                width="400px"
+                label="Calendar (Date) "
+                name="calendar_single"
+                mode="single"
+                visibleOfMonths={1}
+                readOnly
+              />
+              <Calendar
+                label="Calendar ({ftom:Date, to:Date }) "
+                name="calendar_range"
+                mode="range"
+                disabledDay={new Date()}
+              />
+              <Calendar
+                label="Calendar (Date[])"
+                name="calendar_multiple"
+                mode="multiple"
+              />
+            </DivCommon>
 
-                        <TextArea
-                            name="resizable"
-                            rows={2}
-                            label="TextArea resizable"
-                            resizable
-                        />
+            TEXTAREA
+            <DivCommon gap={SPACES.l} ai="flex-end" margin="0 0 2rem 0">
+              <Inputs.TextArea
+                name="first_name"
+                rows={3}
+                label="TextArea"
+                resizable={false}
+                maxLength={300}
+              />
+            </DivCommon>
+
+            <TextArea
+              name="resizable"
+              rows={2}
+              label="TextArea resizable"
+              resizable
+            />
 
 
                         DRAWER
