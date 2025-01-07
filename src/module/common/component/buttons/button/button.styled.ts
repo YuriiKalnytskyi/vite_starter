@@ -21,6 +21,7 @@ const style = css<IButtonProps>`
     font-size: ${FONTS.SIZES.l};
     line-height: ${FONTS.SIZES.xxxxl};
     color: ${ ({theme})=>  theme.COLORS.white};
+    color: ${ ({theme})=>  theme.COLORS.white};
 
     border-radius: 0.5rem;
 

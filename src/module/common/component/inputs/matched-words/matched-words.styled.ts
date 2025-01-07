@@ -2,7 +2,7 @@ import styled, { css } from 'styled-components';
 
 import { Center, Fonts } from '@/module/common/styles';
 import { IMargin } from '@/module/common/types';
-import { COLORS, FONTS, SPACES } from '@/theme';
+import {  FONTS, SPACES } from '@/theme';
 
 export interface IWProps extends IMargin {
   readOnly?: boolean;
@@ -75,19 +75,19 @@ ${({ $newItemFlag }) =>
 
 export const SuggestedBlock = styled.ul<{ $position?: string }>`
     display: none;
-    background: ${COLORS.white};
-    border: 1px solid ${COLORS.rgba(COLORS.black, 0.4)};
+    background: ${ ({theme})=>  theme. white};
+    border: 1px solid ${ ({theme})=>  theme.COLORS.rgba(theme.COLORS.black, 0.4)};
 
     border-radius: 8px;
     width: 100%;
     flex-direction: column;
     max-height: 14rem;
-    box-shadow: 0 0 4px ${COLORS.rgba(COLORS.black, 0.8)};
+    box-shadow: 0 0 4px ${ ({theme})=>  theme.COLORS.rgba(theme.COLORS.black, 0.8)};
 
     #search {
         width: 100%;
         ${Center};
-        background: ${COLORS.white};
+        background: ${ ({theme})=>  theme. white};
         padding: ${SPACES.l} 0;
         position: ${({ $position }) => $position ?? 'sticky'};
         top: 0;
@@ -104,12 +104,12 @@ export const SuggestedBlock = styled.ul<{ $position?: string }>`
     }
 
     &::-webkit-scrollbar-track {
-        background-color: ${COLORS.rgba(COLORS.primary, 0.2)};
+        background-color: ${ ({theme})=>  theme.COLORS.rgba(theme.COLORS.primary, 0.2)};
 
     }
 
     &::-webkit-scrollbar-thumb {
-        background-color: ${COLORS.primary};
+        background-color: ${ ({theme})=>  theme. primary};
         border-radius: 0.25rem;
     }
 
@@ -120,7 +120,7 @@ export const HintOption = styled.li<{
   $isChip: boolean;
 }>`
   padding: ${SPACES.xs} ${SPACES.m};
-  background: ${({ $selected, $isChip }) => ($selected || $isChip ? COLORS.primary : COLORS.white)};
+  background: ${({ $selected, $isChip, theme }) => ($selected || $isChip ? theme.COLORS.primary : theme.COLORS.white)};
   display: flex;
   align-items: center;
   justify-content: flex-start;
@@ -130,17 +130,17 @@ export const HintOption = styled.li<{
   cursor: pointer;
 
   &:hover {
-    background: ${({ $selected }) =>
-      $selected ? COLORS.rgba(COLORS.primary, 0.9) : COLORS.rgba(COLORS.primary, 0.6)};
+    background: ${({ $selected, theme }) =>
+      $selected ? theme.COLORS.rgba(theme.COLORS.primary, 0.9) : theme.COLORS.rgba(theme.COLORS.primary, 0.6)};
   }
 
   &.notFound {
     cursor: default;
-    background: ${COLORS.white};
+    background: ${ ({theme})=>  theme. white};
     ${Center};
 
     &:hover {
-      background: ${COLORS.white};
+      background: ${ ({theme})=>  theme. white};
     }
   }
 `;
@@ -167,7 +167,7 @@ export const Chip = styled.li`
   font-weight: ${FONTS.WEIGHTS.semi_bold};
 
   padding: ${SPACES.xxs} ${SPACES.s};
-  background: ${COLORS.rgba(COLORS.black, 0.3)};
+  background: ${ ({theme})=>  theme.COLORS.rgba(theme.COLORS.black, 0.3)};
   border-radius: 4px;
 
   word-break: break-word;

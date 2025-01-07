@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 import { Fonts } from '@/module/common/styles';
-import { COLORS, FONTS } from '@/theme';
+import { FONTS } from '@/theme';
 
 export const Wrapper = styled.div`
   display: flex;
@@ -15,13 +15,13 @@ export const Wrapper = styled.div`
     font-size: ${FONTS.SIZES.m};
     padding-left: 0.25rem;
     .separator {
-      color: ${COLORS.black};
+      color: ${ ({theme})=>  theme. black};
     }
     &:not(:last-of-type) {
-      color: ${COLORS.rgba(COLORS.black, 0.6 )};
+      color: ${ ({theme})=>  theme.COLORS.rgba(theme.COLORS.black, 0.6 )};
       cursor: pointer;
       &:hover {
-          color: ${COLORS.black};
+          color: ${ ({theme})=>  theme. black};
       }
     }
   }

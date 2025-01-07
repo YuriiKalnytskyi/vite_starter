@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-import { COLORS, INDEX, SPACES } from '@/theme';
+import {  INDEX, SPACES } from '@/theme';
 
 export const Wrapper = styled.div`
   position: relative;
@@ -18,7 +18,7 @@ export const ChildrenWrapper = styled.div<{
   minWidth?: string;
   padding?: string;
 }>`
-  background-color: ${COLORS.white};
+  background-color: ${ ({theme})=>  theme. white};
   position: absolute;
   min-width: ${({ minWidth }) => (minWidth ? minWidth : '8.2rem')};
   top: 2.75rem;
@@ -43,7 +43,7 @@ export const ChildrenWrapper = styled.div<{
   .separator {
     width: 100%;
     margin: ${SPACES.xxs} 0;
-    border-bottom: 1px solid ${ COLORS.rgba(COLORS.black, 0.8)};
+    border-bottom: 1px solid ${ ({theme})=>  theme.COLORS.rgba(theme.COLORS.black, 0.8)};
   }
 
   .item {
@@ -52,7 +52,7 @@ export const ChildrenWrapper = styled.div<{
     &:hover {
       cursor: pointer;
       border-radius: ${SPACES.xxsm};
-      background-color: ${COLORS.rgba(COLORS.black, 0.8)};
+      background-color: ${ ({theme})=>  theme.COLORS.rgba(theme.COLORS.black, 0.8)};
     }
   }
 

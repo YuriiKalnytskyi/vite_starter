@@ -1,7 +1,7 @@
 import { DayPicker } from 'react-day-picker';
 import styled from 'styled-components';
 
-import { COLORS, INDEX, MEDIA } from '@/theme';
+import {  INDEX, MEDIA } from '@/theme';
 import { IMargin } from '@/module/common/types';
 
 export const Wrapper = styled.div<IMargin & { width?: string }>`
@@ -16,7 +16,7 @@ export const Wrapper = styled.div<IMargin & { width?: string }>`
     .rdp-day_selected,
     .rdp-day_selected:focus-visible,
     .rdp-day_selected:hover {
-        background-color: ${COLORS.rgba(COLORS.primary, 0.2)};
+        background-color: ${ ({theme})=>  theme.COLORS.rgba(theme.COLORS.primary, 0.2)};
         border-radius: 0;
         color: #2c2c2c;
     }
@@ -89,8 +89,8 @@ export const Wrapper = styled.div<IMargin & { width?: string }>`
     }
 
     .rdp-day_today:not(.rdp-day_outside) {
-        color: ${COLORS.white};
-        background-color: ${COLORS.primary};
+        color: ${ ({theme})=>  theme. white};
+        background-color: ${ ({theme})=>  theme. primary};
         border-radius: 0.125rem;
     }
 
@@ -101,8 +101,8 @@ export const Wrapper = styled.div<IMargin & { width?: string }>`
     }
 
     .rdp-button:hover:not([disabled]):not(.rdp-day_selected) {
-        color: ${COLORS.white};
-        background-color: ${COLORS.primary};
+        color: ${ ({theme})=>  theme. white};
+        background-color: ${ ({theme})=>  theme. primary};
         border-radius: 0;
     }
 
@@ -113,8 +113,8 @@ export const Calendar = styled(DayPicker)`
     cursor: pointer;
     
 
-    background: ${COLORS.white};
-    border: 1px solid ${COLORS.rgba(COLORS.black, 0.4)};
+    background: ${ ({theme})=>  theme. white};
+    border: 1px solid ${ ({theme})=>  theme.COLORS.rgba(theme.COLORS.black, 0.4)};
     border-radius: 0.25rem;
 
 

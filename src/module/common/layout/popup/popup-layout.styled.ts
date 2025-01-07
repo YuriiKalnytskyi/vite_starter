@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 import { CloseButton } from '@/module/common/component';
-import { COLORS, FONTS, INDEX, MEDIA, SPACES } from '@/theme';
+import {  FONTS, INDEX, MEDIA, SPACES } from '@/theme';
 import {ContentPositionType} from "@/module/common/types";
 
 
@@ -60,7 +60,7 @@ export const Container = styled.div<{
     min-width: ${({ minWidth }) => minWidth ?? '21rem'};
     font-family: ${FONTS.FAMILIES.inter};
     border-radius: 12px;
-    background: ${COLORS.white};
+    background: ${ ({theme})=>  theme. white};
     box-shadow: 0px 20px 24px -4px rgba(16, 24, 40, 0.08), 0px 8px 8px -4px rgba(16, 24, 40, 0.03);
 
     position: relative;
@@ -80,7 +80,7 @@ export const ContainerBottom = styled.div<{ styled?: any }>`
     min-width: 21rem;
     font-family: ${FONTS.FAMILIES.inter};
     border-radius: 12px;
-    background: ${COLORS.white};
+    background: ${ ({theme})=>  theme.COLORS.white};
     box-shadow: 0px 20px 24px -4px rgba(16, 24, 40, 0.08), 0px 8px 8px -4px rgba(16, 24, 40, 0.03);
 
     position: relative;

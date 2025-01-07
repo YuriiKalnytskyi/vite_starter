@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { IMargin } from '../../../types';
 import { commonStyles } from '../input/input.styled';
 import { Fonts, Margin } from '@/module/common/styles';
-import { COLORS, SPACES, FONTS } from '@/theme';
+import {  SPACES, FONTS } from '@/theme';
 
 export const Wrapper = styled.div<IMargin & { width?: string, readOnly?: boolean }>`
     position: relative;
@@ -31,12 +31,12 @@ export const Input = styled.textarea<{ $isError: boolean, readOnly?: boolean }>`
     }
 
     &::-webkit-scrollbar-track {
-        background-color: ${COLORS.rgba(COLORS.primary, 0.2)};
+        background-color: ${ ({theme})=>  theme.COLORS.rgba(theme.COLORS.primary, 0.2)};
 
     }
 
     &::-webkit-scrollbar-thumb {
-        background-color: ${COLORS.primary};
+        background-color: ${ ({theme})=>  theme. primary};
         border-radius: 0.25rem;
     }
 `;
@@ -45,7 +45,7 @@ export const MaxLength = styled.p`
     position: absolute;
     ${Fonts};
     font-size: ${FONTS.SIZES.s};
-    color: ${COLORS.error};
+    color: ${ ({theme})=>  theme. error};
     justify-content: flex-end;
 
 
@@ -66,6 +66,6 @@ export const MaxLength = styled.p`
 //
 //
 // export const MaxLengthText = styled(ErrorInfoText)`
-//     color: ${COLORS.black};
+//     color: ${ ({theme})=>  theme. black};
 //     opacity: 0.88;
 // `;

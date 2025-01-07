@@ -16,7 +16,7 @@ export const Button = styled.button`
 export const CloseIcon = styled.img<{ width?: string; height?: string }>`
   width: ${({ width }) => width || '1.25rem'};
   height: ${({ width }) => width || '1.25rem'};
-  color: ${({ theme }) => theme.COLORS.gray500};
+  color: ${({ theme }) => theme.COLORS.primary};
 `;
 
 export const Styled = {

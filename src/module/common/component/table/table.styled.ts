@@ -1,6 +1,6 @@
 import styled, { css } from 'styled-components';
 
-import { COLORS, FONTS, MEDIA, SPACES } from '@/theme';
+import { FONTS, MEDIA, SPACES } from '@/theme';
 
 import { Fonts} from '../../styles';
 
@@ -27,7 +27,7 @@ const cellControlledSizes = css`
 
 // ================= table components START ====================//
 export const Container = styled.div`
-  box-shadow: 0 0 0.625rem ${COLORS.rgba(COLORS.black, 0.2)};
+  box-shadow: 0 0 0.625rem ${ ({theme})=>  theme.COLORS.rgba(theme.COLORS.black, 0.2)};
   width: 100%;
   min-height: fit-content;
   &.scroll {
@@ -65,7 +65,7 @@ export const Container = styled.div`
 
 export const Wrapper = styled.div`
   overflow: hidden;
-  box-shadow: 0 0 0.625rem ${COLORS.rgba(COLORS.black, 0.2)};
+  box-shadow: 0 0 0.625rem ${ ({theme})=>  theme.COLORS.rgba(theme.COLORS.black, 0.2)};
   min-height: fit-content;
 `;
 export const Table = styled.table`
@@ -105,7 +105,7 @@ export const Body = styled.tbody`
   ${layoutCss};
 
   & > tr {
-    border-bottom: 1px solid ${COLORS.rgba(COLORS.black, 0.1)};
+    border-bottom: 1px solid ${ ({theme})=>  theme.COLORS.rgba(theme.COLORS.black, 0.1)};
   }
 
   & > tr:hover * {
@@ -118,8 +118,8 @@ export const HeadRow = styled.th`
   height: 3rem;
   letter-spacing: 0.0175rem;
   text-transform: uppercase;
-  color: ${COLORS.white};
-  background-color: ${COLORS.primary};
+  color: ${ ({theme})=>  theme. white};
+  background-color: ${ ({theme})=>  theme. primary};
 
   &:last-child {
     border-right: none;
@@ -139,8 +139,8 @@ export const Row = styled.tr`
   }
 
   &:hover {
-    background: ${COLORS.rgba(COLORS.primary, 0.2)};
-    box-shadow: 0 2px 8px ${COLORS.rgba(COLORS.black, 0.1)};
+    background: ${ ({theme})=>  theme.COLORS.rgba(theme.COLORS.primary, 0.2)};
+    box-shadow: 0 2px 8px ${ ({theme})=>  theme.COLORS.rgba(theme.COLORS.black, 0.1)};
   }
 `;
 
@@ -157,7 +157,7 @@ export const Data = styled.td`
     left: 0;
     top: -9999px;
     bottom: -9999px;
-    background-color: ${COLORS.rgba(COLORS.primary, 0.1)};
+    background-color: ${ ({theme})=>  theme.COLORS.rgba(theme.COLORS.primary, 0.1)};
     z-index: -1;
   }
 
@@ -203,10 +203,10 @@ export const Tooltip = styled.div`
     ${labelPriceCommonStyles};
 
 
-    background: ${COLORS.white};
+    background: ${ ({theme})=>  theme. white};
     border-radius: 8px;
-    border: 1px solid ${COLORS.rgba(COLORS.black, 0.4)};
-    box-shadow: 0 0 4px ${COLORS.rgba(COLORS.black, 0.8)};
+    border: 1px solid ${ ({theme})=>  theme.COLORS.rgba(theme.COLORS.black, 0.4)};
+    box-shadow: 0 0 4px ${ ({theme})=>  theme.COLORS.rgba(theme.COLORS.black, 0.8)};
 
     position: absolute;
     z-index: 1;
@@ -219,12 +219,12 @@ export const Tooltip = styled.div`
     }
 
     &::-webkit-scrollbar-track {
-        background-color: ${COLORS.rgba(COLORS.primary, 0.2)};
+        background-color: ${ ({theme})=>  theme.COLORS.rgba(theme.COLORS.primary, 0.2)};
 
     }
 
     &::-webkit-scrollbar-thumb {
-        background-color: ${COLORS.primary};
+        background-color: ${ ({theme})=>  theme. primary};
         border-radius: 0.25rem;
     }
 `;

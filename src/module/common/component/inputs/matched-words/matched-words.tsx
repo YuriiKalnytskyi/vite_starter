@@ -8,7 +8,6 @@ import searchIcon from '@/assets/icons/default/search.svg';
 import { Input } from '@/module/common/component';
 import { useClickOutside, useHandleKeyPress, usePortalPositioning } from '@/module/common/hooks';
 import { IconCommon } from '@/module/common/styles';
-import { COLORS } from '@/theme';
 
 import {
   filterOptionNew,
@@ -21,6 +20,7 @@ import {
 } from './matched-words.type.ts';
 
 import * as Styled from './matched-words.styled';
+import { useTheme } from 'styled-components';
 
 
 const onTransformValue = (_value: Item, visibleItem?: string): string => {
@@ -67,6 +67,8 @@ export const MatchedWords = <
   })();
 
   const { t: translate } = useTranslation();
+  const {COLORS } = useTheme();
+
 
   const visibleValue = onTransformValue(value, visibleItem);
 

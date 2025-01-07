@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-import { COLORS, FONTS, SPACES } from '@/theme';
+import { FONTS, SPACES } from '@/theme';
 
 export const OptionBlock = styled.div`
   display: flex;
@@ -15,7 +15,7 @@ export const FieldLabel = styled.span`
   font-family: ${FONTS.FAMILIES.inter};
   font-weight: ${FONTS.WEIGHTS.medium};
   font-size: ${FONTS.SIZES.m};
-  color: ${COLORS.black};
+  color: ${ ({theme})=>  theme. black};
 `;
 
 export const Avatar = styled.img`
@@ -30,8 +30,8 @@ export const AvatarContainer = styled.div<{ dragging: boolean }>`
   margin-bottom: ${SPACES.xxs};
   width: 4rem;
   height: 4rem;
-  background: ${({ dragging }) => (dragging ? COLORS.rgba(COLORS.black, 0.6) : COLORS.rgba(COLORS.black, 0.8))};
-  border: 1px dashed ${({ dragging }) => (dragging ? COLORS.primary : COLORS.rgba(COLORS.black, 0.6))};
+  background: ${({ dragging, theme }) => (dragging ? theme.COLORS.rgba(theme.COLORS.black, 0.6) : theme.COLORS.rgba(theme.COLORS.black, 0.8))};
+  border: 1px dashed ${({ dragging, theme }) => (dragging ? theme.COLORS.primary : theme.COLORS.rgba(theme.COLORS.black, 0.6))};
   border-radius: 50%;
 
   input {
@@ -63,7 +63,7 @@ export const CloseButton = styled.div`
   position: absolute;
   top: 0;
   right: 0;
-  background: ${COLORS.rgba(COLORS.black, 0.8)};
+  background: ${ ({theme})=>  theme.COLORS.rgba(theme.COLORS.black, 0.8)};
   padding: 0;
   margin: 0;
   width: 1.25rem;

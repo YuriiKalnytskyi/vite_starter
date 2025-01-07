@@ -1,7 +1,7 @@
 import styled, { css } from 'styled-components';
 
 import { Fonts } from '@/module/common/styles';
-import { COLORS, FONTS, SPACES } from '@/theme';
+import {  FONTS, SPACES } from '@/theme';
 
 export const Container = styled.div`
   display: flex;
@@ -48,7 +48,7 @@ const buttonsCommonStyles = css`
   padding: 0;
   margin: 0;
 
-  background-color: ${COLORS.white};
+  background-color: ${ ({theme})=> theme.COLORS.white};
   ${Fonts};
 
   border-radius: 50%;
@@ -63,14 +63,14 @@ export const PaginationButton = styled.button`
   border-radius: ${SPACES.xxsm};
 
   &.selected {
-    background: ${COLORS.primary};
-    color: ${COLORS.white};
+    background: ${ ({theme})=> theme.COLORS.primary};
+    color: ${ ({theme})=> theme.COLORS.white};
     font-weight: ${FONTS.WEIGHTS.semi_bold};
   }
 
   &:hover {
-    background: ${COLORS.primary};
-    color: ${COLORS.white};
+    background: ${ ({theme})=> theme.COLORS.primary};
+    color: ${ ({theme})=> theme.COLORS.white};
     font-weight: ${FONTS.WEIGHTS.semi_bold};
   }
 `;
@@ -86,15 +86,15 @@ const prevNextBtnStyles = css`
     border-radius: ${SPACES.xxsm};
 
     &:hover {
-        background-color: ${COLORS.rgba(COLORS.primary, 0.3)};
+        background-color: ${ ({theme})=>  theme.COLORS.rgba(theme.COLORS.primary, 0.3)};
     }
 
     &:disabled {
         opacity: 0.5;
-        background-color: ${COLORS.white};
+        background-color: ${ ({theme})=> theme.COLORS.white};
 
         .icon {
-            background: ${COLORS.rgba(COLORS.black, 0.3)};
+            background: ${ ({theme})=>  theme.COLORS.rgba(theme.COLORS.black, 0.3)};
         }
     }
 
@@ -107,7 +107,7 @@ export const PrevPageButton = styled.button`
   ${prevNextBtnStyles};
   margin-right: 0.5rem;
   .icon {
-    background: ${COLORS.primary};
+    background: ${ ({theme})=> theme.COLORS.primary};
   }
 `;
 
@@ -115,6 +115,6 @@ export const NextPageButton = styled.button`
   ${prevNextBtnStyles};
   margin-left: 0.5rem;
   .icon {
-    background: ${COLORS.primary};
+    background: ${ ({theme})=> theme.COLORS.primary};
   }
 `;

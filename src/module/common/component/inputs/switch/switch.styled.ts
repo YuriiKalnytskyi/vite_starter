@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-import { COLORS, INDEX, SPACES } from '@/theme';
+import { INDEX, SPACES } from '@/theme';
 import { IMargin } from '@/module/common/types';
 import { Fonts, Margin } from '@/module/common/styles';
 
@@ -16,8 +16,8 @@ export const CheckBoxLabel = styled.label`
     width: 3.25rem;
     height: 2rem;
     border-radius: 100px;
-    background: ${COLORS.white};
-    border: 2px solid ${COLORS.black};
+    background: ${ ({theme})=>  theme. white};
+    border: 2px solid ${ ({theme})=>  theme. black};
     cursor: pointer !important;
     display: flex;
     align-items: center;
@@ -30,7 +30,7 @@ export const CheckBoxLabel = styled.label`
         height: 1.25rem;
         aspect-ratio: 1/1;
         margin: ${SPACES.xxs};
-        background: ${COLORS.black};
+        background: ${ ({theme})=>  theme. black};
         transition: background 0.2s;
     }
 `;
@@ -42,12 +42,12 @@ export const CheckBox = styled.input`
   height: 2rem;
     cursor: pointer !important;
     &:checked + ${CheckBoxLabel} {
-    background: ${COLORS.primary};
-    border: 2px solid ${COLORS.primary};
+    background: ${ ({theme})=>  theme. primary};
+    border: 2px solid ${ ({theme})=>  theme. primary};
     &::after {
       content: '';
       display: block;
-      background: ${COLORS.white};
+      background: ${ ({theme})=>  theme. white};
       border-radius: 50%;
       height: 1.25rem;
       aspect-ratio: 1/1;
@@ -74,7 +74,7 @@ export const Label = styled.label<IMargin>`
     &:focus-within ,
     &:hover {
         & > .text::before {
-            border: 2px solid ${COLORS.primary} !important;
+            border: 2px solid ${ ({theme})=>  theme. primary} !important;
         }
     }
 `;

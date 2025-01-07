@@ -3,7 +3,7 @@ import 'react-phone-input-2/lib/style.css';
 import styled from 'styled-components';
 
 import { Fonts, Margin } from '@/module/common/styles';
-import { COLORS, FONTS } from '@/theme';
+import { FONTS } from '@/theme';
 import { IMargin } from '@/module/common/types';
 
 export interface IWProps extends IMargin {
@@ -21,18 +21,18 @@ export const Wrapper = styled.div<IWProps>`
 
     label {
         ${Fonts};
-        color: ${({ $isError }) => ($isError ? COLORS.error : COLORS.black)};
+        color: ${({ $isError, theme }) => ($isError ? theme.COLORS.error : theme.COLORS.black)};
         font-size: ${FONTS.SIZES.m};
         font-weight: ${FONTS.WEIGHTS.normal};
     }
 
     span:first-child {
         margin-left: 0.25rem;
-        color: ${COLORS.error};
+        color: ${ ({theme})=>  theme. error};
     }
 
     .country-list {
-        border: 1px solid ${COLORS.rgba(COLORS.black, 0.4)};
+        border: 1px solid ${ ({theme})=>  theme.COLORS.rgba(theme.COLORS.black, 0.4)};
     }
 
     .react-tel-input .country-list .country.highlight {
@@ -69,18 +69,18 @@ export const Phone = styled(PhoneInput)<{ isError?: boolean }>`
         padding-left: 3rem !important;
         width: 100% !important;
         border-radius: 0.75rem !important;
-        border-color: ${COLORS.rgba(COLORS.black, 0.4)};
+        border-color: ${ ({theme})=>  theme.COLORS.rgba(theme.COLORS.black, 0.4)};
         font-family: ${FONTS.FAMILIES.roboto} !important;
         font-size: ${FONTS.SIZES.l} !important;
         font-weight: ${FONTS.WEIGHTS.medium} !important;
-        color: ${COLORS.black};
-        border: ${({ isError }) =>
-                isError ? `1px solid ${COLORS.error}` : `1px solid ${COLORS.rgba(COLORS.black, 0.4)}`};
+        color: ${ ({theme})=>  theme. black};
+        border: ${({ isError, theme }) =>
+                isError ? `1px solid ${theme.COLORS.error}` : `1px solid ${ theme.COLORS.rgba(theme.COLORS.black, 0.4)}`};
 
         &:focus,
         &:focus-within {
             outline: none;
-            border: 1px solid ${COLORS.primary} !important;
+            border: 1px solid ${ ({theme})=>  theme. primary} !important;
         }
     }
 
@@ -92,23 +92,23 @@ export const Phone = styled(PhoneInput)<{ isError?: boolean }>`
 
         .country {
             padding: 0.5rem 1.5rem !important;
-            color: ${COLORS.black};
+            color: ${ ({theme})=>  theme. black};
             font-family: ${FONTS.FAMILIES.roboto} !important;
             font-size: ${FONTS.SIZES.m} !important;
             font-weight: ${FONTS.WEIGHTS.medium} !important;
 
             &:hover {
-                background: ${COLORS.rgba(COLORS.primary, 0.6)};
-                color: ${COLORS.black} !important;
+                background: ${ ({theme})=>  theme.COLORS.rgba(theme.COLORS.primary, 0.6)};
+                color: ${ ({theme})=>  theme. black} !important;
             }
         }
     }
 
     .country.highlight {
-        background: ${COLORS.primary} !important;
+        background: ${ ({theme})=>  theme. primary} !important;
 
         .dial-code {
-            color: ${COLORS.black} !important;
+            color: ${ ({theme})=>  theme. black} !important;
         }
     }
 `;

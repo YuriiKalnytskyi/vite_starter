@@ -8,11 +8,12 @@ import visibilityOffIcon from '@/assets/icons/default/visibility-off-icon.svg';
 import { Icon } from '@/module/common/component';
 import { RegexConst, passwordError } from '@/module/common/constants';
 import { IconCommon } from '@/module/common/styles';
-import { COLORS, SPACES } from '@/theme';
+import { SPACES } from '@/theme';
 import { functionStub } from '@/utils';
 
 import * as Styled from './input.styled';
 import { IInputProps } from './input.type.ts';
+import { useTheme } from 'styled-components';
 
 export const InputComponent= ({
                         height,
@@ -58,6 +59,8 @@ export const InputComponent= ({
     }
   })();
   const { t: translate } = useTranslation();
+  const theme = useTheme();
+
 
   const onChange = (e: ChangeEvent<HTMLInputElement>) => {
     const _value = isDontChange ? '' : e.target.value;
@@ -207,7 +210,7 @@ export const InputComponent= ({
               <Styled.ErrorPassword $isError={isError} $isSuccess={isSuccess} key={index}>
                 <IconCommon
                   icon={successIcon}
-                  background={isError ? COLORS.error : isSuccess ? COLORS.primary : COLORS.rgba(COLORS.black, 0.8)}
+                  background={isError ? theme.COLORS.error : isSuccess ? theme.COLORS.primary : theme.COLORS.rgba(theme.COLORS.black, 0.8)}
                 />
 
                 {text}

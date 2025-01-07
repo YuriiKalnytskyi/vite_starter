@@ -178,7 +178,7 @@ export const Calendar = ({
       {/*  slidePosition="bottom"*/}
       {/*  contentPosition="bottom"*/}
       {/*>*/}
-        <PopupLayout height="50%" type="bottom" onClose={handleButtonClick} open={isCalendarOpened && isMobile}>
+        <PopupLayout height="50%" contentPosition="bottom" slidePosition='bottom' onClose={handleButtonClick} open={isCalendarOpened && isMobile}>
           <CalendarCommon />
         </PopupLayout>
       {/*</Drawer>*/}

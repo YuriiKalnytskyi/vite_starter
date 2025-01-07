@@ -4,10 +4,10 @@ import { ChangeEvent, DragEvent, useCallback, useRef, useState } from 'react';
 import deleteIcon from '@/assets/icons/delete-file-icon.svg';
 import uploadIcon from '@/assets/icons/fileupload.svg';
 import { DivCommon, IconCommon, TitleCommon } from '@/module/common/styles';
-import { COLORS } from '@/theme';
 
 import { fileService } from '../../services';
 import * as Styled from './upload-image.styled.ts';
+import { useTheme } from 'styled-components';
 
 export interface IAvatarSetup {
   label?: string;
@@ -30,6 +30,9 @@ export const UploadImage = ({ name, noFormikValue, readOnly }: IAvatarSetup) => 
       };
     }
   })();
+
+  const { COLORS } = useTheme();
+
 
   const ref = useRef<HTMLInputElement>(null);
   const clickInput = () => {

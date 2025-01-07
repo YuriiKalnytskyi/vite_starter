@@ -1,7 +1,7 @@
 import styled, { css } from 'styled-components';
 
 import { Fonts } from '@/module/common/styles';
-import { COLORS, FONTS, SPACES } from '@/theme';
+import {  FONTS, SPACES } from '@/theme';
 
 export const OptionBlock = styled.div<{ readOnly: boolean | undefined }>`
   display: flex;
@@ -48,9 +48,9 @@ export const AvatarContainer = styled.div<{ dragging: boolean }>`
   width: 38.3125rem;
   height: 18.25rem;
   backdrop-filter: blur(0.125rem);
-  background: ${({ dragging }) => dragging ? COLORS.rgba(COLORS.black, 0.4) : COLORS.rgba(COLORS.black, 0.8)};
+  background: ${({ dragging,theme }) => dragging ? theme.COLORS.rgba(theme.COLORS.black, 0.4) : theme.COLORS.rgba(theme.COLORS.black, 0.8)};
   border-radius: ${SPACES.xs};
-  border: 1px dashed ${COLORS.rgba(COLORS.black, 0.8)};
+  border: 1px dashed ${ ({theme})=>  theme.COLORS.rgba(theme.COLORS.black, 0.8)};
   display: flex;
   align-items: center;
   justify-content: center;
