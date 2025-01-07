@@ -10,9 +10,8 @@ import {
   CheckBox,
   Drawer,
   Icon,
-  Input,
+  Input, Inputs,
   MatchedWords,
-  Phone,
   Switch,
   Table,
   TextArea
@@ -53,7 +52,7 @@ const randomString = (minLength: number, maxLength: number): string => {
 //TODO optimization loader ...
 
 //Phone
-//TODO delete component and to matched-worlds ...
+//TODO delete component and to DropDown ...
 
 //Pagination
 //TODO add input to ...
@@ -85,7 +84,7 @@ export const Example = () => {
         name: country.name.common,
         icon: country.flags?.svg,
         cca2: country.cca2,
-        idd: country.idd
+        phone:  country.idd.root + country.idd?.suffixes.join('')
       }));
       return { countries };
     },
@@ -189,7 +188,7 @@ export const Example = () => {
             CHECKBOX STATE (default, multi, radio)
             <DivCommon fd="row" gap={SPACES.l} margin="0 0 2rem 0">
               <DivCommon height="100px" fd="row" ai="center" gap={SPACES.l}>
-                <Input.CheckBox name="default" type="default" items="string" />
+                <Inputs.CheckBox name="default" type="default" items="string" />
                 <CheckBox
                   name="defaultObj"
                   type="default"
@@ -224,14 +223,14 @@ export const Example = () => {
                 </DivCommon>
               </DivCommon>
               <DivCommon height="100px" fd="row" ai="center" gap={SPACES.l}>
-                <Input.Switch name="switch" label="Switch" />
+                <Inputs.Switch name="switch" label="Switch" />
                 <Switch name="switch" label="Switch" />
               </DivCommon>
             </DivCommon>
 
             INPUT CARD
             <DivCommon fd="row" gap={SPACES.l} margin="0 0 2rem 0">
-              <Input
+              <Inputs
                 width="15rem"
                 name="card"
                 label="Card"
@@ -242,7 +241,7 @@ export const Example = () => {
                 }}
               />
 
-              <Input
+              <Inputs
                 width="7rem"
                 name="expiry_data"
                 label="Date"
@@ -253,7 +252,7 @@ export const Example = () => {
                 }}
               />
 
-              <Input
+              <Inputs
                 width="7rem"
                 name="cvv"
                 type="password"
@@ -289,7 +288,7 @@ export const Example = () => {
             </DivCommon>
             INPUTMATCHEDWORDS
             <Styled.Sctol fd="row" gap={SPACES.l} ai="flex-end" margin="0 0 2rem 0">
-              <Input.MatchedWords
+              <Inputs.MatchedWords
                 width="400px"
                 name="test"
                 label="Default"
@@ -370,20 +369,42 @@ export const Example = () => {
 
             Phone
             <DivCommon fd="row" gap={SPACES.l} ai="flex-end" margin="0 0 2rem 0">
-              <Input.Phone
+
+              <MatchedWords
+                width="400px"
                 name="phone"
-                label="Phone"
-              />
-              <Phone
-                name="phone"
-                label="Phone"
-                readOnly
+                label="phone (Type-sort - Input -new ) "
+                items={data?.countries ?? []}
+                visibleItem="phone"
+                parseValue={(value, valueObj) => {
+                  return (
+                    <DivCommon fd="row" ai='center' gap={SPACES.l}>
+                      {valueObj.icon && <Icon height="1rem" icon={valueObj.icon} type="img" />}
+                      {valueObj.name} {' '}
+                      {value}
+                    </DivCommon>
+                  );
+                }}
+                {...(getIn(values, 'phone')?.icon
+                  ? {
+                    startIcon: {
+                      icon: getIn(values, 'phone').icon,
+                      type: 'img'
+                    }
+                  }
+                  : null)}
+                filterOption={{
+                  mode: 'default',
+                  includes: 'startsWith',
+                  type: 'filter',
+                  isSavePreviousSelection: false
+                }}
               />
             </DivCommon>
 
             CALENDAR
             <DivCommon fd="row" gap={SPACES.l} ai="flex-end" margin="0 0 2rem 0">
-              <Input.Calendar
+              <Inputs.Calendar
                 label="Calendar (Date)"
                 name="calendar_single"
                 mode="single"
@@ -412,7 +433,7 @@ export const Example = () => {
 
             TEXTAREA
             <DivCommon gap={SPACES.l} ai="flex-end" margin="0 0 2rem 0">
-              <Input.TextArea
+              <Inputs.TextArea
                 name="first_name"
                 rows={3}
                 label="TextArea"

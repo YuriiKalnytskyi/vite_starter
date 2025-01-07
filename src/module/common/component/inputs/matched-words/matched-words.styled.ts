@@ -80,6 +80,7 @@ export const SuggestedBlock = styled.ul<{ $position?: string }>`
 
     border-radius: 8px;
     width: 100%;
+    min-width: 16rem;
     flex-direction: column;
     max-height: 14rem;
     box-shadow: 0 0 4px ${ ({theme})=>  theme.COLORS.rgba(theme.COLORS.black, 0.8)};
