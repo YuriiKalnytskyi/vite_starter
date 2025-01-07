@@ -207,9 +207,6 @@ export const MatchedWords = <
 
   const { setting, Component, isParentScroll } = usePortalPositioning(ref.current, focused);
 
-
-  console.log(setting,  '======', name);
-
   return (
     <Styled.Wrapper
       $focused={newItemFlag ? false : focused}
