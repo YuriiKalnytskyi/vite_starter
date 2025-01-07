@@ -15,13 +15,13 @@ export const Wrapper = styled.div`
     font-size: ${FONTS.SIZES.m};
     padding-left: 0.25rem;
     .separator {
-      color: ${ ({theme})=>  theme. black};
+      color: ${ ({theme})=>  theme.COLORS.black};
     }
     &:not(:last-of-type) {
       color: ${ ({theme})=>  theme.COLORS.rgba(theme.COLORS.black, 0.6 )};
       cursor: pointer;
       &:hover {
-          color: ${ ({theme})=>  theme. black};
+          color: ${ ({theme})=>  theme.COLORS.black};
       }
     }
   }

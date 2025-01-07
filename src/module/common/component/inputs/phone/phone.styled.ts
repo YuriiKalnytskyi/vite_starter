@@ -28,7 +28,7 @@ export const Wrapper = styled.div<IWProps>`
 
     span:first-child {
         margin-left: 0.25rem;
-        color: ${ ({theme})=>  theme. error};
+        color: ${ ({theme})=>  theme.COLORS.error};
     }
 
     .country-list {
@@ -73,14 +73,14 @@ export const Phone = styled(PhoneInput)<{ isError?: boolean }>`
         font-family: ${FONTS.FAMILIES.roboto} !important;
         font-size: ${FONTS.SIZES.l} !important;
         font-weight: ${FONTS.WEIGHTS.medium} !important;
-        color: ${ ({theme})=>  theme. black};
+        color: ${ ({theme})=>  theme.COLORS.black};
         border: ${({ isError, theme }) =>
                 isError ? `1px solid ${theme.COLORS.error}` : `1px solid ${ theme.COLORS.rgba(theme.COLORS.black, 0.4)}`};
 
         &:focus,
         &:focus-within {
             outline: none;
-            border: 1px solid ${ ({theme})=>  theme. primary} !important;
+            border: 1px solid ${ ({theme})=>  theme.COLORS.primary} !important;
         }
     }
 
@@ -92,23 +92,23 @@ export const Phone = styled(PhoneInput)<{ isError?: boolean }>`
 
         .country {
             padding: 0.5rem 1.5rem !important;
-            color: ${ ({theme})=>  theme. black};
+            color: ${ ({theme})=>  theme.COLORS.black};
             font-family: ${FONTS.FAMILIES.roboto} !important;
             font-size: ${FONTS.SIZES.m} !important;
             font-weight: ${FONTS.WEIGHTS.medium} !important;
 
             &:hover {
                 background: ${ ({theme})=>  theme.COLORS.rgba(theme.COLORS.primary, 0.6)};
-                color: ${ ({theme})=>  theme. black} !important;
+                color: ${ ({theme})=>  theme.COLORS.black} !important;
             }
         }
     }
 
     .country.highlight {
-        background: ${ ({theme})=>  theme. primary} !important;
+        background: ${ ({theme})=>  theme.COLORS.primary} !important;
 
         .dial-code {
-            color: ${ ({theme})=>  theme. black} !important;
+            color: ${ ({theme})=>  theme.COLORS.black} !important;
         }
     }
 `;

@@ -60,7 +60,7 @@ export const Container = styled.div<{
     min-width: ${({ minWidth }) => minWidth ?? '21rem'};
     font-family: ${FONTS.FAMILIES.inter};
     border-radius: 12px;
-    background: ${ ({theme})=>  theme. white};
+    background: ${ ({theme})=>  theme.COLORS.white};
     box-shadow: 0px 20px 24px -4px rgba(16, 24, 40, 0.08), 0px 8px 8px -4px rgba(16, 24, 40, 0.03);
 
     position: relative;

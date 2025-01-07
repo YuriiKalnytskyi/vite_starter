@@ -75,7 +75,7 @@ ${({ $newItemFlag }) =>
 
 export const SuggestedBlock = styled.ul<{ $position?: string }>`
     display: none;
-    background: ${ ({theme})=>  theme. white};
+    background: ${ ({theme})=>  theme.COLORS.white};
     border: 1px solid ${ ({theme})=>  theme.COLORS.rgba(theme.COLORS.black, 0.4)};
 
     border-radius: 8px;
@@ -87,7 +87,7 @@ export const SuggestedBlock = styled.ul<{ $position?: string }>`
     #search {
         width: 100%;
         ${Center};
-        background: ${ ({theme})=>  theme. white};
+        background: ${ ({theme})=>  theme.COLORS.white};
         padding: ${SPACES.l} 0;
         position: ${({ $position }) => $position ?? 'sticky'};
         top: 0;
@@ -109,7 +109,7 @@ export const SuggestedBlock = styled.ul<{ $position?: string }>`
     }
 
     &::-webkit-scrollbar-thumb {
-        background-color: ${ ({theme})=>  theme. primary};
+        background-color: ${ ({theme})=>  theme.COLORS.primary};
         border-radius: 0.25rem;
     }
 
@@ -136,11 +136,11 @@ export const HintOption = styled.li<{
 
   &.notFound {
     cursor: default;
-    background: ${ ({theme})=>  theme. white};
+    background: ${ ({theme})=>  theme.COLORS.white};
     ${Center};
 
     &:hover {
-      background: ${ ({theme})=>  theme. white};
+      background: ${ ({theme})=>  theme.COLORS.white};
     }
   }
 `;

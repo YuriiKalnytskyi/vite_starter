@@ -16,8 +16,8 @@ export const CheckBoxLabel = styled.label`
     width: 3.25rem;
     height: 2rem;
     border-radius: 100px;
-    background: ${ ({theme})=>  theme. white};
-    border: 2px solid ${ ({theme})=>  theme. black};
+    background: ${ ({theme})=>  theme.COLORS.white};
+    border: 2px solid ${ ({theme})=>  theme.COLORS.black};
     cursor: pointer !important;
     display: flex;
     align-items: center;
@@ -30,7 +30,7 @@ export const CheckBoxLabel = styled.label`
         height: 1.25rem;
         aspect-ratio: 1/1;
         margin: ${SPACES.xxs};
-        background: ${ ({theme})=>  theme. black};
+        background: ${ ({theme})=>  theme.COLORS.black};
         transition: background 0.2s;
     }
 `;
@@ -42,12 +42,12 @@ export const CheckBox = styled.input`
   height: 2rem;
     cursor: pointer !important;
     &:checked + ${CheckBoxLabel} {
-    background: ${ ({theme})=>  theme. primary};
-    border: 2px solid ${ ({theme})=>  theme. primary};
+    background: ${ ({theme})=>  theme.COLORS.primary};
+    border: 2px solid ${ ({theme})=>  theme.COLORS.primary};
     &::after {
       content: '';
       display: block;
-      background: ${ ({theme})=>  theme. white};
+      background: ${ ({theme})=>  theme.COLORS.white};
       border-radius: 50%;
       height: 1.25rem;
       aspect-ratio: 1/1;
@@ -74,7 +74,7 @@ export const Label = styled.label<IMargin>`
     &:focus-within ,
     &:hover {
         & > .text::before {
-            border: 2px solid ${ ({theme})=>  theme. primary} !important;
+            border: 2px solid ${ ({theme})=>  theme.COLORS.primary} !important;
         }
     }
 `;

@@ -18,7 +18,7 @@ export const ChildrenWrapper = styled.div<{
   minWidth?: string;
   padding?: string;
 }>`
-  background-color: ${ ({theme})=>  theme. white};
+  background-color: ${ ({theme})=>  theme.COLORS.white};
   position: absolute;
   min-width: ${({ minWidth }) => (minWidth ? minWidth : '8.2rem')};
   top: 2.75rem;

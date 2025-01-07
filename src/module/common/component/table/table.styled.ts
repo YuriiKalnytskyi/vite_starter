@@ -118,8 +118,8 @@ export const HeadRow = styled.th`
   height: 3rem;
   letter-spacing: 0.0175rem;
   text-transform: uppercase;
-  color: ${ ({theme})=>  theme. white};
-  background-color: ${ ({theme})=>  theme. primary};
+  color: ${ ({theme})=>  theme.COLORS.white};
+  background-color: ${ ({theme})=>  theme.COLORS.primary};
 
   &:last-child {
     border-right: none;
@@ -201,9 +201,8 @@ export const Tooltip = styled.div`
     word-break: break-all;
 
     ${labelPriceCommonStyles};
-
-
-    background: ${ ({theme})=>  theme. white};
+    
+    background: ${ ({theme})=>  theme.COLORS.white};
     border-radius: 8px;
     border: 1px solid ${ ({theme})=>  theme.COLORS.rgba(theme.COLORS.black, 0.4)};
     box-shadow: 0 0 4px ${ ({theme})=>  theme.COLORS.rgba(theme.COLORS.black, 0.8)};
@@ -224,7 +223,7 @@ export const Tooltip = styled.div`
     }
 
     &::-webkit-scrollbar-thumb {
-        background-color: ${ ({theme})=>  theme. primary};
+        background-color: ${ ({theme})=>  theme.COLORS.primary};
         border-radius: 0.25rem;
     }
 `;
