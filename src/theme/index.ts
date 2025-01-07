@@ -1,4 +1,3 @@
-export * from './colors.const';
 export * from './shadows.const';
 export * as FONTS from './fonts.const';
 export * from './spaces.const';

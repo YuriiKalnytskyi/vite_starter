@@ -1,10 +1,13 @@
 import { memo } from 'react';
 
-import { Icon, Loader } from '@/module/common/component';
+// import { Icon, Loader } from '@/module/common/component';
 import { IButtonProps, TNavLink } from '@/module/common/types';
-import { COLORS, SPACES } from '@/theme';
+import { SPACES } from '@/theme';
 
 import * as Styled from './button.styled';
+import { Loader } from '@/module/common/component/loading';
+import { Icon } from '@/module/common/component/icon/icon.tsx';
+import { useTheme } from 'styled-components';
 
 const ButtonContent =
   ({
@@ -14,13 +17,14 @@ const ButtonContent =
      isLoading,
      height
    }: Pick<IButtonProps, 'content' | 'startIcon' | 'endIcon' | 'isLoading' | 'height'>) => {
+    const theme = useTheme();
 
     if (isLoading) {
       return <Loader
         className="loader"
         size="small"
         color={
-          typeof isLoading === 'object' && isLoading.color ? isLoading?.color : COLORS.white
+          typeof isLoading === 'object' && isLoading.color ? isLoading?.color : theme.COLORS.white
         }
         height={height ?? '2.5rem'}
         id={'loader'}

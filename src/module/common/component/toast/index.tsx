@@ -1,9 +1,9 @@
 import toast from 'react-hot-toast';
 
 import { Icons } from '@/assets';
-import { COLORS } from '@/theme';
 
 import * as Styled from './toast.styled';
+import { useTheme } from 'styled-components';
 
 export interface IToastTitleProps {
   title: string;
@@ -18,8 +18,8 @@ export interface ISantaToastNotify extends IToastTitleProps {
 const style = {
   maxWidth: '700px',
   top: '100px',
-  background: COLORS.black,
-  color: COLORS.white,
+  background: 'black',
+  color: 'white',
   borderRadius: '8px'
 };
 
@@ -52,6 +52,8 @@ class ToastContainer {
 
   public async success({ title, text }: IToastTitleProps) {
     const els = document.querySelectorAll('.go2072408551');
+    const theme = useTheme();
+
 
     if (els.length >= 3) {
       els[els.length - 1].remove();
@@ -63,11 +65,13 @@ class ToastContainer {
       }
     }
 
-    this.notify({ title, text, icon: (await Icons).successIcon, color: COLORS.success });
+    this.notify({ title, text, icon: (await Icons).successIcon, color: theme.COLORS.success });
   }
 
   public async error({ title, text }: IToastTitleProps) {
-    this.notify({ title, text, icon: (await Icons).successIcon, color: COLORS.error });
+    const theme = useTheme();
+
+    this.notify({ title, text, icon: (await Icons).successIcon, color: theme.COLORS.error  });
   }
 }
 

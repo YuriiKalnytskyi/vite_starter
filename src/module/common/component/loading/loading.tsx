@@ -2,9 +2,9 @@ import { animated, useSpring } from 'react-spring';
 
 import { ILoadingProps } from '@/module/common/types';
 import '@/styles/loading.css';
-import { COLORS } from '@/theme';
 
 import * as Styled from './loading.styled';
+import { useTheme } from 'styled-components';
 
 export const Loading = ({ className, withAnimation, ...restProps }: ILoadingProps) => {
   const [styles, animation] = useSpring(() => ({
@@ -14,11 +14,13 @@ export const Loading = ({ className, withAnimation, ...restProps }: ILoadingProp
   }));
 
   if (withAnimation) animation.start();
+  const theme = useTheme();
+
 
   return (
     <animated.div className={`loading ${className}`} style={styles} {...restProps}>
       <Styled.MyContainer>
-        <Styled.Loader height='auto' color={COLORS.primary} />
+        <Styled.Loader height='auto' color={theme.COLORS.primary} />
       </Styled.MyContainer>
     </animated.div>
   );

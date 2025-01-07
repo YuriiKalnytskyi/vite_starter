@@ -2,7 +2,7 @@ import styled, { css, RuleSet } from 'styled-components';
 
 import { Fonts, Margin } from '@/module/common/styles';
 import { IButtonProps, TNavLink } from '@/module/common/types';
-import { COLORS, FONTS, MEDIA, SPACES, TRANSITIONS } from '@/theme';
+import {  FONTS, MEDIA, SPACES, TRANSITIONS } from '@/theme';
 import { Link } from 'react-router-dom';
 
 const style = css<IButtonProps>`
@@ -20,7 +20,7 @@ const style = css<IButtonProps>`
 
     font-size: ${FONTS.SIZES.l};
     line-height: ${FONTS.SIZES.xxxxl};
-    color: ${COLORS.white};
+    color: ${ ({theme})=>  theme.COLORS.white};
 
     border-radius: 0.5rem;
 
@@ -87,13 +87,13 @@ const buttonAppearances: Record<Required<IButtonProps>['variant'], RuleSet<objec
   primary: css`
       ${defaultStyledButton};
 
-      background-color: ${COLORS.primary};
-      border: 1px solid ${COLORS.primary};
-      color: ${COLORS.white};
+      background-color: ${ ({theme})=>  theme.COLORS.primary};
+      border: 1px solid ${ ({theme})=>  theme.COLORS.primary};
+      color: ${ ({theme})=>  theme.COLORS.white};
 
       & > .start,
       & > .end {
-          background-color: ${COLORS.white};
+          background-color: ${ ({theme})=>  theme.COLORS.white};
       }
   `
 };

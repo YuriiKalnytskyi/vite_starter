@@ -4,7 +4,6 @@ import { Route, Routes } from 'react-router-dom';
 import { Loader } from '@/module/common/component/loading';
 import { APP_KEYS } from '@/module/common/constants';
 import { PublicPage } from '@/module/common/hocs';
-import { COLORS } from '@/theme';
 
 const Example = lazy(() =>
   import('../example/example').then((module) => ({
@@ -13,7 +12,7 @@ const Example = lazy(() =>
 );
 
 export const MainRouter = () => (
-  <Suspense fallback={<Loader size='medium' height='auto' color={COLORS.primary} />}>
+  <Suspense fallback={<Loader size='medium' height='auto' />}>
     <Routes>
       <Route
         path={APP_KEYS.ROUTER_KEYS.EXAMPLE}

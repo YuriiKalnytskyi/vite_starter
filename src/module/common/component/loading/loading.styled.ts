@@ -1,6 +1,5 @@
 import styled, { css } from 'styled-components';
 
-import { COLORS } from '@/theme';
 
 import { ILoaderProps } from '../../types';
 
@@ -41,9 +40,9 @@ export const Loader = styled.div<ILoaderProps>`
     }}
 
     border-radius: 50%;
-    border: ${({ color }) => `0.375rem solid  ${color ?? COLORS.primary}`};
-    border-color: ${({ color }) => `${color ?? COLORS.primary} transparent
-    ${color ?? COLORS.primary} transparent`};
+    border: ${({ color, theme }) => `0.375rem solid  ${color ?? theme.COLORS.primary}`};
+    border-color: ${({ color, theme }) => `${color ?? theme.COLORS.primary} transparent
+    ${color ?? theme.COLORS.primary} transparent`};
     animation: lds-dual-ring 1.2s linear infinite;
   }
 

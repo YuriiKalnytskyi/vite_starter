@@ -2,7 +2,6 @@ import styled, { css } from 'styled-components';
 
 import { Margin } from '@/module/common/styles/margin.styled.ts';
 import { IDivCommon, IIcon } from '@/module/common/types';
-import { COLORS } from '@/theme';
 
 export const Center = css`
   display: flex;
@@ -41,7 +40,7 @@ export const IconCommon = styled.div<IIcon>`
           aspect-ratio: 1/1;
         `}
 
-  background: ${({ background }) => background ?? COLORS.black};
+  background: ${({ background, theme }) => background ?? theme.COLORS.black};
 
   -webkit-mask-image: url(${({ icon }) => icon});
   -webkit-mask-size: 100% 100%;

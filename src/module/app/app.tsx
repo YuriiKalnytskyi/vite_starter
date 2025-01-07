@@ -3,11 +3,12 @@ import { QueryCache, QueryClient, QueryClientProvider } from 'react-query';
 import { ReactQueryDevtools } from 'react-query/devtools';
 import { ThemeProvider } from 'styled-components';
 
-import { toastContainer } from '@/module/common/component';
 import { MainRouter } from '@/module/navigation';
-import * as theme from '@/theme';
 
 import * as Styled from './app.styled';
+import { useThemeStore } from '@/store';
+import {  darkTheme, lightTheme } from '@/theme/colors.const.ts';
+import { toastContainer } from '@/module/common/component/toast';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -33,15 +34,20 @@ const queryClient = new QueryClient({
 const env = process.env.VITE_APP_ENV;
 
 function App() {
+  const { theme } = useThemeStore();
+
+  const selectedTheme = theme === 'light' ? lightTheme : darkTheme;
+
   return (
-    <ThemeProvider theme={theme}>
+    <ThemeProvider theme={selectedTheme}>
       <Styled.GlobalStyles />
       <QueryClientProvider client={queryClient}>
+
         <MainRouter />
         {env === 'local' ? (
-          <ReactQueryDevtools position='bottom-right' initialIsOpen={false} />
+          <ReactQueryDevtools position="bottom-right" initialIsOpen={false} />
         ) : null}
-        <Toaster position='top-center' reverseOrder />
+        <Toaster position="top-center" reverseOrder />
       </QueryClientProvider>
     </ThemeProvider>
   );
