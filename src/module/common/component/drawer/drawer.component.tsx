@@ -3,19 +3,17 @@ import { MouseEvent } from 'react';
 
 import '@/styles/drawer.css';
 
-import {IDrawerProps} from '../../types';
+import { IDrawerProps } from '../../types';
 import { Portal } from '../portal';
 import { config } from './drawer.config';
 import * as Styled from './drawer.styled';
 
 export const Drawer = ({
                          children,
-                         className = '',
                          slidePosition = 'right',
                          contentPosition = 'right',
-                         onClose,
                          open,
-                         style
+                         onClose
                        }: IDrawerProps) => {
   const transitions = useTransition(open, config[slidePosition]);
 
@@ -26,22 +24,17 @@ export const Drawer = ({
     }
   };
 
-
   return (
     <Portal>
       {transitions(
         ({ opacity, transform }, isDrawerOpened) =>
           isDrawerOpened && (
             <animated.div
-              className={`backdrop ${[contentPosition]} ${className}`}
-              style={{ opacity, ...style }}
+              className={`backdrop ${[contentPosition]}`}
+              style={{ opacity }}
               onClick={onBackdropClick}
             >
-              <Styled.Block
-                style={{ transform }}
-              >
-                {children}
-              </Styled.Block>
+              <Styled.Block style={{ transform }}>{children}</Styled.Block>
             </animated.div>
           )
       )}
