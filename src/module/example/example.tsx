@@ -22,12 +22,14 @@ import {DivCommon} from '@/module/common/styles';
 import {validationSchemaExample} from '@/module/example/validation/shema.ts';
 import {SPACES} from '@/theme';
 import {dateTransform, functionStub} from '@/utils';
+import arrowBottomIcon from '@/assets/icons/default/arrow-bottom-icon.svg';
 
 import * as Styled from './example.styled.tsx';
 import {APP_KEYS} from '../common/constants/index.ts';
 import {DrawerLayout, PopupLayout} from '@/module/common/layout';
 import {useThemeStore} from '@/store';
 import {DropDown} from "@/module/common/component/drop-down/drop-down.tsx";
+import {useTheme} from "styled-components";
 
 const randomString = (minLength: number, maxLength: number): string => {
     const length = Math.floor(Math.random() * (maxLength - minLength + 1)) + minLength;
@@ -97,7 +99,7 @@ export const Example = () => {
             }
         }
     );
-
+    console.log(data)
     const parseValue = (value: unknown, key: string) => {
         if (key === 'createdAt') return dateTransform((value as string) ?? '');
         return value;
@@ -115,7 +117,8 @@ export const Example = () => {
         contentPosition && setContentPositionDrawer(contentPosition);
     };
 
-    const {theme, setTheme} = useThemeStore();
+    const {theme: themeStore, setTheme} = useThemeStore();
+    const theme = useTheme();
 
     return (
         <Styled.Container
@@ -126,10 +129,10 @@ export const Example = () => {
         >
             <button
                 onClick={() => {
-                    setTheme(theme === 'light' ? 'dark' : 'light');
+                    setTheme(themeStore === 'light' ? 'dark' : 'light');
                 }}
             >
-                {theme === 'light' ? 'Switch to Dark Mode' : 'Switch to Light Mode'}
+                {themeStore === 'light' ? 'Switch to Dark Mode' : 'Switch to Light Mode'}
             </button>
             <DivCommon gap={SPACES.l}>
                 BUTTON STATE
@@ -188,7 +191,7 @@ export const Example = () => {
                 onSubmit={functionStub}
                 validationSchema={validationSchemaExample}
             >
-                {({values}) => (
+                {({values, setFieldValue}) => (
                     <Form>
                         CHECKBOX STATE (default, multi, radio)
                         <DivCommon fd="row" gap={SPACES.l} margin="0 0 2rem 0">
@@ -405,6 +408,55 @@ export const Example = () => {
                                     isSavePreviousSelection: false
                                 }}
                             />
+
+                            <DropDown
+                                visibleBlock={({focused, onSetIsFocused}) => {
+                                    return (
+                                        <Input
+                                            name='new-phone'
+                                            label='Phone'
+                                            {...(getIn(values, 'new-phone')?.icon
+                                                ? {
+                                                    startIcon: {
+                                                        icon: getIn(values, 'new-phone').icon,
+                                                        type: 'img'
+                                                    }
+                                                }
+                                                : null)}
+                                            endIcon={{icon: arrowBottomIcon, className: focused ? 'rotate' : '', cursor: 'pointer', onClick: ()=> {
+                                                    onSetIsFocused(!focused)
+                                                }}}
+                                            // onClick={onSetIsFocused.bind(this, true)}
+                                            noFormikValue={{
+                                                value: getIn(values, 'new-phone')?.phone ?? '',
+                                                setFieldValue: (_, value)=> {
+                                                    setFieldValue('new-phone', {icon: getIn(values, 'new-phone')?.icon ?? '', phone: value})
+                                                }
+                                            }}
+                                        />
+                                    )
+                                }}
+                                popupBlock={({onSetIsFocused}) => {
+                                    return (
+
+                                        <ul style={{maxHeight: '10rem', overflow:'auto'}}>
+                                            {data?.countries.map((country:any, i:any) => (
+                                                <li key={i}
+                                                    style={{display: 'flex',alignItems: 'center', gap: '1rem', padding: '0.5rem'}}
+                                                           onClick={()=>{
+                                                               setFieldValue('new-phone', {icon: country.icon, phone: country.phone}).then();
+                                                               onSetIsFocused(false);
+                                                           }}
+                                                >
+                                                    {country.icon && <Icon height="1rem" icon={country.icon} type="img"/>}
+                                                    {country.name} {' '}
+                                                    {country.phone}
+                                                </li>
+                                            ))}
+                                        </ul>
+                                    )
+                                }}
+                            />
                         </DivCommon>
 
                         CALENDAR
@@ -548,25 +600,63 @@ export const Example = () => {
                 sdsdsdds
             </PopupLayout>
 
-            <DropDown
-                position={"rightBlock"}
-                isHover
-                title={({isOpen}) => {
-                    return (
-                        <div style={{width:'fit-content', height:'3rem', padding:'0 1rem', display: 'flex', alignItems:'center', justifyContent:'center', border: '1px solid red'}}>
-                            DropDown Hover - Right
-                        </div>
-                    )
-                }}
-                children={(onSetIsOpen) => {
-                    return(
-                    <ul>
-                        {[1, 2, 3, 4, 5].map((item, index) => (
-                            <li key={index}> item {item}</li>
-                        ))}
-                    </ul>
-                )}}
-            />
+            DROPDOWN
+            <DivCommon fd='row' gap='2rem'>
+                {[
+                    {
+                        position: 'left',
+                        hover: true,
+                        width: '70%',
+                        title: 'Hover & Click - Left',
+                    },
+                    {
+                        position: 'right',
+                        hover: true,
+                        width: '70%',
+                        title: 'Hover & Click - Right',
+                    },
+                    {
+                        hover: true,
+                        title: 'Hover & Click - 100%',
+                    },
+                ].map((item, index) => (
+                    <DropDown
+                        key={index}
+                        position={item?.position as "left" | "right" ?? "right"}
+                        isHover={item?.hover}
+                        isClick
+                        width={item?.width}
+                        visibleBlock={({focused}) => {
+                            return (
+                                <div style={{
+                                    userSelect: 'none',
+                                    width: 'fit-content',
+                                    height: '2.5rem',
+                                    padding: '0 1rem',
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    justifyContent: 'center',
+                                    border: `1px solid transparent`,
+                                    borderColor: focused ? `${theme.COLORS.primary}` : 'transparent'
+                                }}>
+                                    {item.title}
+                                </div>
+                            )
+                        }}
+                        popupBlock={({onSetIsFocused}) => {
+                            return (
+                                <DivCommon>
+                                    {[1, 2, 3, 4, 5].map((itemPopup, i) => (
+                                        <div key={i} style={{paddingLeft: '0.5rem'}}
+                                             onClick={onSetIsFocused.bind(this, false)}> item {itemPopup}</div>
+                                    ))}
+                                </DivCommon>
+                            )
+                        }}
+                    />
+                ))}
+            </DivCommon>
+
 
         </Styled.Container>
     );

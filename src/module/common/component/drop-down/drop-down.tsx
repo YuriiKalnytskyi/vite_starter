@@ -6,98 +6,77 @@ import {functionStub} from '@/utils';
 import * as Styled from './drop-down.style.ts';
 
 interface IDropDownProps {
-    title:
+    visibleBlock:
         | ReactNode
         | (({
-                isOpen,
-                onSetIsOpen
+                focused,
+                onSetIsFocused
             }: {
-        isOpen: boolean;
-        onSetIsOpen: (flag?: boolean) => void;
+        focused: boolean;
+        onSetIsFocused: (flag?: boolean) => void;
     }) => ReactNode);
-    children:
+    popupBlock:
         | ReactNode
         | (({
-                isOpen,
-                onSetIsOpen
+                focused,
+                onSetIsFocused
             }: {
-        isOpen: boolean;
-        onSetIsOpen: (flag?: boolean) => void;
+        focused: boolean;
+        onSetIsFocused: (flag?: boolean) => void;
     }) => ReactNode);
-    position?: 'left' | 'right' | 'rightBlock';
-    padding?: string;
+    position?: 'left' | 'right';
     isHover?: boolean;
+    isClick?: boolean;
     width?: string;
-    onClick?: (flag: boolean) => void;
-    className?: string;
 }
 
 export const DropDown = ({
-                             title,
-                             children,
+                             visibleBlock,
+                             popupBlock,
                              position,
                              isHover,
+                             isClick,
                              width,
-                             padding,
-                             onClick,
-                             className
                          }: IDropDownProps) => {
-    const [isOpen, setIsOpen] = useState<boolean>(false);
-
-    const onSetIsOpen = (flag?: boolean) => {
-        setIsOpen(flag ?? false);
-        onClick && onClick(flag ?? false);
-    };
-    const {ref} = useClickOutside(() => onSetIsOpen());
-    // const titleRef = useRef<null | HTMLDivElement>(null);
-
     const [focused, setFocused] = useState(false);
+
+    const onSetIsFocused = (flag?: boolean) => {
+        setFocused(flag ?? false);
+    };
+
+    const {ref} = useClickOutside(() => {
+        if (focused) {
+            onSetIsFocused();
+        }
+    });
+
     const { setting, Component, isParentScroll } = usePortalPositioning(ref.current, focused, true);
 
-    const Children = Styled.Children(Component.toString().includes('fragment') ? 'div' : Component);
+
+
+    const PopupBlock = Styled.PopupBlock(Component.toString().includes('fragment') ? 'div' : Component);
+
     return (
-        <Styled.Wrapper
+        <Styled.VisibleBlock
             ref={ref as RefObject<HTMLDivElement>}
-            onMouseEnter={isHover ? onSetIsOpen.bind(this, true) : functionStub}
-            onMouseLeave={isHover ? onSetIsOpen.bind(this, false) : functionStub}
+            onMouseEnter={isHover ? onSetIsFocused.bind(this, true) : functionStub}
+            onMouseLeave={isHover ? onSetIsFocused.bind(this, false) : functionStub}
+            onClick={isClick ? onSetIsFocused.bind(this, !focused) : functionStub}
             id='DropDown'
-            className={className ? className : ''}
         >
-            {/*<Styled.TitleWrapper*/}
-            {/*    // ref={titleRef}*/}
-            {/*    id='DropDownTitle'*/}
-            {/*    $isOpen={isOpen}*/}
-            {/*    onClick={(e) => {*/}
-            {/*        e.stopPropagation();*/}
-            {/*        onSetIsOpen(!isOpen);*/}
-            {/*    }}*/}
-            {/*    className='drop-down-title-wrapper'*/}
-            {/*>*/}
-                {typeof title === 'function' ? title({isOpen: isOpen, onSetIsOpen}) : title}
-            {/*</Styled.TitleWrapper>*/}
-            {isOpen && (
-                <Children
-                    style={{width: isParentScroll ? setting.width : (ref?.current?.clientWidth ?? width ?? '18.75rem')}}>
-                    {/*    <Styled.SuggestedBlock*/}
-                    {/*        id="SuggestedBlock"*/}
-                    {/*        ref={childrenRef}*/}
-                    {/*        $position={(filterOption as filterOptionNew)?.position}*/}
-                    {/*        style={isParentScroll ? setting : {}}*/}
-                    {/*    >*/}
-                    {/*        {isOpen && (*/}
-                    {/*            <Styled.ChildrenWrapper*/}
-                    {/*                className='drop-down-children-wrapper'*/}
-                    {/*                position={position}*/}
-                    {/*                $isOpen={isOpen}*/}
-                    {/*                width={padding === '0' ? titleRef?.current?.offsetWidth + 'px' : minWidthChildren}*/}
-                    {/*                padding={padding}*/}
-                    {/*            >*/}
-                    {typeof children === 'function' ? children({isOpen: isOpen, onSetIsOpen}) : children}
-                    {/*</Styled.ChildrenWrapper>*/}
-                    {/*)}*/}
-                    {/*    </Styled.SuggestedBlock>*/}
-                </Children>
+
+                {typeof visibleBlock === 'function' ? visibleBlock({focused: focused, onSetIsFocused}) : visibleBlock}
+
+            {focused && (
+                <PopupBlock
+                    width={width}
+                    position={position}
+                    style={{width: isParentScroll ? setting.width : (ref?.current?.clientWidth ?? width ?? '18.75rem')}}
+                >
+                    {typeof popupBlock === 'function' ? popupBlock({focused: focused, onSetIsFocused}) : popupBlock}
+
+                </PopupBlock>
             )}
-        </Styled.Wrapper>
+        </Styled.VisibleBlock>
     );
 };

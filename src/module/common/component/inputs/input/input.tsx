@@ -36,6 +36,7 @@ export const Input= ({
                       }: IInputProps) => {
   const { setFieldValue, value, error, setFieldTouched, setFieldFocus, touched } = (() => {
     if (noFormikValue) {
+
       return {
         value: noFormikValue.value,
         error: noFormikValue.error ?? '',
@@ -58,6 +59,28 @@ export const Input= ({
       };
     }
   })();
+
+  // const { value, error, touched, setFieldValue, setFieldTouched, setFieldFocus } = noFormikValue
+  //     ? useMemo(() => ({
+  //       value: noFormikValue.value,
+  //       error: noFormikValue?.error ?? '',
+  //       touched: noFormikValue?.touched ?? false,
+  //       setFieldValue: noFormikValue.setFieldValue,
+  //       setFieldTouched: noFormikValue?.setFieldTouched ?? functionStub,
+  //       setFieldFocus: noFormikValue?.setFieldFocus ?? functionStub,
+  //     }), [noFormikValue])
+  //     : (() => {
+  //           // eslint-disable-next-line react-hooks/rules-of-hooks
+  //           const { values, setFieldValue, errors, setFieldTouched, touched } = useFormikContext();
+  //       return{
+  //       value: getIn(values, name),
+  //       error: getIn(errors, name),
+  //       touched: getIn(touched, name),
+  //       setFieldValue: setFieldValue,
+  //       setFieldTouched: setFieldTouched,
+  //       setFieldFocus: setFieldTouched,
+  //     }})();
+
   const { t: translate } = useTranslation();
   const theme = useTheme();
 
@@ -139,7 +162,6 @@ export const Input= ({
 
   const isError = touched && !!error;
   const isPasswordError = isError && passwordError.includes(error ?? '');
-
   return (
     <Styled.Wrapper
       id="input"
@@ -191,8 +213,8 @@ export const Input= ({
         />
       )}
 
-      {startIcon && <Icon {...startIcon} className="startIcon" />}
-      {endIcon && <Icon {...endIcon} className="endIcon" />}
+      {startIcon && <Icon {...startIcon} className={`startIcon ${startIcon?.className ?? ''}`} />}
+      {endIcon && <Icon {...endIcon} className={`endIcon ${endIcon?.className ?? ''}`} />}
 
       {isError &&
       !passwordError.includes(error ?? '') &&

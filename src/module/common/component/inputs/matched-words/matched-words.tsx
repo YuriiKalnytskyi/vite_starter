@@ -249,6 +249,7 @@ export const MatchedWords = <
           icon: newItemFlag ? closeIcon : arrowBottom,
           height: newItemFlag ? '1rem' : '1.5rem',
           width: newItemFlag ? '1rem' : '1.5rem',
+          className: focused ? 'rotate' :'',
           onClick: () => {
             if (newItemFlag) {
               addItem(visibleItem ? { [visibleItem]: newItem } : newItem);

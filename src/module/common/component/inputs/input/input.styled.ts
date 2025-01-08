@@ -21,6 +21,7 @@ export const Wrapper = styled.div<IWProps>`
     & .passwordIcon {
         position: absolute;
         transform: translate(0%, -50%);
+        transition: transform 0.5s ease;
     }
 
     & .startIcon {
@@ -30,6 +31,10 @@ export const Wrapper = styled.div<IWProps>`
     & .passwordIcon,
     & .endIcon {
         right: ${SPACES.xs};
+    }
+    & .startIcon.rotate,
+    & .endIcon.rotate {
+      transform: translate(0%, -50%) rotate(180deg)!important;
     }
 `;
 

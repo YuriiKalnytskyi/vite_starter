@@ -14,23 +14,6 @@ export interface IWProps extends IMargin {
 export const Wrapper = styled.div<IWProps>`
     position: relative;
     width: ${({ width }) => width ?? '100%'};
-
-    .endIcon,
-    #icon {
-        transition: transform 0.5s ease;
-    }
-
-    #addOrCloseIcon {
-        height: 1rem;
-
-        position: absolute;
-        right: ${SPACES.m};
-        z-index: 1;
-
-        transition: transform 0.5s ease;
-        transform: rotate(${({ $newItemFlag }) => ($newItemFlag ? '45deg' : '0deg')});
-    }
-
     cursor: pointer;
 }
 
