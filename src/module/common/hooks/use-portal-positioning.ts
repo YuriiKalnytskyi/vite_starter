@@ -75,7 +75,7 @@ export const usePortalPositioning = <T extends HTMLElement>(
     };
   }, [ref?.id, focused]);
 
-  const _parentScroll = parentHasScroll ?? parentScroll
+  const _parentScroll = parentHasScroll || parentScroll
 
   return {
     setting: _parentScroll ? setting : initValue,
