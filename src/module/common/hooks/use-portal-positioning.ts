@@ -30,7 +30,6 @@ export const usePortalPositioning = <T extends HTMLElement>(
       while (currentElement && currentElement.parentElement) {
         const overflowX = getComputedStyle(currentElement.parentElement).overflowX;
         if (overflowX === 'auto' || overflowX === 'scroll') {
-
           setParentHasScroll(true);
           return;
         }
@@ -48,11 +47,12 @@ export const usePortalPositioning = <T extends HTMLElement>(
     const handleScrollLock = () => {
       const rootElement = document.getElementById('root');
       if (rootElement) {
-        if (focused) {
-          rootElement.style.overflow = 'hidden';
+        if (focused && parentHasScroll) {
+          rootElement.style.overflowY = 'hidden';
           rootElement.addEventListener('wheel', preventScroll, { passive: false });
-        } else {
-          rootElement.style.overflow = '';
+        }
+        else {
+          rootElement.style.overflowY = '';
           rootElement.removeEventListener('wheel', preventScroll);
         }
       }
@@ -75,7 +75,7 @@ export const usePortalPositioning = <T extends HTMLElement>(
     };
   }, [ref?.id, focused]);
 
-  const _parentScroll = parentHasScroll || parentScroll
+  const _parentScroll = (parentHasScroll || parentScroll) ?? false
 
   return {
     setting: _parentScroll ? setting : initValue,

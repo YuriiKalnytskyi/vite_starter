@@ -16,20 +16,20 @@ import {
   Table,
   TextArea
 } from '@/module/common/component';
-import {changeCard} from '@/module/common/hooks';
-import {onError} from '@/module/common/services';
-import {DivCommon} from '@/module/common/styles';
-import {validationSchemaExample} from '@/module/example/validation/shema.ts';
-import {SPACES} from '@/theme';
-import {dateTransform, functionStub} from '@/utils';
+import { changeCard } from '@/module/common/hooks';
+import { onError } from '@/module/common/services';
+import { DivCommon } from '@/module/common/styles';
+import { validationSchemaExample } from '@/module/example/validation/shema.ts';
+import { SPACES } from '@/theme';
+import { dateTransform, functionStub } from '@/utils';
 import arrowBottomIcon from '@/assets/icons/default/arrow-bottom-icon.svg';
 
 import * as Styled from './example.styled.tsx';
-import {APP_KEYS} from '../common/constants/index.ts';
-import {DrawerLayout, PopupLayout} from '@/module/common/layout';
-import {useThemeStore} from '@/store';
-import {DropDown} from "@/module/common/component/drop-down/drop-down.tsx";
-import {useTheme} from "styled-components";
+import { APP_KEYS } from '../common/constants/index.ts';
+import { DrawerLayout, PopupLayout } from '@/module/common/layout';
+import { useThemeStore } from '@/store';
+import { DropDown } from '@/module/common/component/drop-down/drop-down.tsx';
+import { useTheme } from 'styled-components';
 
 const randomString = (minLength: number, maxLength: number): string => {
   const length = Math.floor(Math.random() * (maxLength - minLength + 1)) + minLength;
@@ -81,29 +81,29 @@ export const Example = () => {
     createdAt: '2025-01-03T12:34:56.789Z'
   }));
 
-    const {data} = useQuery(
-        ['country'],
-        async () => {
-            const response = await axios.get('https://restcountries.com/v3.1/all?fields=name,flags,cca2,idd');
-            const countries = response.data.map((country: any) => ({
-                name: country.name.common,
-                icon: country.flags?.svg,
-                cca2: country.cca2,
-                phone: country.idd.root + country.idd?.suffixes.join('')
-            }));
-            return {countries};
-        },
-        {
-            onError: (err: any) => {
-                onError(err);
-            }
-        }
-    );
-    console.log(data)
-    const parseValue = (value: unknown, key: string) => {
-        if (key === 'createdAt') return dateTransform((value as string) ?? '');
-        return value;
-    };
+  const { data } = useQuery(
+    ['country'],
+    async () => {
+      const response = await axios.get('https://restcountries.com/v3.1/all?fields=name,flags,cca2,idd');
+      const countries = response.data.map((country: any) => ({
+        name: country.name.common,
+        icon: country.flags?.svg,
+        cca2: country.cca2,
+        phone: country.idd.root + country.idd?.suffixes.join('')
+      }));
+      return { countries };
+    },
+    {
+      onError: (err: any) => {
+        onError(err);
+      }
+    }
+  );
+  console.log(data);
+  const parseValue = (value: unknown, key: string) => {
+    if (key === 'createdAt') return dateTransform((value as string) ?? '');
+    return value;
+  };
 
   const onTogglePopup = (slidePosition: 'bottom' | 'top' | 'left' | 'right' | 'center' | null, contentPosition: 'bottom' | 'top' | 'center' | 'left' | 'right' | null) => {
     setOpenPopup((prev) => !prev);
@@ -117,40 +117,40 @@ export const Example = () => {
     contentPosition && setContentPositionDrawer(contentPosition);
   };
 
-    const {theme: themeStore, setTheme} = useThemeStore();
-    const theme = useTheme();
+  const { theme: themeStore, setTheme } = useThemeStore();
+  const theme = useTheme();
 
-    return (
-        <Styled.Container
-            height="100dvh"
-            fd="column"
-            gap={SPACES.xxxxl}
-            padding={`${SPACES.xxxxl} ${SPACES.xxxxl}`}
-        >
-            <button
-                onClick={() => {
-                    setTheme(themeStore === 'light' ? 'dark' : 'light');
-                }}
-            >
-                {themeStore === 'light' ? 'Switch to Dark Mode' : 'Switch to Light Mode'}
-            </button>
-            <DivCommon gap={SPACES.l}>
-                BUTTON STATE
-                <DivCommon fd="row" gap={SPACES.l}>
-                    <Button
-                        content="button"
-                        variant="primary"
-                        startIcon={{icon: testIcon, height: '1.5rem'}}
-                        endIcon={{icon: testIcon, height: '1.5rem', type: 'img'}}
-                    />
-                    <Button content="button" variant="primary" isLoading={true}/>
-                    <Button content="button" variant="primary" disabled/>
-                    <Button.AsNavLink
-                        to={APP_KEYS.ROUTER_KEYS.HOME}
-                        content="navigation button "
-                    />
-                </DivCommon>
-            </DivCommon>
+  return (
+    <Styled.Container
+      height="100dvh"
+      fd="column"
+      gap={SPACES.xxxxl}
+      padding={`${SPACES.xxxxl} ${SPACES.xxxxl}`}
+    >
+      <button
+        onClick={() => {
+          setTheme(themeStore === 'light' ? 'dark' : 'light');
+        }}
+      >
+        {themeStore === 'light' ? 'Switch to Dark Mode' : 'Switch to Light Mode'}
+      </button>
+      <DivCommon gap={SPACES.l}>
+        BUTTON STATE
+        <DivCommon fd="row" gap={SPACES.l}>
+          <Button
+            content="button"
+            variant="primary"
+            startIcon={{ icon: testIcon, height: '1.5rem' }}
+            endIcon={{ icon: testIcon, height: '1.5rem', type: 'img' }}
+          />
+          <Button content="button" variant="primary" isLoading={true} />
+          <Button content="button" variant="primary" disabled />
+          <Button.AsNavLink
+            to={APP_KEYS.ROUTER_KEYS.HOME}
+            content="navigation button "
+          />
+        </DivCommon>
+      </DivCommon>
 
       <Table
         className="scroll"
@@ -176,65 +176,65 @@ export const Example = () => {
         }}
       />
 
-            <Formik
-                initialValues={{
-                    password: '',
-                    email: '',
-                    first_name: '',
-                    last_name: 'test',
-                    card: '',
-                    expiry_data: '',
-                    cvv: '',
-                    phone: ''
-                    // resizable: randomString(50, 1000)
-                }}
-                onSubmit={functionStub}
-                validationSchema={validationSchemaExample}
-            >
-                {({values, setFieldValue}) => (
-                    <Form>
-                        CHECKBOX STATE (default, multi, radio)
-                        <DivCommon fd="row" gap={SPACES.l} margin="0 0 2rem 0">
-                            <DivCommon height="100px" fd="row" ai="center" gap={SPACES.l}>
-                                <Inputs.CheckBox name="default" type="default" items="string"/>
-                                <CheckBox
-                                    name="defaultObj"
-                                    type="default"
-                                    items={{name: 'obj'}}
-                                    visibleItem="name"
-                                />
-                            </DivCommon>
-                            <DivCommon height="100px" fd="row" ai="center" gap={SPACES.l}>
-                                <DivCommon width="fit-content" gap={SPACES.l}>
-                                    <CheckBox name="multi" type="multi" items={['string_1', 'string_2', 'string3']}/>
-                                </DivCommon>
-                                <DivCommon gap={SPACES.l}>
-                                    <CheckBox
-                                        name="multiObj"
-                                        type="multi"
-                                        items={[{name: 'obj_1'}, {name: 'obj_2'}, {name: 'obj_3'}]}
-                                        visibleItem="name"
-                                    />
-                                </DivCommon>
-                            </DivCommon>
-                            <DivCommon height="100px" fd="row" ai="center" gap={SPACES.l}>
-                                <DivCommon width="fit-content" gap={SPACES.l}>
-                                    <CheckBox name="radio" type="radio" items={['string_1', 'string_2']}/>
-                                </DivCommon>
-                                <DivCommon gap={SPACES.l}>
-                                    <CheckBox
-                                        name="radioObj"
-                                        type="radio"
-                                        items={[{name: 'obj_1'}, {name: 'obj_2'}]}
-                                        visibleItem="name"
-                                    />
-                                </DivCommon>
-                            </DivCommon>
-                            <DivCommon height="100px" fd="row" ai="center" gap={SPACES.l}>
-                                <Inputs.Switch name="switch" label="Switch"/>
-                                <Switch name="switch" label="Switch"/>
-                            </DivCommon>
-                        </DivCommon>
+      <Formik
+        initialValues={{
+          password: '',
+          email: '',
+          first_name: '',
+          last_name: 'test',
+          card: '',
+          expiry_data: '',
+          cvv: '',
+          phone: ''
+          // resizable: randomString(50, 1000)
+        }}
+        onSubmit={functionStub}
+        validationSchema={validationSchemaExample}
+      >
+        {({ values, setFieldValue }) => (
+          <Form>
+            CHECKBOX STATE (default, multi, radio)
+            <DivCommon fd="row" gap={SPACES.l} margin="0 0 2rem 0">
+              <DivCommon height="100px" fd="row" ai="center" gap={SPACES.l}>
+                <Inputs.CheckBox name="default" type="default" items="string" />
+                <CheckBox
+                  name="defaultObj"
+                  type="default"
+                  items={{ name: 'obj' }}
+                  visibleItem="name"
+                />
+              </DivCommon>
+              <DivCommon height="100px" fd="row" ai="center" gap={SPACES.l}>
+                <DivCommon width="fit-content" gap={SPACES.l}>
+                  <CheckBox name="multi" type="multi" items={['string_1', 'string_2', 'string3']} />
+                </DivCommon>
+                <DivCommon gap={SPACES.l}>
+                  <CheckBox
+                    name="multiObj"
+                    type="multi"
+                    items={[{ name: 'obj_1' }, { name: 'obj_2' }, { name: 'obj_3' }]}
+                    visibleItem="name"
+                  />
+                </DivCommon>
+              </DivCommon>
+              <DivCommon height="100px" fd="row" ai="center" gap={SPACES.l}>
+                <DivCommon width="fit-content" gap={SPACES.l}>
+                  <CheckBox name="radio" type="radio" items={['string_1', 'string_2']} />
+                </DivCommon>
+                <DivCommon gap={SPACES.l}>
+                  <CheckBox
+                    name="radioObj"
+                    type="radio"
+                    items={[{ name: 'obj_1' }, { name: 'obj_2' }]}
+                    visibleItem="name"
+                  />
+                </DivCommon>
+              </DivCommon>
+              <DivCommon height="100px" fd="row" ai="center" gap={SPACES.l}>
+                <Inputs.Switch name="switch" label="Switch" />
+                <Switch name="switch" label="Switch" />
+              </DivCommon>
+            </DivCommon>
 
             INPUT CARD
             <DivCommon fd="row" gap={SPACES.l} margin="0 0 2rem 0">
@@ -378,86 +378,87 @@ export const Example = () => {
             Phone
             <DivCommon fd="row" gap={SPACES.l} ai="flex-end" margin="0 0 2rem 0">
 
-                            <MatchedWords
-                                width="400px"
-                                name="phone"
-                                label="phone (Type-sort - Input -new ) "
-                                items={data?.countries ?? []}
-                                visibleItem="phone"
-                                parseValue={(value, valueObj) => {
-                                    return (
-                                        <DivCommon fd="row" ai='center' gap={SPACES.l}>
-                                            {valueObj.icon && <Icon height="1rem" icon={valueObj.icon} type="img"/>}
-                                            {valueObj.name} {' '}
-                                            {value}
-                                        </DivCommon>
-                                    );
-                                }}
-                                {...(getIn(values, 'phone')?.icon
-                                    ? {
-                                        startIcon: {
-                                            icon: getIn(values, 'phone').icon,
-                                            type: 'img'
-                                        }
-                                    }
-                                    : null)}
-                                filterOption={{
-                                    mode: 'default',
-                                    includes: 'startsWith',
-                                    type: 'filter',
-                                    isSavePreviousSelection: false
-                                }}
-                            />
+              <MatchedWords
+                width="400px"
+                name="phone"
+                label="phone (Type-sort - Input -new ) "
+                items={data?.countries ?? []}
+                visibleItem="phone"
+                parseValue={(value, valueObj) => {
+                  return (
+                    <DivCommon fd="row" ai="center" gap={SPACES.l}>
+                      {valueObj.icon && <Icon height="1rem" icon={valueObj.icon} type="img" />}
+                      {valueObj.name} {' '}
+                      {value}
+                    </DivCommon>
+                  );
+                }}
+                {...(getIn(values, 'phone')?.icon
+                  ? {
+                    startIcon: {
+                      icon: getIn(values, 'phone').icon,
+                      type: 'img'
+                    }
+                  }
+                  : null)}
+                filterOption={{
+                  mode: 'default',
+                  includes: 'startsWith',
+                  type: 'filter',
+                  isSavePreviousSelection: false
+                }}
+              />
 
-                            <DropDown
-                                visibleBlock={({focused, onSetIsFocused}) => {
-                                    return (
-                                        <Input
-                                            name='new-phone'
-                                            label='Phone'
-                                            {...(getIn(values, 'new-phone')?.icon
-                                                ? {
-                                                    startIcon: {
-                                                        icon: getIn(values, 'new-phone').icon,
-                                                        type: 'img'
-                                                    }
-                                                }
-                                                : null)}
-                                            endIcon={{icon: arrowBottomIcon, className: focused ? 'rotate' : '', cursor: 'pointer', onClick: ()=> {
-                                                    onSetIsFocused(!focused)
-                                                }}}
-                                            // onClick={onSetIsFocused.bind(this, true)}
-                                            noFormikValue={{
-                                                value: getIn(values, 'new-phone')?.phone ?? '',
-                                                setFieldValue: (_, value)=> {
-                                                    setFieldValue('new-phone', {icon: getIn(values, 'new-phone')?.icon ?? '', phone: value})
-                                                }
-                                            }}
-                                        />
-                                    )
-                                }}
-                                popupBlock={({onSetIsFocused}) => {
-                                    return (
-
-                                        <ul style={{maxHeight: '10rem', overflow:'auto'}}>
-                                            {data?.countries.map((country:any, i:any) => (
-                                                <li key={i}
-                                                    style={{display: 'flex',alignItems: 'center', gap: '1rem', padding: '0.5rem'}}
-                                                           onClick={()=>{
-                                                               setFieldValue('new-phone', {icon: country.icon, phone: country.phone}).then();
-                                                               onSetIsFocused(false);
-                                                           }}
-                                                >
-                                                    {country.icon && <Icon height="1rem" icon={country.icon} type="img"/>}
-                                                    {country.name} {' '}
-                                                    {country.phone}
-                                                </li>
-                                            ))}
-                                        </ul>
-                                    )
-                                }}
-                            />
-                        </DivCommon>
+              <DropDown
+                isClick
+                visibleBlock={({ focused, onSetIsFocused }) => {
+                  return (
+                    <Input
+                      name="new-phone"
+                      label="Phone"
+                      {...(getIn(values, 'new-phone')?.icon
+                        ? {
+                          startIcon: {
+                            icon: getIn(values, 'new-phone').icon,
+                            type: 'img'
+                          }
+                        }
+                        : null)}
+                      endIcon={{
+                        icon: arrowBottomIcon, className: focused ? 'rotate' : '', cursor: 'pointer', onClick: () => {
+                          onSetIsFocused(!focused);
+                        }
+                      }}
+                      noFormikValue={{
+                        value: getIn(values, 'new-phone')?.phone ?? '',
+                        setFieldValue: (_, value) => {
+                          setFieldValue('new-phone', { icon: getIn(values, 'new-phone')?.icon ?? '', phone: value });
+                        }
+                      }}
+                    />
+                  );
+                }}
+                popupBlock={({ onSetIsFocused, ItemTag }) => {
+                  return (data?.countries ?? []).filter((v) => {
+                    const cleanInputPhone = (getIn(values, 'new-phone')?.phone || '').replace(/[\s+()]/g, '');
+                    const cleanCountryPhone = v.phone.replace(/[\s+()]/g, '');
+                    const phonePrefix = cleanInputPhone.slice(0, cleanCountryPhone.length);
+                    return cleanCountryPhone.startsWith(phonePrefix);
+                  }).map((country: any, i: any) => (
+                    <ItemTag key={i}
+                             onClick={() => {
+                               setFieldValue('new-phone', { icon: country.icon, phone: country.phone });
+                               onSetIsFocused(false);
+                             }}
+                    >
+                      {country.icon && <Icon height="1rem" icon={country.icon} type="img" />}
+                      {country.name} {' '}
+                      {country.phone}
+                    </ItemTag>
+                  ));
+                }}
+              />
+            </DivCommon>
 
             CALENDAR
             <DivCommon fd="row" gap={SPACES.l} ai="flex-end" margin="0 0 2rem 0">
@@ -576,63 +577,62 @@ export const Example = () => {
       >
         sdsdsdds
       </PopupLayout>
-
-            DROPDOWN
-            <DivCommon fd='row' gap='2rem'>
-                {[
-                    {
-                        position: 'left',
-                        hover: true,
-                        width: '70%',
-                        title: 'Hover & Click - Left',
-                    },
-                    {
-                        position: 'right',
-                        hover: true,
-                        width: '70%',
-                        title: 'Hover & Click - Right',
-                    },
-                    {
-                        hover: true,
-                        title: 'Hover & Click - 100%',
-                    },
-                ].map((item, index) => (
-                    <DropDown
-                        key={index}
-                        position={item?.position as "left" | "right" ?? "right"}
-                        isHover={item?.hover}
-                        isClick
-                        width={item?.width}
-                        visibleBlock={({focused}) => {
-                            return (
-                                <div style={{
-                                    userSelect: 'none',
-                                    width: 'fit-content',
-                                    height: '2.5rem',
-                                    padding: '0 1rem',
-                                    display: 'flex',
-                                    alignItems: 'center',
-                                    justifyContent: 'center',
-                                    border: `1px solid transparent`,
-                                    borderColor: focused ? `${theme.COLORS.primary}` : 'transparent'
-                                }}>
-                                    {item.title}
-                                </div>
-                            )
-                        }}
-                        popupBlock={({onSetIsFocused}) => {
-                            return (
-                                <DivCommon>
-                                    {[1, 2, 3, 4, 5].map((itemPopup, i) => (
-                                        <div key={i} style={{paddingLeft: '0.5rem'}}
-                                             onClick={onSetIsFocused.bind(this, false)}> item {itemPopup}</div>
-                                    ))}
-                                </DivCommon>
-                            )
-                        }}
-                    />
-                ))}
-            </DivCommon>
+      DROPDOWN
+      <DivCommon fd="row" gap="2rem">
+        {[
+          {
+            position: 'left',
+            hover: true,
+            width: '70%',
+            title: 'Hover & Click - Left'
+          },
+          {
+            position: 'right',
+            hover: true,
+            width: '70%',
+            title: 'Hover & Click - Right'
+          },
+          {
+            hover: true,
+            title: 'Hover & Click - 100%'
+          }
+        ].map((item, index) => (
+          <DropDown
+            key={index}
+            position={item?.position as 'left' | 'right' ?? 'right'}
+            isHover={item?.hover}
+            isClick
+            width={item?.width}
+            visibleBlock={({ focused }) => {
+              return (
+                <div style={{
+                  userSelect: 'none',
+                  width: 'fit-content',
+                  height: '2.5rem',
+                  padding: '0 1rem',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  border: `1px solid transparent`,
+                  borderColor: focused ? `${theme.COLORS.primary}` : 'transparent'
+                }}>
+                  {item.title}
+                </div>
+              );
+            }}
+            popupBlock={({ onSetIsFocused }) => {
+              return (
+                <DivCommon>
+                  {[1, 2, 3, 4, 5].map((itemPopup, i) => (
+                    <div key={i} style={{ paddingLeft: '0.5rem' }}
+                         onClick={onSetIsFocused.bind(this, false)}> item {itemPopup}</div>
+                  ))}
+                </DivCommon>
+              );
+            }}
+          />
+        ))}
+      </DivCommon>
 
 
     </Styled.Container>
