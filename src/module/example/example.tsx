@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { Form, Formik, getIn } from 'formik';
 import { useState } from 'react';
-import { useQuery } from 'react-query';
+import { useQuery, UseQueryResult } from 'react-query';
 
 import testIcon from '@/assets/icons/vite.svg';
 import {
@@ -81,7 +81,12 @@ export const Example = () => {
     createdAt: '2025-01-03T12:34:56.789Z'
   }));
 
-  const { data } = useQuery(
+  const { data } : UseQueryResult<{countries: {
+      name: string;
+      icon: string;
+      cca2: string;
+      phone: string;
+    }[]}> = useQuery(
     ['country'],
     async () => {
       const response = await axios.get('https://restcountries.com/v3.1/all?fields=name,flags,cca2,idd');
@@ -99,7 +104,6 @@ export const Example = () => {
       }
     }
   );
-  console.log(data);
   const parseValue = (value: unknown, key: string) => {
     if (key === 'createdAt') return dateTransform((value as string) ?? '');
     return value;
@@ -176,65 +180,65 @@ export const Example = () => {
         }}
       />
 
-            <Formik
-                initialValues={{
-                    password: '',
-                    email: '',
-                    first_name: '',
-                    last_name: 'test',
-                    card: '',
-                    expiry_data: '',
-                    cvv: '',
-                    phone: ''
-                    // resizable: randomString(50, 1000)
-                }}
-                onSubmit={functionStub}
-                validationSchema={validationSchemaExample}
-            >
-                {({values, setFieldValue}) => (
-                    <Form>
-                        CHECKBOX STATE (default, multi, radio)
-                        <DivCommon fd="row" gap={SPACES.l} margin="0 0 2rem 0">
-                            <DivCommon height="100px" fd="row" ai="center" gap={SPACES.l}>
-                                <Inputs.CheckBox name="default" type="default" items="string"/>
-                                <CheckBox
-                                    name="defaultObj"
-                                    type="default"
-                                    items={{name: 'obj'}}
-                                    visibleItem="name"
-                                />
-                            </DivCommon>
-                            <DivCommon height="100px" fd="row" ai="center" gap={SPACES.l}>
-                                <DivCommon width="fit-content" gap={SPACES.l}>
-                                    <CheckBox name="multi" type="multi" items={['string_1', 'string_2', 'string3']}/>
-                                </DivCommon>
-                                <DivCommon gap={SPACES.l}>
-                                    <CheckBox
-                                        name="multiObj"
-                                        type="multi"
-                                        items={[{name: 'obj_1'}, {name: 'obj_2'}, {name: 'obj_3'}]}
-                                        visibleItem="name"
-                                    />
-                                </DivCommon>
-                            </DivCommon>
-                            <DivCommon height="100px" fd="row" ai="center" gap={SPACES.l}>
-                                <DivCommon width="fit-content" gap={SPACES.l}>
-                                    <CheckBox name="radio" type="radio" items={['string_1', 'string_2']}/>
-                                </DivCommon>
-                                <DivCommon gap={SPACES.l}>
-                                    <CheckBox
-                                        name="radioObj"
-                                        type="radio"
-                                        items={[{name: 'obj_1'}, {name: 'obj_2'}]}
-                                        visibleItem="name"
-                                    />
-                                </DivCommon>
-                            </DivCommon>
-                            <DivCommon height="100px" fd="row" ai="center" gap={SPACES.l}>
-                                <Inputs.Switch name="input-switch" label="Switch"/>
-                                <Switch name="switch" label="Switch"/>
-                            </DivCommon>
-                        </DivCommon>
+      <Formik
+        initialValues={{
+          password: '',
+          email: '',
+          first_name: '',
+          last_name: 'test',
+          card: '',
+          expiry_data: '',
+          cvv: '',
+          phone: ''
+          // resizable: randomString(50, 1000)
+        }}
+        onSubmit={functionStub}
+        validationSchema={validationSchemaExample}
+      >
+        {({ values, setFieldValue }) => (
+          <Form>
+            CHECKBOX STATE (default, multi, radio)
+            <DivCommon fd="row" gap={SPACES.l} margin="0 0 2rem 0">
+              <DivCommon height="100px" fd="row" ai="center" gap={SPACES.l}>
+                <Inputs.CheckBox name="default" type="default" items="string" />
+                <CheckBox
+                  name="defaultObj"
+                  type="default"
+                  items={{ name: 'obj' }}
+                  visibleItem="name"
+                />
+              </DivCommon>
+              <DivCommon height="100px" fd="row" ai="center" gap={SPACES.l}>
+                <DivCommon width="fit-content" gap={SPACES.l}>
+                  <CheckBox name="multi" type="multi" items={['string_1', 'string_2', 'string3']} />
+                </DivCommon>
+                <DivCommon gap={SPACES.l}>
+                  <CheckBox
+                    name="multiObj"
+                    type="multi"
+                    items={[{ name: 'obj_1' }, { name: 'obj_2' }, { name: 'obj_3' }]}
+                    visibleItem="name"
+                  />
+                </DivCommon>
+              </DivCommon>
+              <DivCommon height="100px" fd="row" ai="center" gap={SPACES.l}>
+                <DivCommon width="fit-content" gap={SPACES.l}>
+                  <CheckBox name="radio" type="radio" items={['string_1', 'string_2']} />
+                </DivCommon>
+                <DivCommon gap={SPACES.l}>
+                  <CheckBox
+                    name="radioObj"
+                    type="radio"
+                    items={[{ name: 'obj_1' }, { name: 'obj_2' }]}
+                    visibleItem="name"
+                  />
+                </DivCommon>
+              </DivCommon>
+              <DivCommon height="100px" fd="row" ai="center" gap={SPACES.l}>
+                <Inputs.Switch name="input-switch" label="Switch" />
+                <Switch name="switch" label="Switch" />
+              </DivCommon>
+            </DivCommon>
 
             INPUT CARD
             <DivCommon fd="row" gap={SPACES.l} margin="0 0 2rem 0">
@@ -377,49 +381,17 @@ export const Example = () => {
 
             Phone
             <DivCommon fd="row" gap={SPACES.l} ai="flex-end" margin="0 0 2rem 0">
-
-              <MatchedWords
-                width="400px"
-                name="phone"
-                label="phone (Type-sort - Input -new ) "
-                items={data?.countries ?? []}
-                visibleItem="phone"
-                parseValue={(value, valueObj) => {
-                  return (
-                    <DivCommon fd="row" ai="center" gap={SPACES.l}>
-                      {valueObj.icon && <Icon height="1rem" icon={valueObj.icon} type="img" />}
-                      {valueObj.name} {' '}
-                      {value}
-                    </DivCommon>
-                  );
-                }}
-                {...(getIn(values, 'phone')?.icon
-                  ? {
-                    startIcon: {
-                      icon: getIn(values, 'phone').icon,
-                      type: 'img'
-                    }
-                  }
-                  : null)}
-                filterOption={{
-                  mode: 'default',
-                  includes: 'startsWith',
-                  type: 'filter',
-                  isSavePreviousSelection: false
-                }}
-              />
-
               <DropDown
                 isClick
                 visibleBlock={({ focused, onSetIsFocused }) => {
                   return (
                     <Input
-                      name="new-phone"
+                      name="phone"
                       label="Phone"
-                      {...(getIn(values, 'new-phone')?.icon
+                      {...(getIn(values, 'phone')?.icon
                         ? {
                           startIcon: {
-                            icon: getIn(values, 'new-phone').icon,
+                            icon: getIn(values, 'phone').icon,
                             type: 'img'
                           }
                         }
@@ -430,9 +402,9 @@ export const Example = () => {
                         }
                       }}
                       noFormikValue={{
-                        value: getIn(values, 'new-phone')?.phone ?? '',
+                        value: getIn(values, 'phone')?.phone ?? '',
                         setFieldValue: (_, value) => {
-                          setFieldValue('new-phone', { icon: getIn(values, 'new-phone')?.icon ?? '', phone: value });
+                          setFieldValue('phone', { icon: getIn(values, 'phone')?.icon ?? '', phone: value });
                         }
                       }}
                     />
@@ -440,14 +412,14 @@ export const Example = () => {
                 }}
                 popupBlock={({ onSetIsFocused, ItemTag }) => {
                   return (data?.countries ?? []).filter((v) => {
-                    const cleanInputPhone = (getIn(values, 'new-phone')?.phone || '').replace(/[\s+()]/g, '');
+                    const cleanInputPhone = (getIn(values, 'phone')?.phone || '').replace(/[\s+()]/g, '');
                     const cleanCountryPhone = v.phone.replace(/[\s+()]/g, '');
                     const phonePrefix = cleanInputPhone.slice(0, cleanCountryPhone.length);
                     return cleanCountryPhone.startsWith(phonePrefix);
                   }).map((country: any, i: any) => (
                     <ItemTag key={i}
                              onClick={() => {
-                               setFieldValue('new-phone', { icon: country.icon, phone: country.phone });
+                               setFieldValue('phone', { icon: country.icon, phone: country.phone });
                                onSetIsFocused(false);
                              }}
                     >

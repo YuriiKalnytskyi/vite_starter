@@ -10,7 +10,6 @@ export const useThemeStore = create<ThemeState>()(
   devtools((set) => ({
     theme: 'light',
     setTheme: (value) => {
-      console.log(value, '====');
       set({ theme: value });
     }
   }))
