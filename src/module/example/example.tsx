@@ -176,65 +176,65 @@ export const Example = () => {
         }}
       />
 
-      <Formik
-        initialValues={{
-          password: '',
-          email: '',
-          first_name: '',
-          last_name: 'test',
-          card: '',
-          expiry_data: '',
-          cvv: '',
-          phone: ''
-          // resizable: randomString(50, 1000)
-        }}
-        onSubmit={functionStub}
-        validationSchema={validationSchemaExample}
-      >
-        {({ values, setFieldValue }) => (
-          <Form>
-            CHECKBOX STATE (default, multi, radio)
-            <DivCommon fd="row" gap={SPACES.l} margin="0 0 2rem 0">
-              <DivCommon height="100px" fd="row" ai="center" gap={SPACES.l}>
-                <Inputs.CheckBox name="default" type="default" items="string" />
-                <CheckBox
-                  name="defaultObj"
-                  type="default"
-                  items={{ name: 'obj' }}
-                  visibleItem="name"
-                />
-              </DivCommon>
-              <DivCommon height="100px" fd="row" ai="center" gap={SPACES.l}>
-                <DivCommon width="fit-content" gap={SPACES.l}>
-                  <CheckBox name="multi" type="multi" items={['string_1', 'string_2', 'string3']} />
-                </DivCommon>
-                <DivCommon gap={SPACES.l}>
-                  <CheckBox
-                    name="multiObj"
-                    type="multi"
-                    items={[{ name: 'obj_1' }, { name: 'obj_2' }, { name: 'obj_3' }]}
-                    visibleItem="name"
-                  />
-                </DivCommon>
-              </DivCommon>
-              <DivCommon height="100px" fd="row" ai="center" gap={SPACES.l}>
-                <DivCommon width="fit-content" gap={SPACES.l}>
-                  <CheckBox name="radio" type="radio" items={['string_1', 'string_2']} />
-                </DivCommon>
-                <DivCommon gap={SPACES.l}>
-                  <CheckBox
-                    name="radioObj"
-                    type="radio"
-                    items={[{ name: 'obj_1' }, { name: 'obj_2' }]}
-                    visibleItem="name"
-                  />
-                </DivCommon>
-              </DivCommon>
-              <DivCommon height="100px" fd="row" ai="center" gap={SPACES.l}>
-                <Inputs.Switch name="switch" label="Switch" />
-                <Switch name="switch" label="Switch" />
-              </DivCommon>
-            </DivCommon>
+            <Formik
+                initialValues={{
+                    password: '',
+                    email: '',
+                    first_name: '',
+                    last_name: 'test',
+                    card: '',
+                    expiry_data: '',
+                    cvv: '',
+                    phone: ''
+                    // resizable: randomString(50, 1000)
+                }}
+                onSubmit={functionStub}
+                validationSchema={validationSchemaExample}
+            >
+                {({values, setFieldValue}) => (
+                    <Form>
+                        CHECKBOX STATE (default, multi, radio)
+                        <DivCommon fd="row" gap={SPACES.l} margin="0 0 2rem 0">
+                            <DivCommon height="100px" fd="row" ai="center" gap={SPACES.l}>
+                                <Inputs.CheckBox name="default" type="default" items="string"/>
+                                <CheckBox
+                                    name="defaultObj"
+                                    type="default"
+                                    items={{name: 'obj'}}
+                                    visibleItem="name"
+                                />
+                            </DivCommon>
+                            <DivCommon height="100px" fd="row" ai="center" gap={SPACES.l}>
+                                <DivCommon width="fit-content" gap={SPACES.l}>
+                                    <CheckBox name="multi" type="multi" items={['string_1', 'string_2', 'string3']}/>
+                                </DivCommon>
+                                <DivCommon gap={SPACES.l}>
+                                    <CheckBox
+                                        name="multiObj"
+                                        type="multi"
+                                        items={[{name: 'obj_1'}, {name: 'obj_2'}, {name: 'obj_3'}]}
+                                        visibleItem="name"
+                                    />
+                                </DivCommon>
+                            </DivCommon>
+                            <DivCommon height="100px" fd="row" ai="center" gap={SPACES.l}>
+                                <DivCommon width="fit-content" gap={SPACES.l}>
+                                    <CheckBox name="radio" type="radio" items={['string_1', 'string_2']}/>
+                                </DivCommon>
+                                <DivCommon gap={SPACES.l}>
+                                    <CheckBox
+                                        name="radioObj"
+                                        type="radio"
+                                        items={[{name: 'obj_1'}, {name: 'obj_2'}]}
+                                        visibleItem="name"
+                                    />
+                                </DivCommon>
+                            </DivCommon>
+                            <DivCommon height="100px" fd="row" ai="center" gap={SPACES.l}>
+                                <Inputs.Switch name="input-switch" label="Switch"/>
+                                <Switch name="switch" label="Switch"/>
+                            </DivCommon>
+                        </DivCommon>
 
             INPUT CARD
             <DivCommon fd="row" gap={SPACES.l} margin="0 0 2rem 0">
@@ -298,7 +298,7 @@ export const Example = () => {
             <Styled.Sctol fd="row" gap={SPACES.l} ai="flex-end" margin="0 0 2rem 0">
               <Inputs.MatchedWords
                 width="400px"
-                name="test"
+                name="matched-words"
                 label="Default"
                 items={['test', 'test2', 'test3', 'test4']}
               />
@@ -471,7 +471,7 @@ export const Example = () => {
               <Calendar
                 width="400px"
                 label="Calendar (Date) "
-                name="calendar_single"
+                name="calendar_single1"
                 mode="single"
                 visibleOfMonths={1}
                 readOnly
@@ -492,7 +492,7 @@ export const Example = () => {
             TEXTAREA
             <DivCommon gap={SPACES.l} ai="flex-end" margin="0 0 2rem 0">
               <Inputs.TextArea
-                name="first_name"
+                name="text_area"
                 rows={3}
                 label="TextArea"
                 resizable={false}

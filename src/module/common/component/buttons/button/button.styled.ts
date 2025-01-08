@@ -99,7 +99,9 @@ const buttonAppearances: Record<Required<IButtonProps>['variant'], RuleSet<objec
   `
 };
 
-export const StyledButton = styled.button<IButtonProps>`
+export const StyledButton = styled.button.withConfig({
+    shouldForwardProp: (prop) => !['variant'].includes(prop),
+})<IButtonProps>`
     //all: unset;
 
     & > #loader {

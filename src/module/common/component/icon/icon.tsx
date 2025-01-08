@@ -7,7 +7,9 @@ interface IImgIcon extends IMargin {
   height?: string;
 }
 
-const ImgIcon = styled.img<IImgIcon>`
+const ImgIcon = styled.img.withConfig({
+  shouldForwardProp: (prop) => !['mr', 'ml', 'mt', 'mb'].includes(prop),
+})<IImgIcon>`
   height: ${({ height }) => height ?? '1.5rem'} !important;
   aspect-ratio: 1/1;
 
