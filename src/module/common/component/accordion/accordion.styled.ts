@@ -2,58 +2,68 @@ import styled from 'styled-components';
 
 import { SPACES } from '@/theme';
 
-import { Fonts } from '../../styles';
+import { Fonts, Margin } from '../../styles';
+import { IMargin } from '@/module/common/types';
 
-export const Details = styled.details<{ styled: any; readOnly?: boolean }>`
-  width: 100%;
-  cursor: pointer;
+export interface IWProps extends IMargin {
+  width?: string;
+}
 
-  & > summary::-webkit-details-marker {
-    display: none;
-  }
+export const Details = styled.details<IWProps>`
+    position: relative;
+    width: ${({ width }) => width ?? '100%'};
+    
+    & > * {
+        ${Fonts};
+    }
+    
+    .rotate {
+        transform: rotate(180deg) !important;
+    }
 
-  ${({ styled }) => styled};
-  & > .summary > div > .icons {
-    right: ${({ readOnly }) => (readOnly ? '1.5rem' : '0.25rem')};
-  }
+    & > summary::-webkit-details-marker {
+        display: none;
+    }
+
+    ${Margin};
 `;
 
 export const Summary = styled.summary`
-  list-style: none;
-  display: flex;
-  justify-content: space-between;
+    list-style: none;
+    display: flex;
+    justify-content: space-between;
 
-  overflow: auto;
-  ${Fonts};
+    overflow: auto;
+    ${Fonts};
 
-  & > img {
-    transition: all 0.35s ease-out;
-  }
+    & > img {
+        transition: all 0.35s ease-out;
+    }
 
-  cursor: pointer;
+    cursor: pointer;
 `;
 
 export const Span = styled.span`
-  ${Fonts};
-  cursor: pointer;
+    ${Fonts};
+    cursor: pointer;
 `;
 
 export const IconContainer = styled.div<{ iconHeight?: string }>`
-  display: flex;
-  align-items: center;
+    display: flex;
+    align-items: center;
 
-  gap: ${SPACES.s};
-  cursor: pointer;
+    gap: ${SPACES.s};
+    cursor: pointer;
 
-  img {
-    display: block;
-    height: ${({ iconHeight }) => iconHeight ?? '1rem'};
-    min-width: 1rem;
-  }
+    img {
+        display: block;
+        height: ${({ iconHeight }) => iconHeight ?? '1rem'};
+        min-width: 1rem;
+    }
 `;
 
 export const Icon = styled.img`
-  &.active {
-    transform: rotate(-180deg);
-  }
+    &.active {
+        transform: rotate(-180deg);
+    }
 `;

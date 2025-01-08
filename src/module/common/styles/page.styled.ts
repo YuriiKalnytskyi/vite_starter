@@ -33,23 +33,23 @@ export const DivCommon = styled.div.withConfig({
 export const IconCommon = styled.div.withConfig({
     shouldForwardProp: (prop) => !['mt', 'mb', 'ml', 'mr'].includes(prop),
 })<IIcon>`
-  height: ${({ height }) => height ?? '1.25rem'};
+    height: ${({ height }) => height ?? '1.25rem'};
 
-  ${({ width }) =>
-    width
-      ? css`
-          width: ${width ?? '1.25rem'};
-        `
-      : css`
-          aspect-ratio: 1/1;
-        `}
+    ${({ width }) =>
+            width
+                    ? css`
+                        width: ${width ?? '1.25rem'};
+                    `
+                    : css`
+                        aspect-ratio: 1/1;
+                    `}
 
-  background: ${({ background, theme }) => background ?? theme.COLORS.black};
+    background: ${({ background, theme }) => background ?? theme.COLORS.black};
 
-  -webkit-mask-image: url(${({ icon }) => icon});
-  -webkit-mask-size: 100% 100%;
-  mask-image: url(${({ icon }) => icon});
-  cursor: ${({ cursor }) => cursor ?? 'text'};
+    -webkit-mask-image: url(${({ icon }) => icon});
+    -webkit-mask-size: 100% 100%;
+    mask-image: url(${({ icon }) => icon});
+    cursor: ${({ cursor }) => cursor ?? 'text'};
 
-  ${Margin};
+    ${Margin};
 `;

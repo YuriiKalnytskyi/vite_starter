@@ -48,9 +48,7 @@ export const DropDown = ({
   };
 
   const { ref } = useClickOutside(() => {
-    if (focused) {
       onSetIsFocused(false);
-    }
   });
 
   const { setting, Component, isParentScroll } = usePortalPositioning(ref.current, focused);
@@ -62,7 +60,6 @@ export const DropDown = ({
       onMouseEnter={isHover ? onSetIsFocused.bind(this, true) : functionStub}
       onMouseLeave={isHover ? onSetIsFocused.bind(this, false) : functionStub}
       onClick={isClick ? onSetIsFocused.bind(this, !focused) : functionStub}
-      id="DropDown"
       width={width}
       {...props}
     >

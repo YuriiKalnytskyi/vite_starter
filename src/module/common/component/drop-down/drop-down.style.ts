@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { FONTS, INDEX, SPACES } from '@/theme';
-import { Fonts } from '@/module/common/styles';
+import { Fonts, Margin } from '@/module/common/styles';
 import { IMargin } from '@/module/common/types';
 
 export interface IWProps extends IMargin {
@@ -12,6 +12,8 @@ export const Wrapper = styled.div<IWProps>`
     position: relative;
     width: ${({ width }) => width ?? '100%'};
     opacity: ${({ readOnly }) => (readOnly ? '0.4' : '1')};
+    
+    ${Margin};
 `;
 
 export const ItemContainer = styled.ul<{

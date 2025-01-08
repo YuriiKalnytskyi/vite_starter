@@ -30,6 +30,7 @@ import { DrawerLayout, PopupLayout } from '@/module/common/layout';
 import { useThemeStore } from '@/store';
 import { DropDown } from '@/module/common/component/drop-down/drop-down.tsx';
 import { useTheme } from 'styled-components';
+import { Accordion } from '@/module/common/component/accordion/accordion.tsx';
 
 const randomString = (minLength: number, maxLength: number): string => {
   const length = Math.floor(Math.random() * (maxLength - minLength + 1)) + minLength;
@@ -602,7 +603,24 @@ export const Example = () => {
             }}
           />
         ))}
+
       </DivCommon>
+
+      <Accordion
+        visibleBlock="visibleBlock"
+        name='test1'
+        isAutoManyClose
+      >
+        d,cdlcldcdmckdcmkdcmkcdmkcdkcdk
+      </Accordion>
+
+      <Accordion
+        name='test2'
+        isAutoManyClose
+        visibleBlock="dmcdcmkm"
+      >
+        d,cdlcldcdmckdcmkdcmkcdmkcdkcdk
+      </Accordion>
 
 
     </Styled.Container>
