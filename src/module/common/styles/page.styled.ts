@@ -9,7 +9,9 @@ export const Center = css`
   align-items: center;
 `;
 
-export const DivCommon = styled.div<IDivCommon>`
+export const DivCommon = styled.div.withConfig({
+    shouldForwardProp: (prop) => !['fd', 'jc', 'ai'].includes(prop),
+})<IDivCommon>`
   width: ${({ width }) => width ?? '100%'};
   max-width: ${({ maxWidth }) => maxWidth ?? '100%'};
   height: ${({ height }) => height ?? 'fit-content'};
@@ -28,7 +30,9 @@ export const DivCommon = styled.div<IDivCommon>`
   ${({ anyStyled }) => anyStyled}
 `;
 
-export const IconCommon = styled.div<IIcon>`
+export const IconCommon = styled.div.withConfig({
+    shouldForwardProp: (prop) => !['mt', 'mb', 'ml', 'mr'].includes(prop),
+})<IIcon>`
   height: ${({ height }) => height ?? '1.25rem'};
 
   ${({ width }) =>

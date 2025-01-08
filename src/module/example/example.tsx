@@ -231,7 +231,7 @@ export const Example = () => {
                                 </DivCommon>
                             </DivCommon>
                             <DivCommon height="100px" fd="row" ai="center" gap={SPACES.l}>
-                                <Inputs.Switch name="switch" label="Switch"/>
+                                <Inputs.Switch name="input-switch" label="Switch"/>
                                 <Switch name="switch" label="Switch"/>
                             </DivCommon>
                         </DivCommon>
@@ -298,7 +298,7 @@ export const Example = () => {
             <Styled.Sctol fd="row" gap={SPACES.l} ai="flex-end" margin="0 0 2rem 0">
               <Inputs.MatchedWords
                 width="400px"
-                name="test"
+                name="matched-words"
                 label="Default"
                 items={['test', 'test2', 'test3', 'test4']}
               />
@@ -470,7 +470,7 @@ export const Example = () => {
               <Calendar
                 width="400px"
                 label="Calendar (Date) "
-                name="calendar_single"
+                name="calendar_single1"
                 mode="single"
                 visibleOfMonths={1}
                 readOnly
@@ -491,7 +491,7 @@ export const Example = () => {
             TEXTAREA
             <DivCommon gap={SPACES.l} ai="flex-end" margin="0 0 2rem 0">
               <Inputs.TextArea
-                name="first_name"
+                name="text_area"
                 rows={3}
                 label="TextArea"
                 resizable={false}
