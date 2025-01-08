@@ -31,6 +31,7 @@ import { useThemeStore } from '@/store';
 import { DropDown } from '@/module/common/component/drop-down/drop-down.tsx';
 import { useTheme } from 'styled-components';
 import { Accordion } from '@/module/common/component/accordion/accordion.tsx';
+import { CustomKanban } from '@/module/common/component/drag-and-drop/drag-and-drop.tsx';
 
 const randomString = (minLength: number, maxLength: number): string => {
   const length = Math.floor(Math.random() * (maxLength - minLength + 1)) + minLength;
@@ -621,6 +622,8 @@ export const Example = () => {
       >
         d,cdlcldcdmckdcmkdcmkcdmkcdkcdk
       </Accordion>
+
+      <CustomKanban/>
 
 
     </Styled.Container>
