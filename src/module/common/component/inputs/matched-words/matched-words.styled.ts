@@ -23,19 +23,13 @@ ${({ $focused }) =>
                     #SuggestedBlock {
                         display: flex;
                     }
-
-                    .endIcon {
-                        transform: translate(0%, -50%) rotate(180deg);
-                    }
+            
                 `
                 : css`
                     #SuggestedBlock {
                         display: none;
                     }
 
-                    .endIcon {
-                        transform: translate(0%, -50%) rotate(360deg);
-                    }
                 `}
 ${({ $newItemFlag }) =>
         $newItemFlag

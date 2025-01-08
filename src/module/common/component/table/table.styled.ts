@@ -219,8 +219,10 @@ export const Tooltip = styled.div`
     }
 
     &::-webkit-scrollbar-track {
-        //background-color: ${ ({theme})=>  theme.COLORS.rgba(theme.COLORS.primary, 0.2)};
-        background-color: transparent;
+        border-radius: 0.25rem;
+        background-color: ${ ({theme})=>  theme.COLORS.rgba(theme.COLORS.primary, 0.2)};
+        //background-color: transparent;
+        margin-block: .2rem;
 
     }
 
