@@ -1,91 +1,42 @@
 export const config = {
   right: {
-    from: {
-      opacity: 0,
-      transform: 'translateX(100%)'
+    variants: {
+      hidden: { x: '100%', opacity: 0 },
+      visible: { x: '0%', opacity: 1 },
+      exit: { x: '100%', opacity: 0 }
     },
-    enter: {
-      opacity: 1,
-      transform: 'translateX(0%)'
-    },
-    leave: {
-      opacity: 0,
-      transform: 'translateX(100%)'
-    },
-    config: {
-      duration: 300
-    }
+    duration: 0.6
   },
   left: {
-    from: {
-      opacity: 0,
-      transform: 'translateX(-100%)'
+    variants: {
+      hidden: { x: '-100%', opacity: 0 },
+      visible: { x: '0%', opacity: 1 },
+      exit: { x: '-100%', opacity: 0 }
     },
-    enter: {
-      opacity: 1,
-      transform: 'translateX(0%)'
-    },
-    leave: {
-      opacity: 0,
-      transform: 'translateX(-100%)'
-    },
-    config: {
-      duration: 300
-    }
+    duration: 0.6
   },
-
   bottom: {
-    from: {
-      opacity: 1,
-      transform: 'translateY(+100%)'
+    variants: {
+      hidden: { y: '100%', opacity: 0 },
+      visible: { y: '0%', opacity: 1 },
+      exit: { y: '100%', opacity: 0 }
     },
-    enter: {
-      opacity: 1,
-      transform: 'translateY(0%)'
-    },
-    leave: {
-      opacity: 1,
-      transform: 'translateY(+100%)'
-    },
-    config: {
-      duration: 300,
-    }
+    duration: 0.6
   },
   top: {
-    from: {
-      opacity: 1,
-      transform: 'translateY(-100%)'
+    variants: {
+      hidden: { y: '-100%', opacity: 0 },
+      visible: { y: '0%', opacity: 1 },
+      exit: { y: '-100%', opacity: 0 }
     },
-    enter: {
-      opacity: 1,
-      transform: 'translateY(0%)'
-    },
-    leave: {
-      opacity: 1,
-      transform: 'translateY(-100%)'
-    },
-    config: {
-      duration: 300
-    }
+    duration: 0.6
   },
   center: {
-    from: {
-      opacity: 0,
-      transform: 'scale(0.5)',
-      borderRadius: '50%'
+    variants: {
+      hidden: { scale: 0.5, opacity: 0, borderRadius: '50%' },
+      visible: { scale: 1, opacity: 1, borderRadius: '0%' },
+      exit: { scale: 0.5, opacity: 0, borderRadius: '50%' }
     },
-    enter: {
-      opacity: 1,
-      transform: 'scale(1)',
-      borderRadius: '0'
-    },
-    leave: {
-      opacity: 0,
-      transform: 'scale(0.5)',
-      borderRadius: '50%'
-    },
-    config: {
-      duration: 300
-    }
+    duration: 0.6
   }
 };
