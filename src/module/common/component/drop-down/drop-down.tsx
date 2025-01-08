@@ -29,10 +29,6 @@ interface IDropDownProps {
   isHover?: boolean;
   isClick?: boolean;
   width?: string;
-  tegSetting?: {
-    itemContainer: 'div' | 'ul'
-    item: 'div' | 'li'
-  };
 }
 
 export const DropDown = ({
@@ -41,8 +37,7 @@ export const DropDown = ({
                            position,
                            isHover,
                            isClick,
-                           width,
-                           tegSetting
+                           width
                          }: IDropDownProps) => {
   const [focused, setFocused] = useState(false);
 
@@ -58,8 +53,6 @@ export const DropDown = ({
 
   const { setting, Component, isParentScroll } = usePortalPositioning(ref.current, focused);
 
-  const ItemContainer = Styled.ItemContainer(tegSetting?.itemContainer ?? 'ul');
-  const Item = Styled.Item(tegSetting?.item ?? 'li');
 
   return (
     <Styled.Wrapper
@@ -73,7 +66,7 @@ export const DropDown = ({
 
       {focused && (
         <Component>
-          <ItemContainer
+          <Styled.ItemContainer
             id="DropDownChildren"
             width={width}
             position={position}
@@ -82,9 +75,9 @@ export const DropDown = ({
             {typeof popupBlock === 'function' ? popupBlock({
               focused: focused,
               onSetIsFocused,
-              ItemTag: Item
+              ItemTag: Styled.Item
             }) : popupBlock}
-          </ItemContainer>
+          </Styled.ItemContainer>
 
 
         </Component>

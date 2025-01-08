@@ -8,7 +8,7 @@ export const Wrapper = styled.div`
     cursor: pointer;
 `;
 
-export const ItemContainer = (teg: 'div' | 'ul') => styled(teg)<{
+export const ItemContainer = styled.ul<{
   position?: 'left' | 'right';
   width?: string;
 }>`
@@ -31,7 +31,7 @@ export const ItemContainer = (teg: 'div' | 'ul') => styled(teg)<{
 `;
 
 
-export const Item = (tag: 'div' | 'li') => styled(tag)<{
+export const Item = styled.ul<{
   $selected: boolean;
   $isChip: boolean;
 }>`
