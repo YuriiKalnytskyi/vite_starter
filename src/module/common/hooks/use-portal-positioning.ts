@@ -47,7 +47,7 @@ export const usePortalPositioning = <T extends HTMLElement>(
     const handleScrollLock = () => {
       const rootElement = document.getElementById('root');
       if (rootElement) {
-        if (focused && parentHasScroll) {
+        if (focused && (parentHasScroll || parentScroll)) {
           rootElement.style.overflowY = 'hidden';
           rootElement.addEventListener('wheel', preventScroll, { passive: false });
         }

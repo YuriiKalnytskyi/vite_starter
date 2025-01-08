@@ -81,12 +81,14 @@ export const Example = () => {
     createdAt: '2025-01-03T12:34:56.789Z'
   }));
 
-  const { data } : UseQueryResult<{countries: {
+  const { data }: UseQueryResult<{
+    countries: {
       name: string;
       icon: string;
       cca2: string;
       phone: string;
-    }[]}> = useQuery(
+    }[]
+  }> = useQuery(
     ['country'],
     async () => {
       const response = await axios.get('https://restcountries.com/v3.1/all?fields=name,flags,cca2,idd');
@@ -592,15 +594,11 @@ export const Example = () => {
                 </div>
               );
             }}
-            popupBlock={({ onSetIsFocused }) => {
-              return (
-                <DivCommon>
-                  {[1, 2, 3, 4, 5].map((itemPopup, i) => (
-                    <div key={i} style={{ paddingLeft: '0.5rem' }}
-                         onClick={onSetIsFocused.bind(this, false)}> item {itemPopup}</div>
-                  ))}
-                </DivCommon>
-              );
+            popupBlock={({ onSetIsFocused, ItemTag }) => {
+              return [1, 2, 3, 4, 5].map((itemPopup, i) => (
+                <ItemTag key={i}
+                         onClick={onSetIsFocused.bind(this, false)}> item {itemPopup}</ItemTag>
+              ));
             }}
           />
         ))}

@@ -4,8 +4,9 @@ import { useClickOutside, usePortalPositioning } from '@/module/common/hooks';
 import { functionStub } from '@/utils';
 
 import * as Styled from './drop-down.style.ts';
+import { IMargin } from '@/module/common/types';
 
-interface IDropDownProps {
+interface IDropDownProps extends IMargin{
   visibleBlock:
     | ReactNode
     | (({
@@ -37,7 +38,8 @@ export const DropDown = ({
                            position,
                            isHover,
                            isClick,
-                           width
+                           width,
+  ...props
                          }: IDropDownProps) => {
   const [focused, setFocused] = useState(false);
 
@@ -61,6 +63,8 @@ export const DropDown = ({
       onMouseLeave={isHover ? onSetIsFocused.bind(this, false) : functionStub}
       onClick={isClick ? onSetIsFocused.bind(this, !focused) : functionStub}
       id="DropDown"
+      width={width}
+      {...props}
     >
       {typeof visibleBlock === 'function' ? visibleBlock({ focused: focused, onSetIsFocused }) : visibleBlock}
 

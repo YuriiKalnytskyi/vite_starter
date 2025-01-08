@@ -1,11 +1,17 @@
 import styled from 'styled-components';
 import { FONTS, INDEX, SPACES } from '@/theme';
 import { Fonts } from '@/module/common/styles';
+import { IMargin } from '@/module/common/types';
 
-export const Wrapper = styled.div`
-    width: fit-content;
+export interface IWProps extends IMargin {
+  readOnly?: boolean;
+  width?: string;
+}
+
+export const Wrapper = styled.div<IWProps>`
     position: relative;
-    cursor: pointer;
+    width: ${({ width }) => width ?? '100%'};
+    opacity: ${({ readOnly }) => (readOnly ? '0.4' : '1')};
 `;
 
 export const ItemContainer = styled.ul<{
