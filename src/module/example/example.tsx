@@ -156,7 +156,6 @@ export const Example = () => {
       rows: generateRandomRows(9, [1, 3], false)
     }
   );
-  console.log(dragAndDropColumn, '=====');
 
   return (
     <Styled.Container
