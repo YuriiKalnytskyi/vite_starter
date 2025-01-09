@@ -31,7 +31,7 @@ import { useThemeStore } from '@/store';
 import { DropDown } from '@/module/common/component/drop-down/drop-down.tsx';
 import { useTheme } from 'styled-components';
 import { Accordion } from '@/module/common/component/accordion/accordion.tsx';
-import { CustomKanban } from '@/module/common/component/drag-and-drop/drag-and-drop.tsx';
+import { DragAndDrop } from '@/module/common/component/drag-and-drop/drag-and-drop.tsx';
 
 const randomString = (minLength: number, maxLength: number): string => {
   const length = Math.floor(Math.random() * (maxLength - minLength + 1)) + minLength;
@@ -129,6 +129,33 @@ export const Example = () => {
 
   const { theme: themeStore, setTheme } = useThemeStore();
   const theme = useTheme();
+
+
+  const generateRandomRows = (count: number, columnRange: [number, number], isColumnId: boolean) => {
+    const [minColumn, maxColumn] = columnRange;
+    return Array.from({ length: count }, (_, index) => ({
+      title: `title ${index + 1}`,
+      id: index + 1,
+      ...(isColumnId ? { column_id: Math.floor(Math.random() * (maxColumn - minColumn + 1)) + minColumn } : {})
+    }));
+  };
+
+  const [dragAndDropColumn, setDragAndDropColumn] = useState(
+    {
+      columns: [
+        { title: 'columns1', id: 1 },
+        { title: 'columns2', id: 2 },
+        { title: 'columns3', id: 3 }
+      ],
+      rows: generateRandomRows(9, [1, 3], true)
+    }
+  );
+
+  const [dragAndDropRows, setDragAndDropRows] = useState(
+    {
+      rows: generateRandomRows(9, [1, 3], false)
+    }
+  );
 
   return (
     <Styled.Container
@@ -386,7 +413,7 @@ export const Example = () => {
             </Styled.Sctol>
 
             DROPDOWN
-            <DivCommon fd="row" ai='center' gap="2rem"  margin="0 0 2rem 0">
+            <DivCommon fd="row" ai="center" gap="2rem" margin="0 0 2rem 0">
               <DropDown
                 isClick
                 visibleBlock={({ focused, onSetIsFocused }) => {
@@ -624,8 +651,29 @@ export const Example = () => {
         d,cdlcldcdmckdcmkdcmkcdmkcdkcdk
       </Accordion>
 
-      <CustomKanban />
+      <DragAndDrop
+        type="columns"
+        props={{
+          ...dragAndDropColumn,
+          columnBinding: 'id',
+          rowBinding: 'id',
+          rowToColumnBinding: 'column_id',
+          title: 'title',
+          setState: setDragAndDropColumn
+        }}
+      />
+      <DragAndDrop
+        type="rows"
+        props={{
+          ...dragAndDropRows,
+          rowBinding: 'id',
+          title: 'title',
+          setState: setDragAndDropRows
+        }}
+      />
 
+
+      {/*<CustomKanban />*/}
 
       <DivCommon fd="row" gap="2rem" ai="baseline">
         <TitleCommon as="h1" size="l">H1 size l</TitleCommon>

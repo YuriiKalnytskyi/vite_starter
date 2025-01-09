@@ -7,3 +7,4 @@ export * from './drawer/index';
 export * from './pagination/pagination.tsx';
 export * from './icon/icon.tsx';
 export * from './table/table.tsx'
+export * from './drag-and-drop/drag-and-drop.tsx'

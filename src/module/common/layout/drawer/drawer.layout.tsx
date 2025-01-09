@@ -34,7 +34,7 @@ export const DrawerLayout = ({
       contentPosition={contentPosition}
       slidePosition={slidePosition}>
       <Styled.Container>
-        {isLoading ? <Loading className="full-screen" /> : null}
+        {isLoading ? <Loading  /> : null}
         <DivCommon fd="row" ai="center">
           {typeof title === 'string' ? (
             <TitleCommon fw={FONTS.WEIGHTS.semi_bold}>{title}</TitleCommon>

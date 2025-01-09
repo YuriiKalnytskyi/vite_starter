@@ -16,6 +16,12 @@ export const Wrapper = styled(motion.div)<IWProps>`
     opacity: ${({ readOnly }) => (readOnly ? '0.4' : '1')};
     
     ${Margin};
+    
+    user-select: none;
+    
+    & > * {
+        user-select: none;
+    }
 
     ${({ $focused }) =>
             $focused
