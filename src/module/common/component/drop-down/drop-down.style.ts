@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import { FONTS, INDEX, SPACES } from '@/theme';
 import { Fonts, Margin } from '@/module/common/styles';
 import { IMargin } from '@/module/common/types';
+import { motion } from "framer-motion";
 
 export interface IWProps extends IMargin {
   readOnly?: boolean;
@@ -16,7 +17,9 @@ export const Wrapper = styled.div<IWProps>`
     ${Margin};
 `;
 
-export const ItemContainer = styled.ul<{
+export const ItemContainer = styled(motion.ul).withConfig({
+    shouldForwardProp: (prop) => !['position'].includes(prop),
+})<{
   position?: 'left' | 'right';
   width?: string;
 }>`
@@ -38,7 +41,7 @@ export const ItemContainer = styled.ul<{
 `;
 
 
-export const Item = styled.li<{
+export const Item = styled(motion.li)<{
   $selected: boolean;
 }>`
     padding: ${SPACES.xs} ${SPACES.m};

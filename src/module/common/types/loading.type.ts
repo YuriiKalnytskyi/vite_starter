@@ -1,6 +1,4 @@
-import { HTMLAttributes } from 'react';
-
-export interface ILoadingProps extends HTMLAttributes<HTMLDivElement> {
+export interface ILoadingProps {
   withAnimation?: boolean;
 }
 

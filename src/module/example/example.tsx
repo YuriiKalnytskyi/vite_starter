@@ -52,6 +52,8 @@ const randomString = (minLength: number, maxLength: number): string => {
 
 //Input
 //TODO add arrows for number type
+//TODO CAPSLOCK check
+
 
 //Loader
 //TODO optimization loader ...

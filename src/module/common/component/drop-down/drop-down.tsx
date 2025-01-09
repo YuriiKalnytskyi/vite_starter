@@ -53,7 +53,22 @@ export const DropDown = ({
 
   const { setting, Component, isParentScroll } = usePortalPositioning(ref.current, focused);
 
-
+    const wrapperVariants = {
+        open: {
+            scaleY: 1,
+            transition: {
+                when: "beforeChildren",
+                staggerChildren: 0.1,
+            },
+        },
+        closed: {
+            scaleY: 0,
+            transition: {
+                when: "afterChildren",
+                staggerChildren: 0.1,
+            },
+        },
+    };
   return (
     <Styled.Wrapper
       ref={ref as RefObject<HTMLDivElement>}
@@ -66,11 +81,13 @@ export const DropDown = ({
       {typeof visibleBlock === 'function' ? visibleBlock({ focused: focused, onSetIsFocused }) : visibleBlock}
 
       {focused && (
-        <Component>
+        // <Component>
           <Styled.ItemContainer
             id="DropDownChildren"
             width={width}
             position={position}
+            initial={wrapperVariants.closed}
+            variants={wrapperVariants}
             style={{ width: isParentScroll ? setting.width : (ref?.current?.clientWidth ?? width ?? '18.75rem') }}
           >
             {typeof popupBlock === 'function' ? popupBlock({
@@ -81,7 +98,7 @@ export const DropDown = ({
           </Styled.ItemContainer>
 
 
-        </Component>
+        // </Component>
       )}
     </Styled.Wrapper>
   );
