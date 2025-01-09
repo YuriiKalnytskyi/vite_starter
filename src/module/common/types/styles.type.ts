@@ -7,8 +7,8 @@ export interface IDivCommon {
   padding?: string;
   gap?: string;
   fd?: 'row' | 'row-reverse' | 'column-reverse' | 'column';
-  jc?: 'flex-start' | 'flex-end' | 'center' | 'space-between' | 'space-around' | 'space-evenly';
-  ai?: 'flex-start' | 'flex-end' | 'center' | 'space-between' | 'space-around' | 'space-evenly';
+  jc?: 'flex-start' | 'flex-end' | 'center' | 'space-between' | 'space-around' | 'space-evenly' | 'baseline';
+  ai?: 'flex-start' | 'flex-end' | 'center' | 'space-between' | 'space-around' | 'space-evenly' | 'baseline';
 
   background?: string;
 

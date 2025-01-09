@@ -21,13 +21,37 @@ export const Fonts = css<IFonts>`
     `}
 `;
 
-export const TitleCommon = styled.p.withConfig({
-  shouldForwardProp: (prop) => !['ml', 'mr', 'mb', 'mt'].includes(prop),
-})<IFonts & IMargin>`
-  ${Fonts};
-  font-family: ${FONTS.FAMILIES.roboto};
 
-  font-size: ${FONTS.SIZES.xxxxl};
-  line-height: 1.5;
+const textSizes = {
+  s: css`
+    font-size: 2rem;
+    font-weight: ${FONTS.WEIGHTS.medium};
+    line-height: 1.2;
+  `,
+  m: css`
+    font-size: 3rem;
+    font-weight: ${FONTS.WEIGHTS.semi_bold};
+    line-height: 1.2;
+  `,
+  l: css`
+    font-size: 4rem;
+    font-weight: ${FONTS.WEIGHTS.bold};
+    line-height: 1.2;
+  `,
+};
+
+type TSizes = 's' | 'm' | 'l';
+type THeading = 'h1' | 'h2' | 'h3' | 'h4' | 'h5';
+
+export const TitleCommon = styled.p.withConfig({
+  shouldForwardProp: (prop) => !['ml', 'mr', 'mb', 'mt', 'size'].includes(prop),
+})<IFonts & IMargin & {
+  size?: TSizes;
+  as?: THeading ;
+}>`
+  ${Fonts};
   ${Margin};
+
+
+  ${({ size }) => size && textSizes[size]};
 `;
