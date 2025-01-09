@@ -81,7 +81,7 @@ export const DropDown = ({
       {typeof visibleBlock === 'function' ? visibleBlock({ focused: focused, onSetIsFocused }) : visibleBlock}
 
       {focused && (
-        // <Component>
+        <Component>
           <Styled.ItemContainer
             id="DropDownChildren"
             width={width}
@@ -98,7 +98,7 @@ export const DropDown = ({
           </Styled.ItemContainer>
 
 
-        // </Component>
+        </Component>
       )}
     </Styled.Wrapper>
   );
