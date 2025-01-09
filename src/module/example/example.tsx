@@ -128,7 +128,7 @@ export const Example = () => {
     };
 
   const { theme: themeStore, setTheme } = useThemeStore();
-    // const theme = useTheme();
+    const theme = useTheme();
 
     return (
         <Styled.Container
