@@ -49,13 +49,9 @@ export const DropDown = ({
   };
 
   const { ref } = useClickOutside(() => {
-    if (focused) {
-      console.log('dcjdncjdncjdcnjdcndcj');
-      onSetIsFocused(false);
-    }
+    onSetIsFocused(false);
   });
 
-  console.log(focused , '=======');
 
   const { setting, Component, isParentScroll } = usePortalPositioning(ref.current, focused);
 
