@@ -128,7 +128,6 @@ export const Example = () => {
   };
 
   const { theme: themeStore, setTheme } = useThemeStore();
-  const theme = useTheme();
 
   return (
     <Styled.Container
@@ -385,8 +384,8 @@ export const Example = () => {
               />
             </Styled.Sctol>
 
-            Phone
-            <DivCommon fd="row" gap={SPACES.l} ai="flex-end" margin="0 0 2rem 0">
+            DROPDOWN
+            <DivCommon fd="row" gap="2rem" ai='flex-end'>
               <DropDown
                 isClick
                 visibleBlock={({ focused, onSetIsFocused }) => {
@@ -416,7 +415,7 @@ export const Example = () => {
                     />
                   );
                 }}
-                popupBlock={({ onSetIsFocused, ItemTag }) => {
+                popupBlock={({ onSetIsFocused, ItemTag, variants }) => {
                   return (data?.countries ?? []).filter((v) => {
                     const cleanInputPhone = (getIn(values, 'phone')?.phone || '').replace(/[\s+()]/g, '');
                     const cleanCountryPhone = v.phone.replace(/[\s+()]/g, '');
@@ -428,6 +427,7 @@ export const Example = () => {
                                setFieldValue('phone', { icon: country.icon, phone: country.phone });
                                onSetIsFocused(false);
                              }}
+                             variants={variants}
                     >
                       {country.icon && <Icon height="1rem" icon={country.icon} type="img" />}
                       {country.name} {' '}
@@ -437,6 +437,7 @@ export const Example = () => {
                 }}
               />
             </DivCommon>
+
 
             CALENDAR
             <DivCommon fd="row" gap={SPACES.l} ai="flex-end" margin="0 0 2rem 0">
@@ -555,77 +556,24 @@ export const Example = () => {
       >
         sdsdsdds
       </PopupLayout>
-      DROPDOWN
-      <DivCommon fd="row" gap="2rem">
-        {[
-          {
-            position: 'left',
-            hover: true,
-            width: '70%',
-            title: 'Hover & Click - Left'
-          },
-          {
-            position: 'right',
-            hover: true,
-            width: '70%',
-            title: 'Hover & Click - Right'
-          },
-          {
-            hover: true,
-            title: 'Hover & Click - 100%'
-          }
-        ].map((item, index) => (
-          <DropDown
-            key={index}
-            position={item?.position as 'left' | 'right' ?? 'right'}
-            isHover={item?.hover}
-            isClick
-            width={item?.width}
-            visibleBlock={({ focused }) => {
-              return (
-                <div style={{
-                  userSelect: 'none',
-                  width: 'fit-content',
-                  height: '2.5rem',
-                  padding: '0 1rem',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  border: `1px solid transparent`,
-                  borderColor: focused ? `${theme.COLORS.primary}` : 'transparent'
-                }}>
-                  {item.title}
-                </div>
-              );
-            }}
-            popupBlock={({ onSetIsFocused, ItemTag }) => {
-              return [1, 2, 3, 4, 5].map((itemPopup, i) => (
-                <ItemTag key={i}
-                         onClick={onSetIsFocused.bind(this, false)}> item {itemPopup}</ItemTag>
-              ));
-            }}
-          />
-        ))}
-
-      </DivCommon>
 
       <Accordion
         visibleBlock="visibleBlock"
-        name='test1'
+        name="test1"
         isAutoManyClose
       >
         d,cdlcldcdmckdcmkdcmkcdmkcdkcdk
       </Accordion>
 
       <Accordion
-        name='test2'
+        name="test2"
         isAutoManyClose
         visibleBlock="dmcdcmkm"
       >
         d,cdlcldcdmckdcmkdcmkcdmkcdkcdk
       </Accordion>
 
-      <CustomKanban/>
+      <CustomKanban />
 
 
     </Styled.Container>

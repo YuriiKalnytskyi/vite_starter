@@ -4,14 +4,15 @@ import { Center, Fonts } from '@/module/common/styles';
 import { IMargin } from '@/module/common/types';
 import {  FONTS, SPACES } from '@/theme';
 
+import { motion } from "framer-motion";
+
 export interface IWProps extends IMargin {
   readOnly?: boolean;
   width?: string;
   $focused: boolean;
   $newItemFlag: boolean;
 }
-
-export const Wrapper = styled.div<IWProps>`
+export const Wrapper = styled(motion.div)<IWProps>`
     position: relative;
     width: ${({ width }) => width ?? '100%'};
     cursor: pointer;
@@ -30,7 +31,8 @@ ${({ $focused }) =>
                         display: none;
                     }
 
-                `}
+                `};
+
 ${({ $newItemFlag }) =>
         $newItemFlag
                 ? css`
@@ -50,7 +52,8 @@ ${({ $newItemFlag }) =>
                 `}
 `;
 
-export const SuggestedBlock = styled.ul<{ $position?: string }>`
+export const SuggestedBlock = styled(motion.ul)<{ $position?: string }>`
+    transform-origin: top;
     display: none;
     background: ${ ({theme})=>  theme.COLORS.white};
     border: 1px solid ${ ({theme})=>  theme.COLORS.rgba(theme.COLORS.black, 0.4)};
@@ -93,7 +96,7 @@ export const SuggestedBlock = styled.ul<{ $position?: string }>`
 
 `;
 
-export const HintOption = styled.li<{
+export const HintOption = styled(motion.li)<{
   $selected: boolean;
   $isChip: boolean;
 }>`

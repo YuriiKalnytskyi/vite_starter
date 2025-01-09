@@ -6,7 +6,7 @@ import { functionStub } from '@/utils';
 import * as Styled from './drop-down.style.ts';
 import { IMargin } from '@/module/common/types';
 
-interface IDropDownProps extends IMargin{
+interface IDropDownProps extends IMargin {
   visibleBlock:
     | ReactNode
     | (({
@@ -25,6 +25,7 @@ interface IDropDownProps extends IMargin{
     focused: boolean;
     onSetIsFocused: (flag?: boolean) => void;
     ItemTag: any
+    variants: any
   }) => ReactNode);
   position?: 'left' | 'right';
   isHover?: boolean;
@@ -39,7 +40,7 @@ export const DropDown = ({
                            isHover,
                            isClick,
                            width,
-  ...props
+                           ...props
                          }: IDropDownProps) => {
   const [focused, setFocused] = useState(false);
 
@@ -48,29 +49,59 @@ export const DropDown = ({
   };
 
   const { ref } = useClickOutside(() => {
+    if (focused) {
+      console.log('dcjdncjdncjdcnjdcndcj');
       onSetIsFocused(false);
+    }
   });
+
+  console.log(focused , '=======');
 
   const { setting, Component, isParentScroll } = usePortalPositioning(ref.current, focused);
 
-    const wrapperVariants = {
-        open: {
-            scaleY: 1,
-            transition: {
-                when: "beforeChildren",
-                staggerChildren: 0.1,
-            },
-        },
-        closed: {
-            scaleY: 0,
-            transition: {
-                when: "afterChildren",
-                staggerChildren: 0.1,
-            },
-        },
-    };
+  const wrapperVariants = {
+    open: {
+      scaleY: 1,
+      transition: {
+        duration: 0.3,
+        when: 'beforeChildren',
+        staggerChildren: 0.1
+      }
+    },
+    closed: {
+      scaleY: 0,
+      transition: {
+        duration: 0.3,
+        when: 'afterChildren',
+        staggerChildren: 0.1
+      }
+    }
+  };
+
+  const itemVariants = {
+    open: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.1,
+        when: 'beforeChildren'
+      }
+    },
+    closed: {
+      opacity: 0,
+      y: -15,
+      transition: {
+        duration: 0.1,
+        when: 'afterChildren'
+      }
+    }
+  };
+
   return (
     <Styled.Wrapper
+      animate={focused ? 'open' : 'closed'}
+      initial="closed"
+      $focused={focused}
       ref={ref as RefObject<HTMLDivElement>}
       onMouseEnter={isHover ? onSetIsFocused.bind(this, true) : functionStub}
       onMouseLeave={isHover ? onSetIsFocused.bind(this, false) : functionStub}
@@ -80,7 +111,7 @@ export const DropDown = ({
     >
       {typeof visibleBlock === 'function' ? visibleBlock({ focused: focused, onSetIsFocused }) : visibleBlock}
 
-      {focused && (
+      {focused &&
         <Component>
           <Styled.ItemContainer
             id="DropDownChildren"
@@ -88,18 +119,18 @@ export const DropDown = ({
             position={position}
             initial={wrapperVariants.closed}
             variants={wrapperVariants}
-            style={{ width: isParentScroll ? setting.width : (ref?.current?.clientWidth ?? width ?? '18.75rem') }}
+            exit="closed"
+            style={isParentScroll ? setting : {}}
           >
             {typeof popupBlock === 'function' ? popupBlock({
               focused: focused,
               onSetIsFocused,
-              ItemTag: Styled.Item
+              ItemTag: Styled.Item,
+              variants: itemVariants
             }) : popupBlock}
           </Styled.ItemContainer>
-
-
         </Component>
-      )}
+      }
     </Styled.Wrapper>
   );
 };

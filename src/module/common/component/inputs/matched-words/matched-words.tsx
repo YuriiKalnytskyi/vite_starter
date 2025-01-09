@@ -67,7 +67,7 @@ export const MatchedWords = <
   })();
 
   const { t: translate } = useTranslation();
-  const {COLORS } = useTheme();
+  const { COLORS } = useTheme();
 
 
   const visibleValue = onTransformValue(value, visibleItem);
@@ -207,8 +207,47 @@ export const MatchedWords = <
 
   const { setting, Component, isParentScroll } = usePortalPositioning(ref.current, focused);
 
+  const wrapperVariants = {
+    open: {
+      scaleY: 1,
+      transition: {
+        duration: 0.3,
+        when: 'beforeChildren',
+        staggerChildren: 0.1
+      }
+    },
+    closed: {
+      scaleY: 0,
+      transition: {
+        duration: 0.3,
+        when: 'afterChildren',
+        staggerChildren: 0.1
+      }
+    }
+  };
+
+  const itemVariants = {
+    open: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.3,
+        when: 'beforeChildren'
+      }
+    },
+    closed: {
+      opacity: 0,
+      y: -15,
+      transition: {
+        when: 'afterChildren'
+      }
+    }
+  };
+
   return (
     <Styled.Wrapper
+      animate={focused ? 'open' : 'closed'}
+      initial="closed"
       $focused={newItemFlag ? false : focused}
       $newItemFlag={newItemFlag}
       {...props}
@@ -224,7 +263,6 @@ export const MatchedWords = <
               type.addNewItem?.onClick();
               return;
             }
-
             if (newItemFlag) {
               setNewItemFlag(false);
               setFocused(false);
@@ -249,7 +287,7 @@ export const MatchedWords = <
           icon: newItemFlag ? closeIcon : arrowBottom,
           height: newItemFlag ? '1rem' : '1.5rem',
           width: newItemFlag ? '1rem' : '1.5rem',
-          className: focused ? 'rotate' :'',
+          className: focused ? 'rotate' : '',
           onClick: () => {
             if (newItemFlag) {
               addItem(visibleItem ? { [visibleItem]: newItem } : newItem);
@@ -291,8 +329,12 @@ export const MatchedWords = <
 
       {items?.length > 0 && focused && (
         <Component>
+
           <Styled.SuggestedBlock
             id="SuggestedBlock"
+            initial={wrapperVariants.closed}
+            variants={wrapperVariants}
+            exit="closed"
             ref={inputHintBlockRef}
             $position={(filterOption as filterOptionNew)?.position}
             style={isParentScroll ? setting : {}}
@@ -347,6 +389,11 @@ export const MatchedWords = <
                     onClick={addItem.bind(this, item)}
                     onMouseUp={onSetSelectedItemIndex}
                     onFocus={onSetSelectedItemIndex}
+                    animate={focused ? 'open' : 'closed'}
+                    initial="closed"
+                    // initial={itemVariants.closed}
+                    variants={itemVariants}
+                    exit="closed"
                   >
                     {_visible as string | ReactNode}
                   </Styled.HintOption>
