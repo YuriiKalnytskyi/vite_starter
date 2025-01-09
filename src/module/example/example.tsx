@@ -156,6 +156,7 @@ export const Example = () => {
       rows: generateRandomRows(9, [1, 3], false)
     }
   );
+  console.log(dragAndDropColumn, '=====');
 
   return (
     <Styled.Container
@@ -651,6 +652,8 @@ export const Example = () => {
         d,cdlcldcdmckdcmkdcmkcdmkcdkcdk
       </Accordion>
 
+
+      DRAGANDDROP
       <DragAndDrop
         type="columns"
         props={{
