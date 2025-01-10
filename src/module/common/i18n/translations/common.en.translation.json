@@ -32,5 +32,6 @@
   "empty_purchases": "You haven't made any purchases yet!",
   "select_purchases": "Select at least one purchase!",
   "no_data": "No data",
-  "you_may_interested_in": " You may also be interested in"
+  "you_may_interested_in": " You may also be interested in",
+  "file": "<span>Select a file</span>  or drag and drop here"
 }

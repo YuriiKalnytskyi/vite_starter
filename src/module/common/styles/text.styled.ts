@@ -22,7 +22,7 @@ export const Fonts = css<IFonts>`
 `;
 
 
-const textSizes = {
+export const textSizes = {
   xs: css`
     font-size: 1rem;
     font-weight: ${FONTS.WEIGHTS.medium};

@@ -60,27 +60,6 @@ export const Input= ({
     }
   })();
 
-  // const { value, error, touched, setFieldValue, setFieldTouched, setFieldFocus } = noFormikValue
-  //     ? useMemo(() => ({
-  //       value: noFormikValue.value,
-  //       error: noFormikValue?.error ?? '',
-  //       touched: noFormikValue?.touched ?? false,
-  //       setFieldValue: noFormikValue.setFieldValue,
-  //       setFieldTouched: noFormikValue?.setFieldTouched ?? functionStub,
-  //       setFieldFocus: noFormikValue?.setFieldFocus ?? functionStub,
-  //     }), [noFormikValue])
-  //     : (() => {
-  //           // eslint-disable-next-line react-hooks/rules-of-hooks
-  //           const { values, setFieldValue, errors, setFieldTouched, touched } = useFormikContext();
-  //       return{
-  //       value: getIn(values, name),
-  //       error: getIn(errors, name),
-  //       touched: getIn(touched, name),
-  //       setFieldValue: setFieldValue,
-  //       setFieldTouched: setFieldTouched,
-  //       setFieldFocus: setFieldTouched,
-  //     }})();
-
   const { t: translate } = useTranslation();
   const theme = useTheme();
 
