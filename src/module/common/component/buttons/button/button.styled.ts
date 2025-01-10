@@ -11,7 +11,7 @@ const style = css<IButtonProps>`
     justify-content: center;
 
     width: ${({ width }) => width ?? '100%'};
-    height: ${({ height }) => height ?? '2.5rem'};
+    height: ${({ height }) => height ?? '2.5rem'}!important;
 
     padding: ${({ pads }) => pads ?? `0 ${SPACES.xxxxl}`};
 
