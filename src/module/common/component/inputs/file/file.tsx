@@ -1,16 +1,11 @@
 import { getIn, useFormikContext } from 'formik';
 import { ChangeEvent, DragEvent, useCallback, useRef, useState } from 'react';
-import { Trans, useTranslation } from 'react-i18next';
 import { motion } from 'framer-motion';
 
 import deleteIcon from '@/assets/icons/default/delete.svg';
-import { DivCommon, IconCommon, TitleCommon } from '@/module/common/styles';
 
 import * as Styled from './file.styled.ts';
 import { fileService } from '@/module/common/services';
-import { useTheme } from 'styled-components';
-import { Span, TranslateText } from './file.styled.ts';
-
 
 export interface IAvatarSetup {
   readOnly?: boolean;
@@ -19,19 +14,27 @@ export interface IAvatarSetup {
 
   label?: string;
   name: string;
-  noFormikValue?: { value: any | null; onSetValue: (name: string, value: any | null) => void };
+  noFormikValue?: { value: any | null; setFieldValue: (name: string, value: any | null) => void };
 }
 
 export const File = ({ name, noFormikValue, label, ...props }: IAvatarSetup) => {
-  const { t } = useTranslation('translation', { keyPrefix: 'common' });
-  const theme = useTheme();
+  const { setFieldValue, value } = (() => {
+    if (noFormikValue) {
 
-  const { setFieldValue, value } = noFormikValue
-    ? { value: noFormikValue.value, setFieldValue: noFormikValue.onSetValue }
-    : {
-      value: getIn(useFormikContext().values, name),
-      setFieldValue: useFormikContext().setFieldValue
-    };
+      return {
+        value: noFormikValue.value,
+        setFieldValue: noFormikValue.setFieldValue
+      };
+    } else {
+      // eslint-disable-next-line react-hooks/rules-of-hooks
+      const { values, setFieldValue } = useFormikContext();
+
+      return {
+        value: getIn(values, name),
+        setFieldValue
+      };
+    }
+  })();
 
   const ref = useRef<HTMLInputElement>(null);
   const [dragging, setDragging] = useState(false);

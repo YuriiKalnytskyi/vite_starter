@@ -7,7 +7,7 @@ import { MainRouter } from '@/module/navigation';
 import * as Styled from './app.styled';
 import { useThemeStore } from '@/store';
 import {  darkTheme, lightTheme } from '@/theme/colors.const.ts';
-import {toastContainer, ToastContainerComponent} from '@/module/common/component/toast';
+import { toast, ToastSetting } from '@/module/common/component';
 
 
 const queryClient = new QueryClient({
@@ -25,7 +25,7 @@ const queryClient = new QueryClient({
       // 🎉 only show error toasts if we already have data in the cache
       // which indicates a failed background update
       if (query.state.data !== undefined) {
-        toastContainer.error({ title: 'error' });
+        toast.error({ title: 'error' });
       }
     }
   })
@@ -47,7 +47,7 @@ function App() {
         {env === 'local' ? (
           <ReactQueryDevtools position="bottom-right" initialIsOpen={false} />
         ) : null}
-        <ToastContainerComponent/>
+        <ToastSetting stacked/>
       </QueryClientProvider>
     </ThemeProvider>
   );

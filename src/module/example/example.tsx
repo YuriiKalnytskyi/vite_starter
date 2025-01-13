@@ -14,7 +14,7 @@ import {
   MatchedWords,
   Switch,
   Table,
-  TextArea, toastContainer
+  TextArea, toast
 } from '@/module/common/component';
 import { changeCard } from '@/module/common/hooks';
 import { onError } from '@/module/common/services';
@@ -605,7 +605,7 @@ export const Example = () => {
 
             <File
               name="file"
-              width='300px'
+              width="300px"
             />
 
           </Form>
@@ -712,12 +712,42 @@ export const Example = () => {
           <TitleCommon as="span" size="xs">SPAN size xs</TitleCommon>
         </DivCommon>
       </DivCommon>
-      <Button
-        height="5rem"
-        width={'20rem'}
-        content="toast"
-        onClick={() => toastContainer.dark({ title: 'sdssddsdsddssdsdds', text: 'text text text text' })}
-      />
+
+      <DivCommon fd="row" gap={SPACES.l} margin="3rem 0">
+        <Button
+          content="toast loading"
+          onClick={() => {
+            const _toast = toast.loading({ title: 'Please wait...' });
+
+            setTimeout(() => {
+              _toast.warn({
+                title: 'Success!',
+                text: 'Data loaded successfully.'
+              });
+            }, 1000);
+          }}
+
+        />
+
+        <Button
+          content="toast success"
+          onClick={() => toast.success({ title: 'sdssddsdsddssdsdds', text: 'text text text text' })}
+        />
+        <Button
+          content="toast info"
+          onClick={() => toast.info({ title: 'sdssddsdsddssdsdds', text: 'text text text text' })}
+        />
+        <Button
+          content="toast info"
+          onClick={() => toast.error({ title: 'sdssddsdsddssdsdds', text: 'text text text text' })}
+        />
+
+        <Button
+          content="toast warn"
+          onClick={() => toast.warn({ title: 'sdssddsdsddssdsdds', text: 'text text text text' })}
+        />
+      </DivCommon>
+
 
     </Styled.Container>
   );
