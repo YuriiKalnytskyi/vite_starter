@@ -738,7 +738,7 @@ export const Example = () => {
           onClick={() => toast.info({ title: 'sdssddsdsddssdsdds', text: 'text text text text' })}
         />
         <Button
-          content="toast info"
+          content="toast error"
           onClick={() => toast.error({ title: 'sdssddsdsddssdsdds', text: 'text text text text' })}
         />
 

@@ -24,6 +24,8 @@ const showToast = (type: TToast, { title, text, ...props }: IToast & ToastOption
   Toast[type](ToastComponent, {
     autoClose: 5000,
     closeButton: true,
+    draggablePercent: 60,
+    draggable: "mouse",
     ...props
   });
 };
