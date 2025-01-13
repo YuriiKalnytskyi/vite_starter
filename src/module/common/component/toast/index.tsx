@@ -1,7 +1,6 @@
 import {toast, ToastContainer} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-
 interface IToast {
     title: string;
     text?: string;
@@ -9,7 +8,9 @@ interface IToast {
 
 type TToast = 'success' | 'error' | 'info' | 'warn' | 'dark';
 
+
 const showToast = (type: TToast, {title, text}: IToast) => {
+
     const ToastComponent = (
         <div>
             <h3>{title}</h3>
