@@ -16,6 +16,7 @@ export const generateComponent = ({ path, name, isLazy }: IGenerateComponent, in
     } else {
         const [Component, setComponent] = useState<ReactNode | null>(null);
 
+        // eslint-disable-next-line react-hooks/rules-of-hooks
         useEffect(() => {
             import('@/module').then((module: any) => {
                 setComponent(() => module[name]);
