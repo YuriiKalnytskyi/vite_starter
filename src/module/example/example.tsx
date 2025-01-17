@@ -720,7 +720,7 @@ export const Example = () => {
             const _toast = toast.loading({ title: 'Please wait...' });
 
             setTimeout(() => {
-              _toast.warn({
+              _toast.success({
                 title: 'Success!',
                 text: 'Data loaded successfully.'
               });

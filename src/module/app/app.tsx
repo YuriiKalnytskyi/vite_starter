@@ -6,8 +6,11 @@ import { MainRouter } from '@/module/navigation';
 
 import * as Styled from './app.styled';
 import { useThemeStore } from '@/store';
-import {  darkTheme, lightTheme } from '@/theme/colors.const.ts';
+import { darkTheme, lightTheme } from '@/theme/colors.const.ts';
 import { toast, ToastSetting } from '@/module/common/component';
+
+import '@/styles/index.css';
+import '@/module/common/i18n/config.ts';
 
 
 const queryClient = new QueryClient({
@@ -47,7 +50,7 @@ function App() {
         {env === 'local' ? (
           <ReactQueryDevtools position="bottom-right" initialIsOpen={false} />
         ) : null}
-        <ToastSetting stacked/>
+        <ToastSetting stacked />
       </QueryClientProvider>
     </ThemeProvider>
   );
