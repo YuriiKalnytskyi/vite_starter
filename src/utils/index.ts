@@ -5,3 +5,4 @@ export * from './size.util.ts';
 export * from './time.util';
 export * from './stub-function.util.ts';
 export * from './rem-to-px.util.ts';
+export * from './generate-component.tsx'
